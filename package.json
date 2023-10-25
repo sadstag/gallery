@@ -1,0 +1,21 @@
+{
+    "name": "gallery",
+    "module": "index.ts",
+    "type": "module",
+    "scripts": {
+        "feed": "bun run src/scripts/feed.ts"
+    },
+    "devDependencies": {
+        "@types/minimist": "^1.2.4",
+        "bun-types": "^1.0.6",
+        "google-auth-library": "^9.1.0",
+        "googleapis": "^128.0.0",
+        "prettier": "^3.0.3"
+    },
+    "peerDependencies": {
+        "typescript": "^5.0.0"
+    },
+    "dependencies": {
+        "minimist": "^1.2.8"
+    }
+}
