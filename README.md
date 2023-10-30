@@ -2,6 +2,8 @@
 
 Simple gallery website for promoting an artist.
 
+It takes a google spreadsheet describing artworks and deploys a 100% front application to display them.
+
 ## Configuration
 
 You'll need [Bun](https://bun.sh/) installed.
@@ -12,9 +14,9 @@ $ bun install
 
 ### Builder configuration
 
-Copy _config.sample.json_ to _config.json_.
+Copy `config.sample.json` to `config.json``
 
-Edit config.json :
+Edit `config.json` :
 
 -   apiKey : google API key for accessing sheets API
     -   in [google could console](https://console.cloud.google.com/)
@@ -23,23 +25,11 @@ Edit config.json :
         -   create an API key for the project
             -   scope it to _Google Sheets API_
 
-### Spreadsheets conventions
-
-Speadsheets providing sites data are google spreadsheets.
-
-The gallery data is always in the first sheet.
-
-There must be one and online column of type `publish`.
-
-There must be one and online column of type `id` (unique reference of the artworks).
-
 ### Sites configuration
 
-One file per site in _sites/_.
+One file per site in `sites/`, mamed `(yourSiteId).json`
 
-Named _(siteId).json_
-
-copy _sites/exmaple.json_ to _(yourSiteId).json_ and customize.
+copy `sites/rp.json` to `(yourSiteId).json` and customize.
 
 #### types of columns
 
@@ -74,12 +64,67 @@ A set of values amongst a (possibly) large set of possible values, filter will p
 
 The set of possible values is taken from the analysis of the spreadsheet.
 
+### Spreadsheets conventions
+
+Speadsheets providing sites data are google spreadsheets.
+
+The gallery data is always in the first sheet.
+
+There must be one and online column of type `publish`.
+
+There must be one and online column of type `id` (unique reference of the artworks).
+
+There must be one and online column of type `visual`.
+
 ### Scripts
 
 #### feed
 
-Will convert the google spreadsheet data to an embeddable json.
+This is the first step before building.
+
+Converts the google spreadsheet data to a json database file.
 
 ```shell
-$ bun run feed <siteId>
+$ bun feed <siteId>
 ```
+
+The `artworks.json` file is created in `public/assets`
+
+#### dev
+
+Runs the dev server, skip if you don't want to modify the code.
+
+```shell
+$ bun dev
+```
+
+#### build
+
+Prepares the gallery for deployment.
+Populates the `dist` directory with bundled source and assets.
+
+```shell
+$ bun run build
+```
+
+#### preview
+
+After a _build_, to test the bundled site locally.
+
+```shell
+$ bun preview
+```
+
+#### deploy
+
+TODO
+
+```shell
+$ bun deploy
+```
+
+#### update
+
+TODO
+
+Chaining _feed_, _build_ and _deploy_ : the one-liner to go from modification of the google spreadsheet to production site.

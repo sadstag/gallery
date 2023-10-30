@@ -48,7 +48,7 @@ const artworks = buildArtworks(
     siteConfig.extraction.firstDataRow
 )
 
-const artworksFile = `sites/${siteId}/artworks.json`
+const artworksFile = `public/assets/artworks.json`
 
 await writeArtworksDatabase(
     artworksFile,
