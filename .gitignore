@@ -2,3 +2,4 @@ node_modules
 bun.lockb
 config.json
 sites/*/*.json
+dist
