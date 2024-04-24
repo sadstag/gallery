@@ -1,0 +1,26 @@
+[tool.poetry]
+name = "ingest"
+version = "0.1.0"
+description = ""
+authors = ["fred.sarron@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+google-api-python-client = "^2.126.0"
+google-auth-httplib2 = "^0.2.0"
+google-auth-oauthlib = "^1.2.0"
+google-cloud-storage = "^2.16.0"
+jsonschema = "^4.21.1"
+colored = "^2.2.4"
+pillow = "^10.3.0"
+
+
+[tool.poetry.group.dev.dependencies]
+black = "^24.4.0"
+flake8 = "^7.0.0"
+mypy = "^1.10.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
