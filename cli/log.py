@@ -14,10 +14,10 @@ def warn(
     *values: object,
     file: TextIO | None = None,
 ):
-    print(*[f"{Fore.yellow}{v}{Style.reset}" for v in values])
+    log(*[f"{Fore.yellow}{v}{Style.reset}" for v in values])
 
 
 def err(
     *values: object,
 ):
-    log(*values, file=stderr)
+    log(*[f"{Fore.red}{v}{Style.reset}" for v in values], file=stderr)

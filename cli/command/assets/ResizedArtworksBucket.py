@@ -3,9 +3,7 @@
 
 from typing import Self
 
-
-from cli.const import get_assets_bucketname, get_assets_filepath
-
+from cli.const import get_assets_filepath
 from cli.artworks import Artwork, PictureResizer
 from cli.log import log, warn
 from cli.bucket import Bucket
@@ -13,16 +11,11 @@ from cli.bucket import Bucket
 
 class ResizedArtworksBucket(Bucket):
 
-    def get_bucket_name(self: Self) -> str | None:
-        return get_assets_bucketname(self.site_id)
-
     def upload_resized_pictures(self: Self, artworks: list[Artwork]):
-
-        self.ensure_exists()
 
         client = self._getClient()
 
-        bucket_name = self.get_bucket_name()
+        bucket_name = self.config.bucket_names.assets
 
         blobs = client.list_blobs(bucket_name)
 
@@ -52,9 +45,3 @@ class ResizedArtworksBucket(Bucket):
                 "for the following artworks, "
                 f"image processing was skipped : {missing_sources}"
             )
-
-        # Note: The call returns a response only when the iterator is consumed.
-        # for blob in blobs:
-        #     log(blob.name)
-
-        # blob = bucket.blob(destination_blob_name)

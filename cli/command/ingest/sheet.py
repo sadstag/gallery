@@ -30,13 +30,15 @@ def extractSheetData(siteConfig: WebsiteConfig) -> SheetExtractedData:
 
     try:
         spreadsheetInfo = sheet.get(
-            spreadsheetId=siteConfig.sheetId,
+            spreadsheetId=siteConfig.sheet_id,
         ).execute()
     except HttpError as e:
         if e.status_code == 403:
             raise ProcessingException(
-                f"Could not retrieve sheet {siteConfig.sheetId} : "
-                "permission denied : please request access before ingesting."
+                f"Could not retrieve sheet {siteConfig.sheet_id} : "
+                "permission denied : please request access before ingesting, "
+                "or maybe your credentials.json is no longer valid, "
+                "in that case create a new one following the README and remove token.json"
             )
 
     try:
@@ -45,7 +47,7 @@ def extractSheetData(siteConfig: WebsiteConfig) -> SheetExtractedData:
         result = (
             sheet.values()
             .get(
-                spreadsheetId=siteConfig.sheetId,
+                spreadsheetId=siteConfig.sheet_id,
                 range="A:Z",  # arbitrary, ok for now
             )
             .execute()

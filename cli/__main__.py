@@ -1,3 +1,4 @@
+from cli.global_config import get_global_config
 from cli.log import err
 from cli.args import parseArguments
 from cli.exceptions import (
@@ -5,14 +6,14 @@ from cli.exceptions import (
     ConfigurationException,
     ProcessingException,
 )
-from cli.command.ingest import runIngestCommand
-from cli.command.assets import runAssetsCommand
-from cli.command.backup import runBackupCommand
+from cli.command.ingest import run_ingest_command
+from cli.command.assets import run_assets_command
+from cli.command.terraform_config import run_terraform_config
 
 commandHandler = {
-    "ingest": runIngestCommand,
-    "assets": runAssetsCommand,
-    "backup": runBackupCommand,
+    "ingest": run_ingest_command,
+    "assets": run_assets_command,
+    "terraform_config": run_terraform_config,
 }
 
 
@@ -23,6 +24,8 @@ def main():
     if arguments.command not in commandHandler:
         # should have been prevented by parseArguments()
         raise Exception(f"Unhandled command {arguments.command}")
+
+    get_global_config()  # for side effect, may global config be loaded at this point
 
     commandHandler[arguments.command](arguments)
 

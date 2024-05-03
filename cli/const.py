@@ -2,25 +2,42 @@ from os.path import abspath, dirname
 
 from cli.PictureSize import PictureSize
 
-sites_folder = "sites"
-assets_folder_name = "assets"
-
-sites_folder_path = abspath(f"{dirname(__file__)}/../{sites_folder}")
-
-siteconfig_filename = "config.json"
-artworks_db_filename = "artworks.json"
-
-bucket_id_prefix = "gallery-assets"
-
 resized_picture_width = {
     PictureSize.SMALL: 200,
     PictureSize.MEDIUM: 400,
     PictureSize.LARGE: 1600,
 }
 
+
 #
 # local
 #
+
+
+sites_folder = "sites"
+assets_folder_name = "assets"
+terraform_folder_name = "terraform"
+
+root_path = abspath(f"{dirname(__file__)}/..")
+
+sites_folder_path = f"{root_path}/{sites_folder}"
+
+terraform_variables_filename = "terraform.tfvars.json"
+globalconfig_filename = "global_config.json"
+siteconfig_filename = "config.json"
+artworks_db_filename = "artworks.json"
+
+
+def get_terraform_folder_path():
+    return f"{root_path}/{terraform_folder_name}"
+
+
+def get_terraform_variables_filename():
+    return f"{get_terraform_folder_path()}/{terraform_variables_filename}"
+
+
+def get_global_config_filepath():
+    return f"{root_path}/{globalconfig_filename}"
 
 
 def get_site_filepath(site_id: str):
@@ -56,13 +73,5 @@ def get_artwork_pictures_source_filepaths(site_id: str, artwork_id: str):
 #
 
 
-def get_assets_bucketname(site_id: str):
-    return f"{bucket_id_prefix}-{site_id}"
-
-
-def get_assets_source_backup_bucketname(site_id: str):
-    return f"{bucket_id_prefix}-{site_id}-source-backup"
-
-
 def get_artwork_picture_blobname(artwork_id: str, size: PictureSize):
-    return f"{size}/{artwork_id}.webp"
+    return f"artworks/{size}/{artwork_id}.webp"

@@ -1,3 +1,3 @@
-from cli.command.ingest.run import run as runIngestCommand
+from cli.command.ingest.run import run as run_ingest_command
 
-__all__ = ["runIngestCommand"]
+__all__ = ["run_ingest_command"]

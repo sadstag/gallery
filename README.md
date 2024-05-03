@@ -2,47 +2,11 @@
 
 Simple gallery website for promoting an artist.
 
-It takes a google spreadsheet describing artworks and deploys a 100% front application to display them.
+It takes google spreadsheets describing artworks and deploys a 100% front application to display them.
 
 ## Configuration
 
-For each managed site choose a compact name, will will call it *site_id*.
-
-### create the project
-- Create a new GCP project for handling a website, ex : 'gallery-[site_id]'
-
-it's probably better that each site has its own GCP project, so create as many project as you have managed site.
-
-- activate 'cloud storage' for each project (don't forget to associate a billing account for could storage on these projects)
-
-
-### install gcloud CLI
-as explained [here](https://cloud.google.com/sdk/docs/install)
-
-then 
-```shell
-$ gcloud auth login
-$ gcloud init # select any project now, the project selection will be made properly by the gallery CLI
-$ gcloud auth application-default login
-```
-
-### define consent
-Defining the consentment manager linked to the application that will operate for the *consumer*.
-
-- go to https://console.cloud.google.com/apis/credentials/consent
-- select type 'external' (unless you have workspace account).
-- scopes : select none.
-- test user : add the *consumer* email here.
-
-
-### credentials
-Getting credentials for the *consumer* so that the scripts can query APIs on its behalf.
-
-- go to https://console.cloud.google.com/apis/credentials
-- click on 'create identifiers' > 'OAuth client id'
-- applicaton type : 'desktop app'
-- name : ex : 'Gallery database builder'
-- save json file as `credentials.json` in the root of local copy of gallery
+First [configure GCP](README-GCP.md) to be ready for using *gallery*.
 
 ### python environment setup
 
@@ -73,9 +37,10 @@ look at `sites/rp/config.json` to create your own `sites/[site_id]/config.json` 
 
 | key  | value meaning  |  example |
 |---|---|---|
-| GCPProjectId | The id of the GCP project on which we will store files ||
-| sheetId  | This is the id of the google sheet that will be taken as source for  artworks data. This can be found in the google sheet editor URL : https://docs.google.com/spreadsheets/d/1xBYqjQpYiq0765Ftt3hRCo4qQFugmFchQA-78LnvWnM |  1xBYqjQpYiq0765Ftt3hRCo4qQFugmFchQA-78LnvWnM |
-| bucketLocation | single region where the bucket data will reside. See [google location doc](https://cloud.google.com/storage/docs/locations)| EUROPE-WEST9 |
+| sheet_id  | This is the id of the google sheet that will be taken as source for  artworks data. This can be found in the google sheet editor URL : https://docs.google.com/spreadsheets/d/1xBYqjQpYiq0765Ftt3hRCo4qQFugmFchQA-78LnvWnM |  1xBYqjQpYiq0765Ftt3hRCo4qQFugmFchQA-78LnvWnM |
+| bucket_names.app | name of the bucket that contain app files : html, javascript… | whatever-you-want, provided it does not exists WORLWIDE, try another name if already taken |
+| bucket_name.assets | name of the bucket that contain artworks resized files | same : free |
+
 
 
 ## speadsheets conventions
@@ -137,9 +102,44 @@ each image in assets will be resized in several versions
 - medium : width 400px : for display in artworks details page
 - large : width 1600px : used for magnification on the frontend, loaded only if the user request magnification
 
+## Setup operations
 
+These are the step to do for having a website up and running :
 
-## operations
+- general setup
+  - install python environment as explained before
+  - refer to [configure GCP](README-GCP.md) if not done yet, don't run the *deploy* command now, we'll do it at the end
+- choose a *site_id* for the website, this is a local identifier, it has no impact on GCP entities whatsoever
+- create a folder `sites/[site_id]`
+  - create a file `sites/[site_id]/config.json`, you can use the demo site confg file for inspiration
+- run `python -cli terraform_config`, this update infra provisionning configuration so that it knows the new site
+  - `cd terraform`
+  - `terraform apply`
+  - `cd -`
+- run `python -cli ingest [site_id]`, this creates a file `sites/[site_id]/artworks.json`
+- create a folder `sites/[site_id]/assets`
+  - put all artworks images in it, named `[artwork_id].webp`, jpg files are also valid.
+- run `python -cli assets [site_id]`, this uploads images on GCP
+
+- TODO terraform instructions
+
+## Site chenge operations
+
+The operations to do when source sheet and or assets change/are added :
+
+TODO
+
+## CLI commands
+
+Here are all available CLI commands and what they do. Details in the next sections.
+
+| command | purpose |
+| --- | --- |
+| Common |
+| ingest | read spreadsheet of a site to generate the *artworks.json* database file |
+| assets | reduce and upload all assets of site in a dedicated bucket |
+
+## common CLI command details
 
 ### data ingestion
 
@@ -150,7 +150,7 @@ This the operation reading the source speadsheet of a site and generating the *a
 $ python -m cli ingest <site_id>
 ```
 
-### assets management
+### assets upload
 
 - ensures a bucket exist for the site on the GCP project
 - for each artwork found in `sites/[site_id]/artworks.json` :
@@ -163,18 +163,17 @@ $ python -m cli ingest <site_id>
 $ python -m cli assets <site_id>
 ```
 
-### assets backup
+### deploy cloud function
 
-Files in `sites/[site_id]/assets` are the source for assets of a site, not a backup.
+Deploy the cloud function that will receive http requests and serve front files.
 
-You are to ensure your source files are properly backed up outside gallery.
-
-Nevertheless the following command is given to help it will create a bucket `gallery-sites-backup-[site_id]` and sent all files in `sites` in it if not present.
+Also make sure all needed GCP entities are created.
 
 ```shell
-$ python -m cli backup <site_id>
+$ python -m cli deploy
 ```
 
+## rare CLI command details
 
 -----------
 
