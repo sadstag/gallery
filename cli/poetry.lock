@@ -514,6 +514,17 @@ files = [
 ]
 
 [[package]]
+name = "json-fix"
+version = "1.0.0"
+description = "allow custom class json behavior on builtin json object"
+optional = false
+python-versions = ">=3.6"
+files = [
+    {file = "json_fix-1.0.0-py3-none-any.whl", hash = "sha256:1b7d622572f3c7dd653ce9e5a87a4c645a437be7ee622bc916bccb145789055b"},
+    {file = "json_fix-1.0.0.tar.gz", hash = "sha256:625b3fc2f7c7c8855eb3e6669c366163cc9b95dbf8e8568fa07f42a65b8d4672"},
+]
+
+[[package]]
 name = "jsonschema"
 version = "4.21.1"
 description = "An implementation of JSON Schema validation for Python"
@@ -1072,4 +1083,4 @@ zstd = ["zstandard (>=0.18.0)"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.12"
-content-hash = "925a63c1cfbbd51ad20909f7133fdd477ae38f15b9a6e16ecfd29ea37b51036e"
+content-hash = "3234bd064d05f7c5ffb8ff0e12b999cc28d5eada34689753d631cc1a0a1190ff"

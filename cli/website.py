@@ -17,41 +17,58 @@ from cli.tools.file import ctxOpen
 config_schema = {
     "type": "object",
     "required": [
-        "domain_name",
-        "sheet_id",
-        "bucket_names",
+        "tech",
     ],
     "additionalProperties": False,
     "properties": {
-        "domain_name": {
-            "type": "string",
-            "title": "domain_name",
-            "description": "Domain name for the website",
-        },
-        "sheet_id": {
-            "type": "string",
-            "title": "sheet_id",
-            "description": "id of the google sheet datasource",
-            "minLength": 44,
-            "maxLength": 44,
-        },
-        "bucket_names": {
+        "tech": {
             "type": "object",
-            "title": "bucket_names",
-            "required": ["assets", "app"],
+            "required": [
+                "domain_name",
+                "sheet_id",
+                "bucket_name",
+            ],
             "additionalProperties": False,
             "properties": {
-                "app": {
+                "domain_name": {
                     "type": "string",
-                    "title": "app",
-                    "description": "Name of the bucket containing app files, "
-                    "if you get a 409 conflict error at creation try another one",
+                    "title": "domain_name",
+                    "description": "Domain name for the website",
                 },
-                "assets": {
+                "sheet_id": {
                     "type": "string",
-                    "title": "assets",
-                    "description": "Name of the bucket containing artworks resized files, "
-                    "if you get a 409 conflict error at creation try another one",
+                    "title": "sheet_id",
+                    "description": "id of the google sheet datasource",
+                    "minLength": 44,
+                    "maxLength": 44,
+                },
+                "bucket_name": {
+                    "type": "string",
+                    "title": "bucket_name",
+                    "description": "Name of the site bucket, try anotehr name if already taken",
+                    "minLength": 10,
+                    "maxLength": 64,
+                },
+            },
+        },
+        "content": {
+            "type": "object",
+            "additionalProperties": False,
+            "properties": {
+                "title": {
+                    "type": "string",
+                    "title": "title",
+                    "description": "Tifle of the website",
+                },
+                "subtitle": {
+                    "type": "string",
+                    "title": "subtitle",
+                    "description": "subtitle of the website",
+                },
+                "presentation": {
+                    "type": "string",
+                    "title": "presentation",
+                    "description": "Short description of the website and author",
                 },
             },
         },
@@ -60,9 +77,20 @@ config_schema = {
 
 
 @dataclass
-class BucketNames:
-    app: str
-    assets: str
+class WebsiteConfigTech:
+    domain_name: str
+    sheet_id: str
+    bucket_name: str
+
+    def __json__(self):
+        return self.__dict__
+
+
+@dataclass
+class WebsiteConfigContent:
+    title: str
+    subtitle: str
+    presentation: str
 
     def __json__(self):
         return self.__dict__
@@ -70,9 +98,8 @@ class BucketNames:
 
 @dataclass
 class WebsiteConfig:
-    domain_name: str
-    sheet_id: str
-    bucket_names: BucketNames
+    tech: WebsiteConfigTech
+    content: WebsiteConfigContent
 
 
 siteIds: list[str] = []
@@ -91,8 +118,10 @@ def get_website_ids():
     return siteIds
 
 
-def get_website_domain_names():
-    return [get_website_config(site_id).domain_name for site_id in get_website_ids()]
+# def get_website_domain_names():
+#     return [
+#         get_website_config(site_id).tech.domain_name for site_id in get_website_ids()
+#     ]
 
 
 def get_website_config(site_id: str) -> WebsiteConfig:
@@ -121,6 +150,7 @@ def get_website_config(site_id: str) -> WebsiteConfig:
     except OSError as err:
         raise ArgumentsException(f"Could not read file '{path}' : {err.strerror}")
 
-    config["bucket_names"] = BucketNames(**(config.get("bucket_names")))
+    config["tech"] = WebsiteConfigTech(**(config.get("tech")))
+    config["content"] = WebsiteConfigContent(**(config.get("content")))
 
     return WebsiteConfig(**config)

@@ -4,130 +4,119 @@ Simple gallery website for promoting an artist.
 
 It takes google spreadsheets describing artworks and deploys a 100% front application to display them.
 
-## Configuration
+Tech Stack :
+- CLI : python 3
+- catalog datasource : google sheets
+- Infra : google cloud plateform
+- Front : bun, vite, solidjs
 
-First [configure GCP](README-GCP.md) to be ready for using *gallery*.
 
-### python environment setup
+## Setting things up
 
-install pyenv : https://github.com/pyenv/pyenv?tab=readme-ov-file#installation
+These are the step to follow in order to have your site deployed:
 
+## things to setup once
+- [setting up GCP](doc/setup/GCP.md)
+- [setting up you dev environment](doc/setup/dev.md)
+- [defining your global configuration](doc/configuration/global.md)
+
+
+## adding a site
+
+Choose an *site_id* for your site, something short and meaningful (with letters and digits).
+
+You should have your google spreadsheet artworks catalog ready,with at least a few artworks in it to start with.
+Report to (this doc)[doc/spreadsheet.md] for informations about gallery spreadsheet datasources and how to create one.
+
+## configuration file
+Create a folder named like your *site_id* in the folder `sites`.
+
+Create a file `sites/[site_id]/input/config.json`, you can copy`sites/demo/input/config.json` to create your own and customize.
+
+Report to [this doc](doc/configuration/per-side.md) for detailed information.
+
+## speadsheet ingestion
+
+it's time to absorb the content of the source spreadhsheet, execute :
 ```shell
-$ pyenv install 3.12.2
-$ pyenv local 3.12.2
-$ pyenv virtualenv 3.12.2 gallery-3.12.2
-$ pyenv activate gallery-3.12.2
+$ cd [gallery_root_folder]
+$ python -m cli ingest [site_id]
 ```
 
-- install pipx : https://pipx.pypa.io/stable/installation/
-- install poetry : https://python-poetry.org/docs/#installing-with-pipx, TDLR : `pipx install poetry`
+This should produce a file : `sites/[site_id]/public/artwork.json`
+
+## give artworks images
+
+Put the images corresponding to your artworks in a new folder `sites/[site_id]/input/images`
+
+Each file should be named `[artwork_id].[ext]` wherer *artwork_id* is the id of artwork in the source spreadsheet and *ext* is either 'jpg' either 'webp'.
+
+For better results images should be in lossless webp format and width should be greather than 3200 pixels.
+
+## resize artworks images
+
+Ask the gallery CLI tool to do the resizing of the artworks images :
 
 ```shell
-$ cd ingest/ && poetry install
+$ cd [gallery_root_folder]
+$ python -m cli resize [site_id]
 ```
 
-## Sites configuration
+this should produce all variants of resized images in  `sites/[site_id]/public/artworks/images`.
 
-One folder per site in `sites/`, its name will now be called *site_id*.
+## building the front app
 
-Each site folder must contain a `config.json` file.
+It's now to build the web app.
 
-look at `sites/rp/config.json` to create your own `sites/[site_id]/config.json` and customize.
+```shell
+$ cd [gallery_root_folder]/front
+$ SITE=[site_id] bun run build 
+```
 
+now you should be able to preview using
+```shell
+$ SITE=[site_id] bun run preview 
+```
 
-| key  | value meaning  |  example |
-|---|---|---|
-| sheet_id  | This is the id of the google sheet that will be taken as source for  artworks data. This can be found in the google sheet editor URL : https://docs.google.com/spreadsheets/d/1xBYqjQpYiq0765Ftt3hRCo4qQFugmFchQA-78LnvWnM |  1xBYqjQpYiq0765Ftt3hRCo4qQFugmFchQA-78LnvWnM |
-| bucket_names.app | name of the bucket that contain app files : html, javascript… | whatever-you-want, provided it does not exists WORLWIDE, try another name if already taken |
-| bucket_name.assets | name of the bucket that contain artworks resized files | same : free |
+## deploying the app
 
+### have terraform config setup/updated
 
+terraform does the provisionning of the needed resource on GCP.
+It can be done only when the first site is configured.
 
-## speadsheets conventions
+```shell
+$ cd [gallery_root_folder]
+$ python -m cli terraform_config # this create the terraform configuration file : terraform/terraform.tfvars.json
+$ cd terraform
+$ terraform init # terrform will load GCP related terraform providers : should be done once only
+$ terraform apply # this does the provisionning
+```
 
-All speadsheet sources must obey these conventions for the ingestor to work properly.
+### directing domain names
 
-- First row is your working column header, it is only for you, ignored by the ingestor.
-- Second row maps artwork properties. Columns without value on this row will be ignored.
-An artwork property must appear at most one time in the row.
-There must be one column for special properties *id* and one column for *publish*.
-- The third line is for the first artwork.
-- Lines with no id will be ignored.
-- 3 consécutives rows with empty id cell is considered as a stop for the ingestor, the sheet won't be read further.
- 
-You can leave blank sections in your sheet to organize your file, but no more than 2 in a row.
+once the infrastructure is created you'll need to map your domain names to the reserved static IP.
 
-### available artwork properties
+find the static ip using
+```shell
+$ terraform state show google_compute_global_address.static_ip
+# google_compute_global_address.static_ip:
+resource "google_compute_global_address" "static_ip" {
+    address            = "xxx.yyy.zzz.ttt"
+...
+```
 
-A spreedsheet don't have to map every available artwork properties. Only *id* and *publish* are mandatories.
+Go to your domain name registrar and create/update the A records so that it points to that IP.
 
-| column id  | value meaning  |  examples |
-|---|---|---|
-| id  | The unique identifier of the artwork.<br>It can follow any convention you have for referencing the artworks.<br>It just has to be unique in the column and be non-empty.<br>At least one column must be mapped to the column id `id`. |  REF123, 456, _NF1 |
-| publish | Use a **checkbox** in the spreadsheet cells for this one.<br>If TRUE then the artwork will be part of the generated artwork database.<br>if FALSE (or any value different from TRUE) it will be ignored.|TRUE|
-| title |...|...|
-| description |Long description, just test for now|...|
-| remarks| additional (technical) information about the artwork|...|
-| year | when was the artwork produced | 1999 |
-| support |||
-| technic |||
-| width | integer, centimeters||
-| height | integer, centimeters||
-| depth | integer, centimeters||
-| available |Use a **checkbox** in the spreadsheet cells for this one.<br>Tells whether the artwork is available for purchase / donation|TRUE|
+```
+NAME                  TYPE     DATA
+@                     A        <you static ip>
+```
+
 
 ## folder `sites/[site_id]/` structure
 
-### `config.json`
-already explained before
-
-### `artworks.json`
-Artworks database : created by the ingest command
-
-### folder `assets`
-
-this is where you put your source assets.
-
-Image format is preferably lossless webp, the higher the resolution, the better.
-
-No CLI command will ever add, delete or modify files in this folder because this is the source of truth for images.
-
-must contains one image per artwork foudn in `artworks.json`, named `[artwork_id].(webp|jpg)`
-
-## asset images resizings
-
-each image in assets will be resized in several versions
-
-- small : width 200px : for display in search page
-- medium : width 400px : for display in artworks details page
-- large : width 1600px : used for magnification on the frontend, loaded only if the user request magnification
-
-## Setup operations
-
-These are the step to do for having a website up and running :
-
-- general setup
-  - install python environment as explained before
-  - refer to [configure GCP](README-GCP.md) if not done yet, don't run the *deploy* command now, we'll do it at the end
-- choose a *site_id* for the website, this is a local identifier, it has no impact on GCP entities whatsoever
-- create a folder `sites/[site_id]`
-  - create a file `sites/[site_id]/config.json`, you can use the demo site confg file for inspiration
-- run `python -cli terraform_config`, this update infra provisionning configuration so that it knows the new site
-  - `cd terraform`
-  - `terraform apply`
-  - `cd -`
-- run `python -cli ingest [site_id]`, this creates a file `sites/[site_id]/artworks.json`
-- create a folder `sites/[site_id]/assets`
-  - put all artworks images in it, named `[artwork_id].webp`, jpg files are also valid.
-- run `python -cli assets [site_id]`, this uploads images on GCP
-
-- TODO terraform instructions
-
-## Site chenge operations
-
-The operations to do when source sheet and or assets change/are added :
-
-TODO
+TODO maybe
 
 ## CLI commands
 
@@ -145,89 +134,10 @@ Here are all available CLI commands and what they do. Details in the next sectio
 
 This the operation reading the source speadsheet of a site and generating the *artworks.json* file from it.
 
-
 ```shell
 $ python -m cli ingest <site_id>
 ```
 
-### assets upload
+### image resizing
 
-- ensures a bucket exist for the site on the GCP project
-- for each artwork found in `sites/[site_id]/artworks.json` :
-  - ensure a file `sites/[site_id]/assets/[artwork_id].(jpg|webp)` exists, warns otherwise
-  - for each image size (small, medium, large)
-    - search for an object named `[size]/[artwork-id].webp` in the bucket
-    - if not found then resize the source image and upload the resized version
 
-```shell
-$ python -m cli assets <site_id>
-```
-
-### deploy cloud function
-
-Deploy the cloud function that will receive http requests and serve front files.
-
-Also make sure all needed GCP entities are created.
-
-```shell
-$ python -m cli deploy
-```
-
-## rare CLI command details
-
------------
-
-TODO actualize
-
-### Scripts
-
-#### feed
-
-This is the first step before building.
-
-Converts the google spreadsheet data to a json database file.
-
-```shell
-$ bun feed <site_id>
-```
-
-The `artworks.json` file is created in `public/assets`
-
-#### dev
-
-Runs the dev server, skip if you don't want to modify the code.
-
-```shell
-$ bun dev
-```
-
-#### build
-
-Prepares the gallery for deployment.
-Populates the `dist` directory with bundled source and assets.
-
-```shell
-$ bun run build
-```
-
-#### preview
-
-After a _build_, to test the bundled site locally.
-
-```shell
-$ bun preview
-```
-
-#### deploy
-
-TODO
-
-```shell
-$ bun deploy
-```
-
-#### update
-
-TODO
-
-Chaining _feed_, _build_ and _deploy_ : the one-liner to go from modification of the google spreadsheet to production site.

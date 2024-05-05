@@ -37,6 +37,15 @@ def parseArguments() -> Namespace:
     subparsers = parser.add_subparsers(title="command", required=True, dest="command")
 
     defineCommand(
+        "terraform_config",
+        subparsers=subparsers,
+        help="update terraform configuration after a change "
+        "like global configuration modification, "
+        "adding/remove a site, or site configuration modification",
+        need_site_id=False,
+    )
+
+    defineCommand(
         "ingest",
         subparsers=subparsers,
         help="fetch the google spreadsheet "
@@ -44,18 +53,15 @@ def parseArguments() -> Namespace:
     )
 
     defineCommand(
-        "assets",
+        "resize",
         subparsers=subparsers,
-        help="upload all derived assets not present on the site bucket",
+        help="resize all artwork images, putting them in sites/[site_id]/output/assets/images",
     )
 
     defineCommand(
-        "terraform_config",
+        "deploy",
         subparsers=subparsers,
-        help="update terraform configuration after a change "
-        "like global configuration modification, "
-        "adding/remove a site, or site configuration modification",
-        need_site_id=False,
+        help="synchronize built dist/ directory with site bucket",
     )
 
     return parser.parse_args()

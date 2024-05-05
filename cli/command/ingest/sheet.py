@@ -10,7 +10,7 @@ from cli.artworks import build_artworks
 from cli.artworks import build_artwork_property_columns
 from cli.creds import getCredentials
 from cli.exceptions import ProcessingException
-from cli.website import WebsiteConfig
+from cli.website import WebsiteConfigTech
 from cli.log import log
 
 
@@ -19,7 +19,7 @@ class SheetExtractedData:
     artworks: List[dict[str, Any]]
 
 
-def extractSheetData(siteConfig: WebsiteConfig) -> SheetExtractedData:
+def extractSheetData(siteConfig: WebsiteConfigTech) -> SheetExtractedData:
     credentials = getCredentials()
 
     service = build("sheets", "v4", credentials=credentials)

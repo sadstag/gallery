@@ -7,12 +7,14 @@ from cli.exceptions import (
     ProcessingException,
 )
 from cli.command.ingest import run_ingest_command
-from cli.command.assets import run_assets_command
+from cli.command.resize import run_resize_command
+from cli.command.deploy import run_deploy_command
 from cli.command.terraform_config import run_terraform_config
 
 commandHandler = {
     "ingest": run_ingest_command,
-    "assets": run_assets_command,
+    "resize": run_resize_command,
+    "deploy": run_deploy_command,
     "terraform_config": run_terraform_config,
 }
 

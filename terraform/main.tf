@@ -9,10 +9,7 @@ variable "region" {
 variable "sites" {
   type = map(object({
     domain_name = string
-    bucket_names = object({
-      app    = string
-      assets = string
-    })
+    bucket_name = string
   }))
 }
 
@@ -30,35 +27,19 @@ provider "google" {
 }
 
 locals {
-  site_ids = [for site_id, config in var.sites : site_id]
-
-  app_bucket_names = {
-    for site_id, config in var.sites :
-    site_id => config.bucket_names.app
-  }
-
-  assets_bucket_names = {
-    for site_id, config in var.sites :
-    site_id => config.bucket_names.assets
-  }
-
-  app_backend_buckets = {
-    for site_id in local.site_ids : site_id => "gallery-backend-bucket-${site_id}-app"
-  }
-
-  assets_backend_buckets = {
-    for site_id in local.site_ids : site_id => "gallery-backend-bucket-${site_id}-assets"
-  }
-
+  site_ids = [for site_id, _ in var.sites : site_id]
 }
 
 resource "google_compute_global_address" "static_ip" {
   name = "gallery-static-ip-name"
 }
 
-resource "google_storage_bucket" "app_buckets" {
-  for_each                    = toset(local.site_ids)
-  name                        = local.app_bucket_names[each.key]
+resource "google_storage_bucket" "site_buckets" {
+  for_each = {
+    for site_id, config in var.sites :
+    site_id => config.bucket_name
+  }
+  name                        = each.value
   location                    = var.region
   force_destroy               = true
   uniform_bucket_level_access = true
@@ -75,57 +56,20 @@ resource "google_storage_bucket" "app_buckets" {
 }
 
 
-resource "google_storage_bucket" "assets_buckets" {
-  for_each                    = toset(local.site_ids)
-  name                        = local.assets_bucket_names[each.key]
-  location                    = var.region
-  force_destroy               = true
-  uniform_bucket_level_access = true
-  #   cors {
-  #     origin          = ["http://image-store.com"]
-  #     method          = ["GET", "HEAD", "PUT", "POST", "DELETE"]
-  #     response_header = ["*"]
-  #     max_age_seconds = 3600
-  #   }
-}
 
-
-resource "google_storage_bucket_iam_member" "app_buckets_authorizations" {
+resource "google_storage_bucket_iam_member" "site_buckets_authorizations" {
   for_each = toset(local.site_ids)
-  bucket   = google_storage_bucket.app_buckets[each.key].id
-  role     = "roles/storage.objectViewer"
-  member   = "allUsers"
-}
-
-resource "google_storage_bucket_iam_member" "assets_buckets_authorizations" {
-  for_each = toset(local.site_ids)
-  bucket   = google_storage_bucket.assets_buckets[each.key].id
+  bucket   = google_storage_bucket.site_buckets[each.key].id
   role     = "roles/storage.objectViewer"
   member   = "allUsers"
 }
 
 
-resource "google_compute_backend_bucket" "app_backend_buckets" {
+resource "google_compute_backend_bucket" "site_backend_buckets" {
   for_each    = toset(local.site_ids)
-  name        = local.app_backend_buckets[each.key]
-  description = "Backend for app bucket of site ${each.key}"
-  bucket_name = google_storage_bucket.app_buckets[each.key].name
-  #enable_cdn  = true
-  cdn_policy {
-    cache_mode        = "CACHE_ALL_STATIC"
-    client_ttl        = 3600
-    default_ttl       = 3600
-    max_ttl           = 86400
-    negative_caching  = true
-    serve_while_stale = 86400
-  }
-}
-
-resource "google_compute_backend_bucket" "assets_backend_buckets" {
-  for_each    = toset(local.site_ids)
-  name        = local.assets_backend_buckets[each.key]
-  description = "Backend for assets bucket of site ${each.key}"
-  bucket_name = google_storage_bucket.assets_buckets[each.key].name
+  name        = "gallery-backend-bucket-${each.key}"
+  description = "Backend for bucket of site ${each.key}"
+  bucket_name = google_storage_bucket.site_buckets[each.key].name
   #enable_cdn  = true
   cdn_policy {
     cache_mode        = "CACHE_ALL_STATIC"
@@ -143,7 +87,7 @@ resource "google_compute_url_map" "default" {
   description = "URL mapper for gallery"
 
   #default_service = google_compute_backend_bucket.unmatched_host.id
-  default_service = google_compute_backend_bucket.app_backend_buckets[local.site_ids[0]].id
+  default_service = google_compute_backend_bucket.site_backend_buckets[local.site_ids[0]].id
 
   # maybe todo
   # default_route_action {
@@ -166,17 +110,8 @@ resource "google_compute_url_map" "default" {
     iterator = each
     content {
       name            = "site-${each.key}"
-      default_service = google_compute_backend_bucket.app_backend_buckets[each.key].id
+      default_service = google_compute_backend_bucket.site_backend_buckets[each.key].id
 
-      path_rule {
-        paths   = ["/assets/*"]
-        service = google_compute_backend_bucket.assets_backend_buckets[each.key].id
-        route_action {
-          url_rewrite {
-            path_prefix_rewrite = "/"
-          }
-        }
-      }
 
     }
   }

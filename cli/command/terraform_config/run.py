@@ -19,7 +19,7 @@ def run(args: Namespace):
     site_ids = get_website_ids()
 
     site_configs = dict(
-        zip(site_ids, [get_website_config(site_id) for site_id in site_ids])
+        zip(site_ids, [get_website_config(site_id).tech for site_id in site_ids])
     )
 
     with ctxOpen(get_terraform_variables_filename(), "w") as terraform_vars_file:
@@ -31,7 +31,7 @@ def run(args: Namespace):
                 "sites": {
                     site_id: {
                         "domain_name": site_config.domain_name,
-                        "bucket_names": site_config.bucket_names,
+                        "bucket_name": site_config.bucket_name,
                     }
                     for site_id, site_config in site_configs.items()
                 },

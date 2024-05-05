@@ -14,6 +14,7 @@ google-cloud-storage = "^2.16.0"
 jsonschema = "^4.21.1"
 colored = "^2.2.4"
 pillow = "^10.3.0"
+json-fix = "^1.0.0"
 
 
 [tool.poetry.group.dev.dependencies]
