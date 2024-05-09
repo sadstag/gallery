@@ -15,7 +15,6 @@ resized_picture_width = {
 
 
 sites_folder = "sites"
-assets_folder_name = "assets"
 terraform_folder_name = "terraform"
 
 root_path = abspath(f"{dirname(__file__)}/..")
@@ -26,6 +25,7 @@ terraform_variables_filename = "terraform.tfvars.json"
 globalconfig_filename = "global_config.json"
 siteconfig_filename = "config.json"
 artworks_db_filename = "artworks.json"
+content_filename = "content.json"
 
 
 def get_terraform_folder_path():
@@ -44,34 +44,70 @@ def get_site_filepath(site_id: str):
     return f"{sites_folder_path}/{site_id}"
 
 
-def get_artworks_db_filepath(site_id: str):
-    return f"{get_site_filepath(site_id)}/{artworks_db_filename}"
+#
+# inputs
+#
+
+
+def get_site_input_folderpath(site_id: str):
+    return f"{get_site_filepath(site_id)}/input"
 
 
 def get_website_config_filepath(site_id: str):
-    return f"{get_site_filepath(site_id)}/{siteconfig_filename}"
+    return f"{get_site_input_folderpath(site_id)}/{siteconfig_filename}"
 
 
-def get_assets_filepath(site_id: str):
-    return f"{get_site_filepath(site_id)}/{assets_folder_name}"
+def get_site_input_images_folderpath(site_id: str):
+    return f"{get_site_input_folderpath(site_id)}/images"
 
 
 accepted_source_asset_extension = ["jpg", "webp"]
 
 
-# path to the artwork picture source file in the local assets/ folder
+# path to the artwork image source file
 # return accepted paths, depending on the format
-def get_artwork_pictures_source_filepaths(site_id: str, artwork_id: str):
+def get_artwork_images_source_filepaths(site_id: str, artwork_id: str):
     return [
-        f"{get_assets_filepath(site_id)}/{artwork_id}.{ext}"
+        f"{get_site_input_images_folderpath(site_id)}/{artwork_id}.{ext}"
         for ext in accepted_source_asset_extension
     ]
 
 
 #
-# GCP storage
+# generated
 #
 
 
-def get_artwork_picture_blobname(artwork_id: str, size: PictureSize):
-    return f"artworks/{size}/{artwork_id}.webp"
+def get_site_public_folderpath(site_id: str):
+    return f"{get_site_filepath(site_id)}/public"
+
+
+def get_site_public_artworks_folderpath(site_id: str):
+    return f"{get_site_public_folderpath(site_id)}/artworks"
+
+
+def get_site_public_artworks_images_folderpath(site_id: str):
+    return f"{get_site_public_artworks_folderpath(site_id)}/images"
+
+
+def get_artwork_images_output_filepath(
+    site_id: str, artwork_id: str, size: PictureSize
+):
+    return f"{get_site_public_artworks_images_folderpath(site_id)}/{size}/{artwork_id}.webp"
+
+
+def get_artworks_db_filepath(site_id: str):
+    return f"{get_site_public_folderpath(site_id)}/{artworks_db_filename}"
+
+
+def get_content_filepath(site_id: str):
+    return f"{get_site_public_folderpath(site_id)}/{content_filename}"
+
+
+#
+# built by front
+#
+
+
+def get_site_dist_folderpath(site_id: str):
+    return f"{get_site_filepath(site_id)}/dist"

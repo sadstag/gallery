@@ -1,0 +1,43 @@
+.wall {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+
+    >* {
+        width: 200px;
+        height: 200px;
+
+        background-repeat: no-repeat;
+
+        background-position: center;
+
+        background-size: cover;
+        position: relative;
+
+        >.title {
+            position: absolute;
+            padding: 1em;
+            z-index: 1;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: black;
+            opacity: 0%;
+            transition: opacity 2s ease-in;
+
+        }
+
+
+        &:hover {
+            cursor: pointer;
+
+            >.title {
+                opacity: 60%;
+                transition: opacity 0.5s ease-out;
+
+            }
+        }
+
+    }
+
+}

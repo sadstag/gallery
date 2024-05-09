@@ -1,6 +1,8 @@
 from json import dump
 from datetime import datetime, timezone
 from typing import TypedDict
+from os import makedirs
+from os.path import dirname
 
 from cli.artworks.artwork import Artwork
 from cli.command.ingest.sheet import SheetExtractedData
@@ -30,6 +32,8 @@ def writeArtorksDB(siteId: str, sheetData: SheetExtractedData):
     }
 
     path = get_artworks_db_filepath(siteId)
+    makedirs(dirname(path), exist_ok=True)
+
     with ctxOpen(path, "w") as artworksFile:
         try:
             dump(contents, artworksFile, indent="\t")
