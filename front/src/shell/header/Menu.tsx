@@ -1,8 +1,9 @@
-import { Portal, Show } from 'solid-js/web'
+import { Portal } from 'solid-js/web'
 import styles from './Menu.module.css'
-import { createSignal } from 'solid-js'
+import { Show, createSignal } from 'solid-js'
 // @ts-ignore clickOutside is used
 import clickOutside from "../../directives/click-outside"
+import { MenuIcon } from './MenuIcon'
 
 export function Menu() {
 
@@ -12,14 +13,23 @@ export function Menu() {
         setShown(false)
     }
 
+    const menuIconClasses = () => ({
+        [styles["menu-icon"]]: true,
+        [styles["menu-is-shown"]]: shown()
+    })
+
     return (
         <>
-            <div class={styles.menuIcon} onClick={() => setShown(shown => !shown)}>Menu</div>
+            <MenuIcon classList={menuIconClasses()} onClick={() => setShown(shown => !shown)} />
             <Show when={shown()}>
                 <Portal>
                     <div class={styles.menu} use:clickOutside={() => setShown(false)}>
-                        <a href="/" onClick={onSelectItem}>main</a>
-                        <a href="/presentation" onClick={onSelectItem}>pres</a>
+                        <a href="/" onClick={onSelectItem}>
+                            <div class={styles['menu-item']}>Artworks</div>
+                        </a>
+                        <a href="/presentation" onClick={onSelectItem}>
+                            <div class={styles['menu-item']}>Presentation</div>
+                        </a>
                     </div>
                 </Portal>
             </Show>

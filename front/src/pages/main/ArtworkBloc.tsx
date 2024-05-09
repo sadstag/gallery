@@ -12,13 +12,16 @@ export function ArtworkBloc(props: Props) {
         'background-image': `url(artworks/images/small/${id}.webp)`,
     }
 
+
     return (
-        <div
-            class={styles.artworkBloc}
-            style={style}>
-            <div class={styles.title}>
-                {title}
+        <a href={`/artwork/${id}`}>
+            <div
+                class={styles.artwork}
+                style={style}>
+                <div class={styles.title}>
+                    {title}
+                </div>
             </div>
-        </div >
+        </a>
     )
 }
