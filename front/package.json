@@ -16,7 +16,6 @@
     "@types/bun": "^1.1.1",
     "typescript": "^5.2.2",
     "vite": "^5.2.0",
-    "vite-plugin-cdn-import": "^1.0.1",
     "vite-plugin-solid": "^2.10.2"
   }
 }

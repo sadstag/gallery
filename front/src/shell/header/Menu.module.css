@@ -1,13 +1,51 @@
 .menu-icon {
     flex-grow: 0;
-    color: red;
+    width: 32px;
+    height: 32px;
+
+    visibility: visible;
+    cursor: pointer;
+
+    &.menu-is-shown {
+        cursor: none;
+        visibility: hidden;
+    }
 }
 
 .menu {
-    color: blue;
     position: fixed;
-    top: 0;
-    right: 0;
-    border: thin solid white;
-    background: darkred;
+    top: 8px;
+    right: 8px;
+    border: thin solid hsl(0 0% 100% / 0.5);
+
+    background: black;
+
+    opacity: 80%;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+
+    >a {
+        display: block;
+        flex-grow: 1;
+        font-size: 1.5em;
+
+        color: white;
+        text-decoration: none;
+
+        padding: 0.2em;
+
+        &:hover {
+            background-color: darkred;
+            color: red;
+        }
+
+        >.menu-item {
+            width: 100%;
+        }
+    }
+
+
 }
