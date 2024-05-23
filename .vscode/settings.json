@@ -3,7 +3,11 @@
     "[python]": {
         "editor.defaultFormatter": "ms-python.black-formatter"
     },
+    "[typescript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
     "flake8.args": [
         "--max-line-length=100"
     ],
+    "editor.formatOnSave": true,
 }

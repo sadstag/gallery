@@ -5,22 +5,18 @@ type Props = {
     artwork: Artwork
 }
 export function ArtworkBloc(props: Props) {
-
-    const { artwork: { id, title } } = props
+    const {
+        artwork: { id, title }
+    } = props
 
     const style = {
-        'background-image': `url(artworks/images/small/${id}.webp)`,
+        'background-image': `url(/artworks/images/small/${id}.webp)`
     }
-
 
     return (
         <a href={`/artwork/${id}`}>
-            <div
-                class={styles.artwork}
-                style={style}>
-                <div class={styles.title}>
-                    {title}
-                </div>
+            <div class={styles.artwork} style={style}>
+                <div class={styles.title}>{title}</div>
             </div>
         </a>
     )

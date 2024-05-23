@@ -10,13 +10,18 @@
         cursor: none;
         visibility: hidden;
     }
+
+    transition: transform 0.2s ease-in-out;
+    &:hover {
+        transform: scale(1.1);
+    }
 }
 
 .menu {
     position: fixed;
     top: 8px;
     right: 8px;
-    border: thin solid hsl(0 0% 100% / 0.5);
+    border: thin solid hsl(0 0% 100% / 0.4);
 
     background: black;
 
@@ -32,14 +37,14 @@
         flex-grow: 1;
         font-size: 1.5em;
 
-        color: white;
+        color: hsl(0 0% 50% );
         text-decoration: none;
 
-        padding: 0.2em;
+        padding: 0.4em;
 
         &:hover {
-            background-color: darkred;
-            color: red;
+            background-color: hsl(0 0% 20%);;
+            color: white;
         }
 
         >.menu-item {
