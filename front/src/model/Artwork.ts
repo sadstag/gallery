@@ -1,6 +1,16 @@
 export type Artwork = {
-    id: string,
+    id: string
+
     title?: string
-    width: number,
-    height: number
+    year?: number
+    remarks?: number
+    description?: string
+
+    width?: number
+    height?: number
+    depth?: number
+    technic?: string
+    support?: string
+
+    available?: boolean
 }

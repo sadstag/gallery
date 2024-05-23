@@ -4,8 +4,8 @@ from cli.PictureSize import PictureSize
 
 resized_picture_width = {
     PictureSize.SMALL: 200,
-    PictureSize.MEDIUM: 400,
-    PictureSize.LARGE: 1600,
+    PictureSize.MEDIUM: 800,
+    PictureSize.LARGE: 2400,
 }
 
 
