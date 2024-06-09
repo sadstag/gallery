@@ -12,7 +12,10 @@ type ArtworksDB = {
         generated: string
         source: string
     }
+    bucket_name: string
     artworks: Artwork[]
+    // added by context
+    getImageURL: (id: string, size: string) => string
 }
 
 type IndexedArtworks = {
@@ -28,12 +31,20 @@ const ArtworksDBContext = createContext<Resource<ArtworksDB>>()
 export function ArtworksDBProvider(props: ParentProps) {
     const [artworks] = createResource<ArtworksDB>(async function f() {
         const response = await fetch(`/artworks.json`)
-        await new Promise((resolve) => setTimeout(resolve, 1000))
 
         if (!response.ok) {
             throw Error('ERR')
         }
-        return response.json()
+        const db = (await response.json()) as ArtworksDB
+
+        const baseURL = import.meta.env.PROD
+            ? `https://storage.googleapis.com/${db.bucket_name}`
+            : ''
+
+        db.getImageURL = (id: string, size: string) =>
+            `${baseURL}/artworks/images/${size}/${id}.webp`
+
+        return db
     })
     return (
         <ArtworksDBContext.Provider value={artworks}>

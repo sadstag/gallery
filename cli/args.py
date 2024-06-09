@@ -3,26 +3,17 @@ from typing import Any  # type: ignore
 
 from cli.const import artworks_db_filename
 
-from cli.website import get_website_ids, sites_folder_path
+from cli.website import get_website_ids
 
 
 site_ids = get_website_ids()
 
 
-def defineCommand(
-    name: str, *, subparsers: Any, help: str, need_site_id: bool = True
-) -> ArgumentParser:
+def defineCommand(name: str, *, subparsers: Any, help: str) -> ArgumentParser:
     parser = subparsers.add_parser(
         name,
         help=help,
     )
-
-    if need_site_id:
-        parser.add_argument(
-            "site_id",
-            choices=site_ids,
-            help=f"id of the site, it's the name of a folder in folder '{sites_folder_path}'",
-        )
 
     return parser
 
@@ -42,7 +33,6 @@ def parseArguments() -> Namespace:
         help="update terraform configuration after a change "
         "like global configuration modification, "
         "adding/remove a site, or site configuration modification",
-        need_site_id=False,
     )
 
     defineCommand(
@@ -59,9 +49,28 @@ def parseArguments() -> Namespace:
     )
 
     defineCommand(
-        "deploy",
+        "sync_bucket",
         subparsers=subparsers,
-        help="synchronize built dist/ directory with site bucket",
+        help="synchronize local artworks related assets with bucket",
+    )
+
+    build_server_parser = defineCommand(
+        "build_server",
+        subparsers=subparsers,
+        help="create server docker image after fronts has been built",
+    )
+
+    build_server_parser.add_argument(
+        "-d",
+        "--dev",
+        action="store_true",
+        help="create an image suitable for dev environment, mainly because of vitual hosting",
+    )
+
+    defineCommand(
+        "deploy_server",
+        subparsers=subparsers,
+        help="Create and run a VM running the gallery server in docker",
     )
 
     return parser.parse_args()

@@ -45,7 +45,7 @@ config_schema = {
                 "bucket_name": {
                     "type": "string",
                     "title": "bucket_name",
-                    "description": "Name of the site bucket, try anotehr name if already taken",
+                    "description": "Name of the site bucket, try another name if already taken",
                     "minLength": 10,
                     "maxLength": 64,
                 },
@@ -98,6 +98,7 @@ class WebsiteConfigContent:
 
 @dataclass
 class WebsiteConfig:
+    id: str
     tech: WebsiteConfigTech
     content: WebsiteConfigContent
 
@@ -116,12 +117,6 @@ def get_website_ids():
                 f"with a '{siteconfig_filename}' file in it."
             )
     return siteIds
-
-
-# def get_website_domain_names():
-#     return [
-#         get_website_config(site_id).tech.domain_name for site_id in get_website_ids()
-#     ]
 
 
 def get_website_config(site_id: str) -> WebsiteConfig:
@@ -150,6 +145,7 @@ def get_website_config(site_id: str) -> WebsiteConfig:
     except OSError as err:
         raise ArgumentsException(f"Could not read file '{path}' : {err.strerror}")
 
+    config["id"] = site_id
     config["tech"] = WebsiteConfigTech(**(config.get("tech")))
     config["content"] = WebsiteConfigContent(**(config.get("content")))
 

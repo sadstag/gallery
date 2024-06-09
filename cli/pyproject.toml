@@ -15,6 +15,8 @@ jsonschema = "^4.21.1"
 colored = "^2.2.4"
 pillow = "^10.3.0"
 json-fix = "^1.0.0"
+toml = "^0.10.2"
+types-toml = "^0.10.8.20240310"
 
 
 [tool.poetry.group.dev.dependencies]

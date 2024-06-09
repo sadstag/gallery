@@ -20,7 +20,7 @@ $ cd ingest/ && poetry install
 
 ## front
 
-First [Install bun](https://bun.sh/docs/installation)
+Install [bun](https://bun.sh/docs/installation)
 
 ```shell
 $ cd [gallery_root_folder]/front

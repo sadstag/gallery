@@ -111,3 +111,20 @@ def get_content_filepath(site_id: str):
 
 def get_site_dist_folderpath(site_id: str):
     return f"{get_site_filepath(site_id)}/dist"
+
+
+def get_site_dist_artworks_folderpath(site_id: str):
+    return f"{get_site_dist_folderpath(site_id)}/artworks"
+
+
+#
+# built by server build
+#
+
+
+def get_server_config_filename():
+    return f"{sites_folder_path}/config.toml"
+
+
+def get_server_docker_filename():
+    return f"{sites_folder_path}/Dockerfile"
