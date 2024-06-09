@@ -1,3 +1,4 @@
+import { useArtworksDBResource } from '../../context/ArtworksDBProvider'
 import { Artwork } from '../../model/Artwork'
 import styles from './Wall.module.css'
 
@@ -9,8 +10,10 @@ export function ArtworkBloc(props: Props) {
         artwork: { id, title }
     } = props
 
+    const artworksDB = useArtworksDBResource()
+
     const style = {
-        'background-image': `url(/artworks/images/small/${id}.webp)`
+        'background-image': `url(${artworksDB?.()?.getImageURL(id, 'small')})`
     }
 
     return (

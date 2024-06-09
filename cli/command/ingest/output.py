@@ -10,6 +10,7 @@ from cli.const import get_artworks_db_filepath
 from cli.exceptions import ProcessingException
 from cli.log import log
 from cli.tools import ctxOpen
+from cli.website import WebsiteConfig
 
 
 class Meta(TypedDict):
@@ -18,20 +19,22 @@ class Meta(TypedDict):
 
 
 class ArtworksFileContents(TypedDict):
+    bucket_name: str
     meta: Meta
     artworks: list[Artwork]
 
 
-def writeArtorksDB(siteId: str, sheetData: SheetExtractedData):
+def writeArtorksDB(site_config: WebsiteConfig, sheetData: SheetExtractedData):
     contents: ArtworksFileContents = {
         "meta": {
             "generated": datetime.now(timezone.utc).isoformat(),
             "source": sheetData.spreadsheetUrl,
         },
+        "bucket_name": site_config.tech.bucket_name,
         "artworks": sheetData.artworks,
     }
 
-    path = get_artworks_db_filepath(siteId)
+    path = get_artworks_db_filepath(site_config.id)
     makedirs(dirname(path), exist_ok=True)
 
     with ctxOpen(path, "w") as artworksFile:

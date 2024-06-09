@@ -2,17 +2,21 @@ import { useParams } from '@solidjs/router'
 
 import styles from './ArtworkPage.module.css'
 import { Show, createRenderEffect, createSignal } from 'solid-js'
-import { useArtwork } from '../../context/ArtworksDBProvider'
+import {
+    useArtwork,
+    useArtworksDBResource
+} from '../../context/ArtworksDBProvider'
 import { ArtworkInfo } from './ArtworkInfo'
-
-const makeImgURL = (id: string, size: string): string =>
-    `/artworks/images/${size}/${id}.webp`
 
 export const ArtworkPage = () => {
     const { id } = useParams()
 
+    const artworksDB = useArtworksDBResource()
+
     let [imgRef, setImgRef] = createSignal<HTMLImageElement>()
-    let [imgURL, setImgURL] = createSignal<string>(makeImgURL(id, 'small'))
+    let [imgURL, setImgURL] = createSignal<string | undefined>(
+        artworksDB?.()?.getImageURL(id, 'small')
+    )
 
     const artwork = () => useArtwork(id)
 
@@ -24,7 +28,7 @@ export const ArtworkPage = () => {
             : ref.width <= 800
             ? 'medium'
             : 'large'
-        return setImgURL(makeImgURL(id, size))
+        return setImgURL(artworksDB?.()?.getImageURL(id, size))
     })
 
     const handleTouchStart = (e: TouchEvent) => {
@@ -40,7 +44,7 @@ export const ArtworkPage = () => {
     return (
         <article class={styles.page}>
             <img
-                src={imgURL()}
+                src={imgURL() || 'TODO url "??'}
                 ref={setImgRef}
                 onTouchStart={handleTouchStart}
                 onTouchMove={handleTouchMove}

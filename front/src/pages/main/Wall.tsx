@@ -10,7 +10,6 @@ export function Wall() {
         <div class={styles.wall}>
             <For each={artworksDB?.()?.artworks ?? []}>
                 {(artwork) => {
-                    console.log(`creating artwork bloc ${artwork.id}`)
                     return <ArtworkBloc artwork={artwork} />
                 }}
             </For>

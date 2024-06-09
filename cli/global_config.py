@@ -26,8 +26,13 @@ config_schema = {
             "and cloud functions will reside, "
             "see https://cloud.google.com/storage/docs/locations",
         },
+        "artifact_repository_name": {
+            "type": "string",
+            "title": "artifact_repository_name",
+            "description": "Name of the docker registry to be created and used",
+        },
     },
-    "required": ["project_id", "region"],
+    "required": ["project_id", "region", "artifact_repository_name"],
     "additionalProperties": False,
 }
 
@@ -36,6 +41,7 @@ config_schema = {
 class GlobalConfig:
     project_id: str
     region: str
+    artifact_repository_name: str
 
 
 _global_config: GlobalConfig | None = None

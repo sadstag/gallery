@@ -1,4 +1,5 @@
 {
-    "project_id": "my-project-id",
-    "region": "EU"
+  "project_id": "my-project-id",
+  "region": "EU",
+  "artifact_repository_name": "gallery-docker-images"
 }

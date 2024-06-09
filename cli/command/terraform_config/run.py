@@ -28,6 +28,7 @@ def run(args: Namespace):
             {
                 "project_id": global_config.project_id,
                 "region": global_config.region,
+                "artifact_repository_name": global_config.artifact_repository_name,
                 "sites": {
                     site_id: {
                         "domain_name": site_config.domain_name,
