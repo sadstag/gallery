@@ -9,7 +9,7 @@ It takes google spreadsheets describing artworks and deploys a 100% front applic
 - CLI : python 3
 - catalog datasource : google sheets
 - Infra : google cloud platform
-- Front : bun, vite, solidjs -->
+- Front : vite, solidjs -->
 
 ## Setting things up
 

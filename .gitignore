@@ -5,7 +5,7 @@ token.json
 .DS_Store
 .vscode/launch.json
 node_modules
-bun.lockb
+pnpm-lock.yaml
 dist
 
 TODO

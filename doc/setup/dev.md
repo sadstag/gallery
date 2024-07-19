@@ -20,9 +20,12 @@ $ cd ingest/ && poetry install
 
 ## front
 
-Install [bun](https://bun.sh/docs/installation)
+Install [pnpm](https://pnpm.io/installation)
 
-```shell
-$ cd [gallery_root_folder]/front
-$ bun install
-```
+### issues
+
+biome does not work when opening vscode on the project root.
+
+because: biome 1.8.3 has issue with workspaces and/or monorepo.
+
+open front/ in vscode directly.

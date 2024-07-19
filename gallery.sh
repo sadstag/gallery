@@ -17,7 +17,7 @@ invoke()
 invoke_front()
 {
     cd front;
-    bun install;
+    pnpm install;
     echo "Invoking: " $*
     $*
     cd -
@@ -35,9 +35,9 @@ case "$COMMAND" in
    "ingest") invoke "python -m cli ingest $*";;
    "resize") invoke "python -m cli resize $*";;
    "sync_bucket") invoke "python -m cli sync_bucket $*";;
-   "build_front") invoke_front "bun run build";;
-   "dev_front") invoke_front "bun run dev";;
-   "preview_front") invoke_front "bun run preview";;
+   "build_front") invoke_front "pnpm build";;
+   "dev_front") invoke_front "pnpm dev";;
+   "preview_front") invoke_front "pnpm preview";;
    "build_server") invoke "python -m cli build_server";;
    "build_server_dev") invoke "python -m cli build_server --dev";;
    "deploy_server") invoke "python -m cli deploy_server";;
