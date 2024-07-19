@@ -1,5 +1,7 @@
 {
   "project_id": "my-project-id",
   "region": "EU",
-  "artifact_repository_name": "gallery-docker-images"
+  "artifact_repository_name": "gallery-docker-images",
+  "server_zone": "europe-west9-a",
+  "server_cos_image_name": "cos-101-17162-463-58"
 }

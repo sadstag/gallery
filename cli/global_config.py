@@ -31,8 +31,25 @@ config_schema = {
             "title": "artifact_repository_name",
             "description": "Name of the docker registry to be created and used",
         },
+        "server_zone": {
+            "type": "string",
+            "title": "server_zone",
+            "description": "GCP zone where to run the server",
+        },
+        "server_cos_image_name": {
+            "type": "string",
+            "title": "server_cos_image_name",
+            "description": "Name of the google container optimized "
+            "docker image to use for the server",
+        },
     },
-    "required": ["project_id", "region", "artifact_repository_name"],
+    "required": [
+        "project_id",
+        "region",
+        "artifact_repository_name",
+        "server_zone",
+        "server_cos_image_name",
+    ],
     "additionalProperties": False,
 }
 
@@ -42,6 +59,8 @@ class GlobalConfig:
     project_id: str
     region: str
     artifact_repository_name: str
+    server_zone: str
+    server_cos_image_name: str
 
 
 _global_config: GlobalConfig | None = None

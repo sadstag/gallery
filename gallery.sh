@@ -38,10 +38,9 @@ case "$COMMAND" in
    "build_front") invoke_front "bun run build";;
    "dev_front") invoke_front "bun run dev";;
    "preview_front") invoke_front "bun run preview";;
-   "-") invoke "python -m cli build_server";;
+   "build_server") invoke "python -m cli build_server";;
    "build_server_dev") invoke "python -m cli build_server --dev";;
    "deploy_server") invoke "python -m cli deploy_server";;
    *) echo "Unknown command \"$COMMAND\""; exit 3
-      
 esac
 

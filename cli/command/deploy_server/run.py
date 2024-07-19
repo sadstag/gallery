@@ -13,12 +13,17 @@ def run(args: Namespace):
     config = get_global_config()
 
     vm_name = "gallery-server"
-    zone = f"{config.region.lower()}-a"  # todo ? put zone in global config
+    zone = config.server_zone
 
-    log(f"VM exists : {vm_exists(vm_name)}")
+    does_vm_exists = vm_exists(vm_name)
+    log(f"VM exists : {does_vm_exists}")
 
-    if vm_exists(vm_name):
+    if does_vm_exists:
         restart_vm(vm_name=vm_name, zone=zone)
     else:
         delete_vm(vm_name=vm_name, zone=zone)
-        create_vm(vm_name=vm_name, zone=zone)
+        create_vm(
+            vm_name=vm_name,
+            zone=zone,
+            server_cos_image_name=config.server_cos_image_name,
+        )

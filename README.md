@@ -199,3 +199,20 @@ $ docker build . -t gallery && docker run --rm --name gallery_instance -p 8080:8
 ```
 
 - browse `http://<domain_name>:8080`
+
+## Problems and solutions
+
+### _ZONE_RESOURCE_POOL_EXHAUSTED_ whe deploying server
+
+```shell
+$ SITE=X ./gallery.sh deploy_server
+
+...
+ERROR: (gcloud.compute.instances.create-with-container) Could not fetch resource:
+---
+code: ZONE_RESOURCE_POOL_EXHAUSTED
+
+```
+
+There is no available VM with requested specifications in the requested zone?
+Try another zone by chabnging _server_zone_ in [global configuration](doc/configuration/global.md)

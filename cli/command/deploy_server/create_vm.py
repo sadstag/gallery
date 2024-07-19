@@ -6,9 +6,7 @@ from cli.exceptions import ProcessingException
 from cli.tools.docker import getDockerImageNameWithTag
 
 
-def create_vm(*, vm_name: str, zone: str):
-    image_name = "cos-101-17162-463-26"
-
+def create_vm(*, vm_name: str, zone: str, server_cos_image_name: str):
     #
     # getting external static ip
     #
@@ -25,23 +23,23 @@ def create_vm(*, vm_name: str, zone: str):
     #
     # getting service account email
     #
-    gcloud_args = [
-        "gcloud",
-        "iam",
-        "service-accounts",
-        "list",
-        "--filter=display_name='Gallery Service Account'",
-        "--format=value(email)",
-    ]
+    # gcloud_args = [
+    #     "gcloud",
+    #     "iam",
+    #     "service-accounts",
+    #     "list",
+    #     "--filter=display_name='Gallery Service Account'",
+    #     "--format=value(email)",
+    # ]
 
-    executionResult = subprocessRun(gcloud_args, "Retrieving service account email")
+    # executionResult = subprocessRun(gcloud_args, "Retrieving service account email")
 
-    service_account_email = executionResult.stdout
+    # service_account_email = executionResult.stdout
 
-    if not len(service_account_email):
-        raise ProcessingException(
-            "Service account is not defined yet: configure terraform and apply"
-        )
+    # if not len(service_account_email):
+    #     raise ProcessingException(
+    #         "Service account is not defined yet: configure terraform and apply"
+    #     )
 
     #
     # creating VM instance
@@ -59,7 +57,7 @@ def create_vm(*, vm_name: str, zone: str):
         "--maintenance-policy=MIGRATE",
         "--provisioning-model=STANDARD",
         "--tags=http-server",
-        f"--image=projects/cos-cloud/global/images/{image_name}",
+        f"--image=projects/cos-cloud/global/images/{server_cos_image_name}",
         "--boot-disk-size=10GB",
         "--boot-disk-type=pd-standard",
         "--boot-disk-device-name=gallery-server-boot-disk",
@@ -69,7 +67,7 @@ def create_vm(*, vm_name: str, zone: str):
         "--no-shielded-secure-boot",
         "--shielded-vtpm",
         "--shielded-integrity-monitoring",
-        f"--labels=goog-ec-src=vm_add-gcloud,container-vm={image_name}",
+        f"--labels=goog-ec-src=vm_add-gcloud,container-vm={server_cos_image_name}",
         f"--address={ip}",
         "--network-tier=STANDARD",
     ]
