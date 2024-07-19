@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite'
 import solid from 'vite-plugin-solid'
+import legacy from '@vitejs/plugin-legacy'
 
 const site_id = process.env.SITE
 
@@ -11,6 +12,9 @@ if (!site_id) {
 export default defineConfig({
   plugins: [
     solid(),
+    legacy({
+      targets: ['defaults', 'not IE 11'],
+    })
   ],
   define: {
     __APP_VERSION__: JSON.stringify('v1.0.0'),
