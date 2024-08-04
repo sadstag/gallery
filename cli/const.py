@@ -2,7 +2,7 @@ from os.path import abspath, dirname
 
 from cli.PictureSize import PictureSize
 
-resized_picture_width = {
+resized_picture_min_dimension = {
     PictureSize.SMALL: 200,
     PictureSize.MEDIUM: 800,
     PictureSize.LARGE: 2400,
@@ -25,6 +25,7 @@ terraform_variables_filename = "terraform.tfvars.json"
 globalconfig_filename = "global_config.json"
 siteconfig_filename = "config.json"
 artworks_db_filename = "artworks.json"
+artwork_images_db_filename = "artwork_images.json"
 content_filename = "content.json"
 
 
@@ -98,6 +99,10 @@ def get_artwork_images_output_filepath(
 
 def get_artworks_db_filepath(site_id: str):
     return f"{get_site_public_folderpath(site_id)}/{artworks_db_filename}"
+
+
+def get_artwork_images_db_filepath(site_id: str):
+    return f"{get_site_public_folderpath(site_id)}/{artwork_images_db_filename}"
 
 
 def get_content_filepath(site_id: str):

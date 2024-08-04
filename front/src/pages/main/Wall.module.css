@@ -1,12 +1,21 @@
 .wall {
     display: flex;
     flex-flow: row wrap;
-    justify-content: center;
-    gap: 1px;
+    justify-content: space-evenly;
+    gap: 16px 4px;
+    max-width: 90%;
+    margin: auto;
 
-    >* {
-        width: 200px;
-        height: 200px;
+    /* image dimensions. ratio is dynamic, from images database */
+    .artwork {
+        height: 40vw;
+    }
+
+    @media (min-width: 800px) {
+        justify-content: space-between;
+        .artwork {
+            height: 20vmin;
+        }
     }
 
     >a {
@@ -23,12 +32,13 @@
     }
 
     .artwork {
-        width: 100%;
-        height: 100%;
+        /* height: 70vmin;
+        @media (min-width: 400px) {
+            height: 40vmin;
+        } */
+        /*  */
 
         background-repeat: no-repeat;
-
-        background-position: center;
 
         background-size: cover;
         position: relative;

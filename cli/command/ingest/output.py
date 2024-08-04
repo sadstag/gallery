@@ -19,7 +19,6 @@ class Meta(TypedDict):
 
 
 class ArtworksFileContents(TypedDict):
-    bucket_name: str
     meta: Meta
     artworks: list[Artwork]
 
@@ -30,7 +29,6 @@ def writeArtorksDB(site_config: WebsiteConfig, sheetData: SheetExtractedData):
             "generated": datetime.now(timezone.utc).isoformat(),
             "source": sheetData.spreadsheetUrl,
         },
-        "bucket_name": site_config.tech.bucket_name,
         "artworks": sheetData.artworks,
     }
 

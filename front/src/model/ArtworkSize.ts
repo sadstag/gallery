@@ -1,0 +1,1 @@
+export type ArtworkSize = 'small' |'medium'|'large'

@@ -42,10 +42,18 @@ def parseArguments() -> Namespace:
         f"and generates a {artworks_db_filename} file in site folder",
     )
 
-    defineCommand(
+    resize_parser = defineCommand(
         "resize",
         subparsers=subparsers,
         help="resize all artwork images, putting them in sites/[site_id]/output/assets/images",
+    )
+
+    resize_parser.add_argument(
+        "-f",
+        "--force",
+        action="store_true",
+        help="recreate resized version of images even if they already exists, "
+        "useful if some configuration changed which demands invalidation of all thumbnails",
     )
 
     defineCommand(
@@ -64,7 +72,7 @@ def parseArguments() -> Namespace:
         "-d",
         "--dev",
         action="store_true",
-        help="create an image suitable for dev environment, mainly because of vitual hosting",
+        help="create an image suitable for dev environment, mainly because of virtual hosting",
     )
 
     defineCommand(

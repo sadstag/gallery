@@ -1,6 +1,6 @@
 import styles from "./Wall.module.css";
 
-import { useArtworksDBResource } from "../../context/ArtworksDBProvider";
+import { useArtworkImage, useArtworkImagesDBResource, } from "../../context/ArtworkImagesDBProvider";
 import type { Artwork } from "../../model/Artwork";
 
 
@@ -13,10 +13,14 @@ export function ArtworkBloc(props: Props) {
 		artwork: { id, title },
 	} = props;
 
-	const artworksDB = useArtworksDBResource();
+	const artworkImagesDB = useArtworkImagesDBResource();
+
+	const { width = 1, height = 1 } = useArtworkImage(id, 'small') || {}
+	const aspectRatio = width / height
 
 	const style = {
-		'background-image': `url(${artworksDB?.()?.getImageURL(id, "small")})`,
+		'background-image': `url(${artworkImagesDB?.()?.getImageURL(id, "small")})`,
+		'aspect-ratio': aspectRatio
 	}
 
 	return (

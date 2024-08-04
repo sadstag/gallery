@@ -34,7 +34,7 @@ def run(args: Namespace):
         ]
         log("---\n--- Build done\n---\n\nTo test this image :\n")
         log(
-            "- trick dns :manage to have your OS resolve your site domains to locahost "
+            "- trick dns :manage to have your OS resolve your site domains to localhost "
             "(/etc/hosts on linux/mac)"
         )
 

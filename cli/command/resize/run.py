@@ -1,22 +1,27 @@
 from argparse import Namespace
-from os import makedirs
-from os.path import dirname, exists
 
 from cli.PictureSize import PictureSize
 from cli.artworks import PictureResizer, readArtworks
+from cli.command.resize.artworkImage import ArtworkImages
+from cli.command.resize.output import writeArtworkImagesDB
 from cli.command.site_id import get_target_site_id
 from cli.const import (
     get_artwork_images_output_filepath,
     get_site_input_images_folderpath,
 )
 from cli.log import log, warn
+from cli.website import get_website_config
 
 
 def run(args: Namespace):
     site_id = get_target_site_id()
+    site_config = get_website_config(site_id)
+
     artworks = readArtworks(site_id)
 
     missing_sources: list[str] = []
+
+    artworkImages: ArtworkImages = {}
 
     for artwork in artworks:
         aid = artwork["id"]
@@ -27,11 +32,14 @@ def run(args: Namespace):
 
         for size in PictureSize:
             resizedPath = get_artwork_images_output_filepath(site_id, aid, size)
-            if not exists(resizedPath):
-                makedirs(dirname(resizedPath), exist_ok=True)
+            resizedW, resizedH = resizer.resize(size, resizedPath, args.force)
+            if aid not in artworkImages:
+                artworkImages[aid] = {}
+            artworkImages[aid][size] = {"width": resizedW, "height": resizedH}
 
-                resizer.resize(size, resizedPath)
-                log(f"created {resizedPath}")
+    log("Done resizing, now saving artwork images DB")
+
+    writeArtworkImagesDB(site_config, artworkImages)
 
     log("Done")
 

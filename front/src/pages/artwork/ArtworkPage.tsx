@@ -1,21 +1,21 @@
 import { useParams } from '@solidjs/router'
 
-import styles from './ArtworkPage.module.css'
 import { Show, createRenderEffect, createSignal } from 'solid-js'
+import { useArtworkImagesDBResource } from '../../context/ArtworkImagesDBProvider'
 import {
     useArtwork,
-    useArtworksDBResource
 } from '../../context/ArtworksDBProvider'
 import { ArtworkInfo } from './ArtworkInfo'
+import styles from './ArtworkPage.module.css'
 
 export const ArtworkPage = () => {
     const { id } = useParams()
 
-    const artworksDB = useArtworksDBResource()
+    const artworkImagesDB = useArtworkImagesDBResource()
 
-    let [imgRef, setImgRef] = createSignal<HTMLImageElement>()
-    let [imgURL, setImgURL] = createSignal<string | undefined>(
-        artworksDB?.()?.getImageURL(id, 'small')
+    const [imgRef, setImgRef] = createSignal<HTMLImageElement>()
+    const [imgURL, setImgURL] = createSignal<string | undefined>(
+        artworkImagesDB?.()?.getImageURL(id, 'small')
     )
 
     const artwork = () => useArtwork(id)
@@ -23,12 +23,11 @@ export const ArtworkPage = () => {
     createRenderEffect(() => {
         // todo use onMount here ?
         const ref = imgRef()
-        const size = !ref
-            ? 'small' // image already loaded
-            : ref.width <= 800
-            ? 'medium'
-            : 'large'
-        return setImgURL(artworksDB?.()?.getImageURL(id, size))
+        const size = ref
+            ? ref.width <= 800
+                ? 'medium'
+                : 'large' : 'small'
+        return setImgURL(artworkImagesDB?.()?.getImageURL(id, size))
     })
 
     const handleTouchStart = (e: TouchEvent) => {
@@ -44,6 +43,7 @@ export const ArtworkPage = () => {
     return (
         <article class={styles.page}>
             <img
+                alt="todo alt"
                 src={imgURL() || 'TODO url "??'}
                 ref={setImgRef}
                 onTouchStart={handleTouchStart}

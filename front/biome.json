@@ -17,6 +17,9 @@
 						"strictCase": false
 					}
 				}
+			},
+			"correctness": {
+				"useHookAtTopLevel": "off"
 			}
 		}
 	},
