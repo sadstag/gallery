@@ -1,35 +1,13 @@
 .page {
     display: flex;
-    flex-direction: column;
+    height: 100%;
 
-    @media(min-aspect-ratio: 1/1) {
-        flex-direction: row;
-
-        >.image-container {
-            flex-grow: 0;
-            width: 80%;
-
-            >img {
-                max-height: 80vh;
-            }
-        }
-
-        >.info-panel {
-            flex-grow: 1;
-        }
-    }
-
-    >.image-container {
-        max-height: 100vh;
-        max-width: 100vw;
-
-        >img {
-            max-width: 100%;
-            max-height: 90vh;
-            display: block;
-            margin: auto;
-        }
-    }
+    >.image {
+        flex-grow: 1;
+        background-position: top;
+        background-size: contain;
+        background-repeat: no-repeat;
+    } 
 
     >.info-panel {
         padding: 0 2em;
@@ -72,9 +50,21 @@
                     padding: 0.5em;
                     border: thin solid #555;
                 }
-
-
             }
+        }
+    }
+
+    @media(max-aspect-ratio: 1/1) {
+        flex-direction: column;
+        >.info-panel {
+            height: 300px;
+        }
+    }
+
+    @media(min-aspect-ratio: 1/1) {
+        flex-direction: row;
+        >.info-panel {
+          width: 30%;
         }
     }
 }

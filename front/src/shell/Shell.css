@@ -18,7 +18,7 @@ body {
 }
 
 #root {
-  min-height: 100vh;
+  height: 100vh;
   font-size: 12px;
 }
 
@@ -27,7 +27,7 @@ h1 {
 }
 
 #shell {
-  min-height: 100vh;
+  height: 100vh;
   display: flex;
   flex-direction: column;
 

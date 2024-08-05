@@ -32,9 +32,9 @@ export const ArtworkPage = () => {
         let size: ArtworkImageSize = 'small'
         if (imgRef) {
             // @ts-ignore
-            size = imgRef.width <= 800
-                ? 'medium'
-                : 'large'
+            size = imgRef.width > 800 || imgRef.width >= 800
+                ? 'large'
+                : 'medium'
         }
         return setImgURL(artworkImagesDB?.()?.getImageURL(id, size))
 
@@ -55,17 +55,9 @@ export const ArtworkPage = () => {
 
     return (
         <article class={styles.page}>
-            <div class={styles['image-container']}>
-
-                <img
-                    alt={title()}
-                    src={imgURL() || 'TODO url "??'}
-                    ref={imgRef}
-
-                // onTouchStart={handleTouchStart}
-                // onTouchMove={handleTouchMove}
-                // onTouchEnd={handleTouchEnd}
-                />
+            <div class={styles.image} ref={imgRef} style={{
+                'background-image': `url(${imgURL() || 'TODO url "??'})`,
+            }}>
             </div>
             <Show when={artwork()}>
                 <div class={styles['info-panel']}>
