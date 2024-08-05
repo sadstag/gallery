@@ -1,10 +1,11 @@
 import { useParams } from '@solidjs/router'
 
-import { Show, createRenderEffect, createSignal } from 'solid-js'
+import { Show, createSignal, onMount } from 'solid-js'
 import { useArtworkImagesDBResource } from '../../context/ArtworkImagesDBProvider'
 import {
     useArtwork,
 } from '../../context/ArtworksDBProvider'
+import type { ArtworkImageSize } from '../../model/ArtworkSize'
 import { ArtworkInfo } from './ArtworkInfo'
 import styles from './ArtworkPage.module.css'
 
@@ -13,48 +14,64 @@ export const ArtworkPage = () => {
 
     const artworkImagesDB = useArtworkImagesDBResource()
 
-    const [imgRef, setImgRef] = createSignal<HTMLImageElement>()
+    // biome-ignore lint/style/useConst: typescript not able to see that there is a proxy under
+    let imgRef: HTMLImageElement | undefined = undefined
+
     const [imgURL, setImgURL] = createSignal<string | undefined>(
         artworkImagesDB?.()?.getImageURL(id, 'small')
     )
 
     const artwork = () => useArtwork(id)
+    // const imageRatio = () => {
+    //     const artworkImage = useArtworkImage(id, 'large')
+    //     if (!artworkImage) { return 1; }
+    //     return artworkImage.width / artworkImage.height
+    // }
 
-    createRenderEffect(() => {
-        // todo use onMount here ?
-        const ref = imgRef()
-        const size = ref
-            ? ref.width <= 800
+    onMount(() => {
+        let size: ArtworkImageSize = 'small'
+        if (imgRef) {
+            // @ts-ignore
+            size = imgRef.width <= 800
                 ? 'medium'
-                : 'large' : 'small'
+                : 'large'
+        }
         return setImgURL(artworkImagesDB?.()?.getImageURL(id, size))
+
     })
 
-    const handleTouchStart = (e: TouchEvent) => {
-        console.log(e)
-    }
-    const handleTouchMove = (e: TouchEvent) => {
-        console.log(e)
-    }
-    const handleTouchEnd = (e: TouchEvent) => {
-        console.log(e)
-    }
+    // const handleTouchStart = (e: TouchEvent) => {
+    //     console.log(e)
+    // }
+    // const handleTouchMove = (e: TouchEvent) => {
+    //     console.log(e)
+    // }
+    // const handleTouchEnd = (e: TouchEvent) => {
+    //     console.log(e)
+    // }
+
+    const title = () => artwork()?.title ?? 'untitled'
+    const description = () => artwork()?.description
 
     return (
         <article class={styles.page}>
-            <img
-                alt="todo alt"
-                src={imgURL() || 'TODO url "??'}
-                ref={setImgRef}
-                onTouchStart={handleTouchStart}
-                onTouchMove={handleTouchMove}
-                onTouchEnd={handleTouchEnd}
-            />
+            <div class={styles['image-container']}>
+
+                <img
+                    alt={title()}
+                    src={imgURL() || 'TODO url "??'}
+                    ref={imgRef}
+
+                // onTouchStart={handleTouchStart}
+                // onTouchMove={handleTouchMove}
+                // onTouchEnd={handleTouchEnd}
+                />
+            </div>
             <Show when={artwork()}>
-                <div class={styles.info}>
-                    <h1>{artwork().title ?? 'Untitled'}</h1>
-                    <Show when={artwork().description}>
-                        <p>{artwork().description}</p>
+                <div class={styles['info-panel']}>
+                    <h1>{title()}</h1>
+                    <Show when={description()}>
+                        <p>{description()}</p>
                     </Show>
                     <ArtworkInfo artwork={artwork()} />
                 </div>

@@ -1,1 +1,1 @@
-export type ArtworkSize = 'small' |'medium'|'large'
+export type ArtworkImageSize = 'small' |'medium'|'large'

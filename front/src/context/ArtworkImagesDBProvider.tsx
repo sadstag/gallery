@@ -6,11 +6,11 @@ import {
     useContext
 } from 'solid-js'
 import type { ArtworkImage } from '../model/ArtworkImage'
-import type { ArtworkSize } from '../model/ArtworkSize'
+import type { ArtworkImageSize } from '../model/ArtworkSize'
 
 type ArtworkImages = {
     [rtworkId: string]: {
-        [Size in ArtworkSize]: ArtworkImage
+        [Size in ArtworkImageSize]: ArtworkImage
     }
 }
 type ArtworkImagesDB = {
@@ -60,7 +60,7 @@ export function useArtworkImages() {
     return artworkImagesDB?.images
 }
 
-export function useArtworkImage(id: string, size: ArtworkSize): ArtworkImage | undefined {
+export function useArtworkImage(id: string, size: ArtworkImageSize): ArtworkImage | undefined {
     const images = useArtworkImages()
     return images?.[id]?.[size]
 }
