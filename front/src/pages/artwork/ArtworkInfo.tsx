@@ -1,9 +1,9 @@
 import { For, splitProps } from 'solid-js'
-import { Artwork } from '../../model/Artwork'
+import type { Artwork } from '../../model/Artwork'
 
+import type { JSX } from 'solid-js/h/jsx-runtime'
 import styles from './ArtworkPage.module.css'
 import { InfoBloc } from './InfoBloc'
-import { JSX } from 'solid-js/h/jsx-runtime'
 type Props = {
     artwork: Artwork
 }
@@ -49,20 +49,18 @@ const getTransformer = (field: keyof Artwork) =>
 export function ArtworkInfo(props: Props) {
     const [{ artwork }] = splitProps(props, ['artwork'])
 
-    const infos = function () {
-        return artworkInfoFields.reduce(
-            (acc_infos: Info[], field: keyof Artwork) => {
+    const infos = () =>
+        artworkInfoFields.reduce(
+            (accInfos: Info[], field: keyof Artwork) => {
                 const value = artwork[field]
-                return value === undefined
-                    ? acc_infos
-                    : ([
-                          ...acc_infos,
-                          [i18n(field), getTransformer(field)(value)]
-                      ] as Info[])
+                if (value !== undefined) {
+                    accInfos.push([i18n(field), getTransformer(field)(value)])
+                }
+                return accInfos
             },
             [] as Info[]
         )
-    }
+
 
     // TODO click on bloc =&gt; goto wall altering filter
 

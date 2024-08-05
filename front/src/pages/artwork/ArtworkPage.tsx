@@ -22,11 +22,6 @@ export const ArtworkPage = () => {
     )
 
     const artwork = () => useArtwork(id)
-    // const imageRatio = () => {
-    //     const artworkImage = useArtworkImage(id, 'large')
-    //     if (!artworkImage) { return 1; }
-    //     return artworkImage.width / artworkImage.height
-    // }
 
     onMount(() => {
         let size: ArtworkImageSize = 'small'
@@ -39,16 +34,6 @@ export const ArtworkPage = () => {
         return setImgURL(artworkImagesDB?.()?.getImageURL(id, size))
 
     })
-
-    // const handleTouchStart = (e: TouchEvent) => {
-    //     console.log(e)
-    // }
-    // const handleTouchMove = (e: TouchEvent) => {
-    //     console.log(e)
-    // }
-    // const handleTouchEnd = (e: TouchEvent) => {
-    //     console.log(e)
-    // }
 
     const title = () => artwork()?.title ?? 'untitled'
     const description = () => artwork()?.description

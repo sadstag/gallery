@@ -2,9 +2,11 @@
     display: flex;
     flex-flow: row wrap;
     justify-content: space-evenly;
+    padding: 12px;
     gap: 16px 4px;
-    max-width: 90%;
     margin: auto;
+
+   
 
     /* image dimensions. ratio is dynamic, from images database */
     .artwork {

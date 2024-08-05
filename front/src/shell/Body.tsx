@@ -1,4 +1,4 @@
-import { ParentProps } from "solid-js";
+import type { ParentProps } from "solid-js";
 import styles from './Body.module.css'
 
 export function Body(props: ParentProps) {
