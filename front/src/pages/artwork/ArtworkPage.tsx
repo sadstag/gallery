@@ -31,8 +31,7 @@ export const ArtworkPage = () => {
                 ? 'large'
                 : 'medium'
         }
-        return setImgURL(artworkImagesDB?.()?.getImageURL(id, size))
-
+        setImgURL(artworkImagesDB?.()?.getImageURL(id, size))
     })
 
     const title = () => artwork()?.title ?? 'untitled'
