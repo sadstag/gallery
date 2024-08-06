@@ -1,14 +1,19 @@
 import { For, splitProps } from 'solid-js'
+import type { JSX } from 'solid-js'
 import type { Artwork } from '../../model/Artwork'
 
-import type { JSX } from 'solid-js/h/jsx-runtime'
 import styles from './ArtworkPage.module.css'
 import { InfoBloc } from './InfoBloc'
+
 type Props = {
     artwork: Artwork
 }
 
-type Info = [string, string]
+type Info = [string, JSX.Element]
+
+type ValueType = string | number | boolean | undefined
+
+type ValueTransformer = (value: ValueType) => string
 
 // placeholder
 function i18n(field: string): string {
@@ -26,17 +31,19 @@ const artworkInfoFields: (keyof Artwork)[] = [
     'available'
 ]
 
-const defaultTransformer: (v: any) => string = (v) => v.toString()
 
-const lengthTransformer: (v: number) => string = (v) => `${v} cm`
+
+const defaultTransformer: ValueTransformer = (v) => v?.toString() ?? '?'
+
+const lengthTransformer: ValueTransformer = (v) => `${v} cm`
 
 const fieldValueTransformers: {
-    [field in keyof Partial<Artwork>]: (value: any) => JSX.Element
+    [Field in keyof Partial<Artwork>]: (value: ValueType) => JSX.Element
 } = {
     width: lengthTransformer,
     height: lengthTransformer,
     depth: lengthTransformer,
-    available: (v: boolean) => (
+    available: (v: ValueType) => (
         <span class={styles[v ? 'available' : 'not-available']}>
             {i18n(v ? 'yes' : 'no')}
         </span>
