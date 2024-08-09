@@ -13,15 +13,12 @@ window.history.scrollRestoration = "manual";
 export function Wall() {
 	const artworksDB = useArtworksDBResource()
 
-	const [{ appliedFilters, sort }] = useWallModel()
+	const { wallModel: { appliedFilters, sort } } = useWallModel()
 
 	const filteredArtworks = () => {
 		const filtered = applyFilters(appliedFilters, artworksDB?.()?.artworks ?? [])
-
 		applySort(sort, filtered)
-
 		console.log('compute', { db: artworksDB?.()?.artworks, filtered })
-
 		return filtered
 	}
 

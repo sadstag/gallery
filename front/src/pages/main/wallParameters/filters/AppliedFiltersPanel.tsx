@@ -1,13 +1,10 @@
-import type { AppliedFilter } from '../../../../model/wall/Filter'
+import { useWallModel } from '../../../../context/WallModelProvider'
 import { AddFilterButton } from './AddFilterButton'
-import styles from './wallParameters.module.css'
+import styles from './filters.module.css'
 
-type Props = {
-    filters: AppliedFilter[]
-    onNewFilter: (filter: AppliedFilter) => void
-}
+export const AppliedFiltersPanel = () => {
 
-export const AppliedFiltersPanel = ({ filters, onNewFilter }: Props) => {
+    const { wallModel: { appliedFilters } } = useWallModel()
 
-    return <div class={styles.filtersPanel}>Applied filters : {filters.length}<AddFilterButton onNewFilter={onNewFilter} /></div>
+    return <div class={styles.filtersPanel}>Applied filters : {appliedFilters.length}<AddFilterButton /></div>
 }

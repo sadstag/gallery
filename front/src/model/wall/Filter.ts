@@ -21,24 +21,23 @@ type FilterOnRange =
 	  }
 
 // filtering just by artwork reference
-
-type AppliedFilterOnId = {
+export type AppliedFilterOnId = {
 	on: 'id'
 	value: FilterOnText
 }
 
-type AppliedFilterOnAvailable = {
+export type AppliedFilterOnAvailable = {
 	on: 'available'
 	value: FilterOnBoolean
 }
 
 // filtering on title, description, remarks and any other textual content
-type AppliedFilterOnTextContent = {
+export type AppliedFilterOnTextContent = {
 	on: 'textContent'
 	value: FilterOnText
 }
 
-type AppliedFilterOnYear = {
+export type AppliedFilterOnYear = {
 	on: 'year'
 	value: FilterOnRange
 }
