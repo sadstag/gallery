@@ -1,5 +1,8 @@
 :root {
-  --background-color: hsl(0, 0%, 10%);
+  --header-background-color: hsl(0, 0%, 15%);
+  --body-background-color: hsl(0, 0%, 10%);
+  --footer-background-color: var(--header-background-color);
+
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
 
   /* color-scheme: light dark; */
@@ -12,7 +15,7 @@
 }
 
 body {
-  background: var(--background-color);
+  background: var(--body-background-color);
   color :white;
   margin: 0;
   user-select: none;

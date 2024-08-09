@@ -1,4 +1,6 @@
 .body {
     flex-grow: 1;
     overflow-y: scroll;
+    scrollbar-color: rgba(255,255,255, 50%) #FFF;
+    padding: 0 12px;
 }

@@ -4,6 +4,8 @@
     display: flex;
     flex-direction: row;
 
+    background: var(--header-background-color);
+
     padding: 8px;
 
     >h1 {

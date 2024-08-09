@@ -14,6 +14,7 @@ export function Body(props: ParentProps) {
     useBeforeLeave(() => {
         window.history.replaceState({ scrollPosition: ref.scrollTop }, "")
     })
+
     // @ts-ignore
     return <div ref={ref} class={styles.body}>{props.children}</div>
 }

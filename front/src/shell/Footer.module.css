@@ -1,4 +1,7 @@
 .footer {
+    background: var(--footer-background-color);
     flex-grow: 0;
+    flex-shrink: 0;
     height: 30px;
+    padding: 8px;
 }
