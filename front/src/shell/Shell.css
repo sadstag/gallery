@@ -3,6 +3,8 @@
   --body-background-color: hsl(0, 0%, 10%);
   --footer-background-color: var(--header-background-color);
 
+  --filter-card-background-color: blue; /* hsl(0, 0%, 20%);*/
+
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
 
   /* color-scheme: light dark; */

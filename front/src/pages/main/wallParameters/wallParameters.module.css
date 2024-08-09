@@ -1,0 +1,21 @@
+.parameters {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-evenly;
+    margin: 12px 0;
+
+    >.filtersPanel {
+        background: var(--filter-card-background-color);
+        border: thin dotted white;
+        padding: 0.5em;
+    }
+    
+    >.sortPanel {
+        background: var(--filter-card-background-color);
+        border: thin dotted yellow;
+        padding: 0.5em;
+
+    }
+}
+
+

@@ -2,6 +2,7 @@ import { Match, Switch } from 'solid-js'
 import { useArtworkImagesDBResource } from '../../context/ArtworkImagesDBProvider'
 import { useArtworksDBResource } from '../../context/ArtworksDBProvider'
 import { useContent } from '../../context/ContentProvider'
+import { WallModelProvider } from '../../context/WallModelProvider'
 import { Wall } from './Wall'
 
 const Loader = () => <div>LOADER</div>
@@ -16,7 +17,7 @@ export const MainPage = () => {
     const dataLoadingFailed = () => content?.error || artworksDB?.error || artworkImagesDB?.error
 
     return (
-        <Switch fallback={<Wall />}>
+        <Switch fallback={<WallModelProvider><Wall /></WallModelProvider>}>
             <Match when={dataIsLoading()}>
                 <Loader />
             </Match>

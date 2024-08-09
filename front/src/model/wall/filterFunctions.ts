@@ -1,31 +1,46 @@
 import type { Artwork } from '../Artwork'
-import type { Filter, FilterType } from './Filter'
+import type { AppliedFilter, FilterType } from './Filter'
 
 function escapeRegExp(text: string) {
 	return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&')
 }
 
-export const filterFunctions: {
-	[F in FilterType]: (filter: Filter[F]) => (a: Artwork) => boolean
+const T = () => true
+
+const filterFunctions: {
+	[F in FilterType]: (filter: AppliedFilter['value']) => (a: Artwork) => boolean
 } = {
 	id: filter => {
-		const re = new RegExp(escapeRegExp(filter.contains), 'gi')
+		if (!('contains' in filter)) {
+			return T
+		}
+		const re = new RegExp(escapeRegExp(filter.contains.trim()), 'gi')
 		return ({ id }) => re.test(id)
 	},
 
-	available:
-		({ mustBeTrue }) =>
-		({ available }) =>
-			available === mustBeTrue,
+	available: filter => ('mustBeTrue' in filter ? ({ available }) => available === filter.mustBeTrue : T),
 
 	textContent: filter => {
-		const re = new RegExp(escapeRegExp(filter.contains), 'gi')
+		if (!('contains' in filter)) {
+			return T
+		}
+		const re = new RegExp(escapeRegExp(filter.contains.trim()), 'gi')
 		return ({ title = '', description = '', remarks = '' }) =>
 			re.test(title) || re.test(description) || re.test(remarks)
 	},
 
-	year:
-		({ min = Number.NEGATIVE_INFINITY, max = Number.POSITIVE_INFINITY }) =>
-		({ year }) =>
-			year === undefined ? true : year > min && year < max,
+	year: filter => {
+		if (!('min' in filter || 'max' in filter)) {
+			return T
+		}
+		const { min = Number.NEGATIVE_INFINITY, max = Number.POSITIVE_INFINITY } = filter
+		return ({ year }) => (year === undefined ? true : year >= min && year <= max)
+	},
+}
+
+export function applyFilters(filters: AppliedFilter[], artworks: Artwork[]): Artwork[] {
+	return filters.reduce(
+		(artworksBeingFiltered, { on, value }) => artworksBeingFiltered.filter(filterFunctions[on](value)),
+		artworks,
+	)
 }

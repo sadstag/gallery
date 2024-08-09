@@ -1,9 +1,7 @@
-import type { ArtworkId } from '../Base'
-import type { AppliedFilters } from './Filter'
+import type { AppliedFilter } from './Filter'
 import type { Sort } from './Sort'
 
 export type WallModel = {
-	filtered: ArtworkId[]
+	appliedFilters: AppliedFilter[]
 	sort: Sort
-	filters: AppliedFilters
 }
