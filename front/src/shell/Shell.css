@@ -26,10 +26,6 @@ body {
   font-size: 12px;
 }
 
-h1 {
-  font-size: 1.5em;
-}
-
 #shell {
   height: 100vh;
   display: flex;
