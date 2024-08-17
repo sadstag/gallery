@@ -5,7 +5,7 @@ import styles from './wallParameters.module.css'
 
 export const SortPanel = () => {
 
-    const { wallModel: { sort }, invertSortDirection, setSort } = useWallModel()
+    const [{ sort }, { invertSortDirection, setSort }] = useWallModel()
 
     return <div class={styles.sortPanel}>
         Sort on <select value={sort.on} onChange={

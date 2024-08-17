@@ -3,7 +3,11 @@
   --body-background-color: hsl(0, 0%, 10%);
   --footer-background-color: var(--header-background-color);
 
-  --filter-card-background-color: blue; /* hsl(0, 0%, 20%);*/
+  --button-background-color:  hsl(0, 0%, 20%);
+  --button-color:  white;
+  --button-border: thin solid hsl(0, 0%, 30%);
+  --button-hover-background-color:  hsl(0, 0%, 30%);
+  --button-hover-border: thin solid hsl(0, 0%, 40%);
 
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
 

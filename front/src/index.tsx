@@ -10,6 +10,8 @@ import { lazy } from "solid-js";
 import { NotFound } from "./pages/NotFound";
 import { Shell } from "./shell/Shell";
 
+import 'solid-devtools'
+
 const root = document.getElementById("root");
 
 if (root) {

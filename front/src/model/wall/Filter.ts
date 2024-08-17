@@ -1,24 +1,15 @@
-type FilterOnBoolean = {
-	mustBeTrue: boolean
+type FilterOnBoolean<V extends boolean = boolean> = {
+	mustBeTrue: V
 }
 
 type FilterOnText = {
 	contains: string
 }
 
-type FilterOnRange =
-	| {
-			min: number
-			max: number
-	  }
-	| {
-			min?: number
-			max: number
-	  }
-	| {
-			min: number
-			max?: number
-	  }
+type FilterOnRange = {
+	min: number
+	max: number
+}
 
 // filtering just by artwork reference
 export type AppliedFilterOnId = {
@@ -28,7 +19,7 @@ export type AppliedFilterOnId = {
 
 export type AppliedFilterOnAvailable = {
 	on: 'available'
-	value: FilterOnBoolean
+	value: FilterOnBoolean<true>
 }
 
 // filtering on title, description, remarks and any other textual content

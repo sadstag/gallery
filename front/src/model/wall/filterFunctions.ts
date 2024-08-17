@@ -18,7 +18,10 @@ const filterFunctions: {
 		return ({ id }) => re.test(id)
 	},
 
-	available: filter => ('mustBeTrue' in filter ? ({ available }) => available === filter.mustBeTrue : T),
+	available:
+		() =>
+		({ available }) =>
+			available ?? false,
 
 	textContent: filter => {
 		if (!('contains' in filter)) {
@@ -30,7 +33,7 @@ const filterFunctions: {
 	},
 
 	year: filter => {
-		if (!('min' in filter || 'max' in filter)) {
+		if (!('min' in filter && 'max' in filter)) {
 			return T
 		}
 		const { min = Number.NEGATIVE_INFINITY, max = Number.POSITIVE_INFINITY } = filter

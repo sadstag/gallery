@@ -13,7 +13,7 @@ window.history.scrollRestoration = "manual";
 export function Wall() {
 	const artworksDB = useArtworksDBResource()
 
-	const { wallModel: { appliedFilters, sort } } = useWallModel()
+	const [{ appliedFilters, sort }] = useWallModel()
 
 	const filteredArtworks = () => {
 		const filtered = applyFilters(appliedFilters, artworksDB?.()?.artworks ?? [])
@@ -25,8 +25,7 @@ export function Wall() {
 
 	return (
 		<>
-			<WallParameters
-			/>
+			<WallParameters />
 			<div class={styles.wall}>
 				<For each={filteredArtworks()}>
 					{artwork => <ArtworkBloc artwork={artwork} />}

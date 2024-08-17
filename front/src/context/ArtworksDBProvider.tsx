@@ -12,8 +12,13 @@ type ArtworksDB = {
         generated: string
         source: string
     }
-
     artworks: Artwork[]
+}
+
+// synthetic data concerning all artworks :
+// min/max year, categories ...
+type ArtworksMemo = {
+    year: { min: number, max: number }
 }
 
 type IndexedArtworks = {
@@ -48,7 +53,28 @@ export function useArtworksDBResource() {
 export function useArtworks() {
     const resolvedResourceContext = useArtworksDBResource()
     const artworkDB = resolvedResourceContext?.()
-    return indexArtworks(artworkDB?.artworks ?? [])
+    const artworks = artworkDB?.artworks ?? []
+    return indexArtworks(artworks)
+}
+
+export function useArtworksMemo(): ArtworksMemo {
+    const resolvedResourceContext = useArtworksDBResource()
+    const artworkDB = resolvedResourceContext?.()
+    const artworks = artworkDB?.artworks ?? []
+
+    const yearMemo = { min: Number.MAX_SAFE_INTEGER, max: Number.MIN_SAFE_INTEGER }
+    for (const { year } of artworks) {
+        if (year !== undefined) {
+            if (year < yearMemo.min) {
+                yearMemo.min = year
+            } else if (year > yearMemo.max) {
+                yearMemo.max = year
+            }
+        }
+    }
+    // TODO categories
+
+    return { year: yearMemo }
 }
 
 export function useArtwork(id: string) {

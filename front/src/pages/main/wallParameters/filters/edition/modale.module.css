@@ -1,0 +1,74 @@
+.modale {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: hsla(0, 0%, 0%, 0.8);
+
+    border: 2em solid black;
+    padding: 2em;
+
+    .panels {
+        display :flex;
+        flex-direction: column;
+        list-style-type: none;
+        gap: 1em;
+        >* {
+            width: 100%;
+        }
+    }
+}
+
+.close {
+    position: absolute;
+    top: 0;
+    right:0;
+}
+
+.panel {
+    display: flex;
+    flex-direction: row;
+    background: hsla(0, 0%, 100%, 0.1);
+    border: 2px solid hsla(0, 0%, 100%, 0.15);
+    border-radius: 6px;
+    padding: 0.8em 0.6em;
+    gap: 1em;
+  
+    transition: all 200ms ease-in;
+
+    &:hover {
+        background-color: hsla(0, 0%, 100%, 0.15);
+        border: 2px solid hsla(0, 0%, 100%, 0.2);
+    }
+
+    &.filterIsSet {
+        background-color: hsla(120, 50%, 25%, 0.4);
+        border-color: hsla(120, 50%, 25%, 0.7);
+        &:hover {
+            background-color: hsla(120, 50%, 25%, 0.6);
+            border-color: hsla(120, 50%, 25%, 0.8);
+        }
+    }
+
+    .title {
+        margin: 0;
+        flex-grow: 0;
+        flex-shrink: 0;
+    }
+
+    .content {
+        flex-grow: 1;
+        flex-shrink: 1;
+    }
+
+    .remove {
+        border: none;
+        background: none;
+        color :white;
+        cursor: pointer;
+        flex-grow: 0;
+        flex-shrink: 0;
+        text-decoration: underline;
+    }
+}

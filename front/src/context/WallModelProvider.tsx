@@ -4,16 +4,19 @@ import {
     useContext
 } from 'solid-js'
 import { createStore, produce } from 'solid-js/store'
-import type { AppliedFilter } from '../model/wall/Filter'
+import type { AppliedFilter, FilterType, } from '../model/wall/Filter'
 import type { Sort } from '../model/wall/Sort'
 import type { WallModel } from '../model/wall/WallModel'
 
-type WallModelContextValue = {
-    wallModel: WallModel
-    invertSortDirection: () => void
-    setSort: (sort: Sort) => void
-    addNewFilter: (filter: AppliedFilter) => void
-}
+type WallModelContextValue = [
+    wallModel: WallModel,
+    operations: {
+        invertSortDirection: () => void
+        setSort: (sort: Sort) => void
+        setFilter: (filter: AppliedFilter) => void
+        removeFilter: (type: FilterType) => void
+    }
+]
 
 const WallModelContext = createContext<WallModelContextValue>()
 
@@ -23,26 +26,42 @@ export function WallModelProvider(props: ParentProps) {
         appliedFilters: [
             //{ on: 'year', value: { min: 2021, max: 2021 } }
             //{ on: 'textContent', value: { contains: 'BlEu' } }
-        ], sort: { on: 'year', direction: 'desc' }
+        ],
+        sort: { on: 'year', direction: 'desc' }
     })
 
-    const value = {
+    const value: WallModelContextValue = [
         wallModel,
-        invertSortDirection() {
-            setWallModel('sort', produce((sort: Sort) => {
-                sort.direction = sort.direction === 'asc' ? 'desc' : 'asc'
-            }))
-        },
-        setSort(sort: Sort) {
-            setWallModel('sort', sort)
-        },
-        addNewFilter(filter: AppliedFilter) {
-            if (wallModel.appliedFilters.find(({ on }) => on === filter.on)) {
-                throw "can't add filter : filter type already applied"
+        {
+            invertSortDirection() {
+                setWallModel('sort', produce((sort: Sort) => {
+                    sort.direction = sort.direction === 'asc' ? 'desc' : 'asc'
+                }))
+            },
+            setSort(sort: Sort) {
+                setWallModel('sort', sort)
+            },
+            setFilter(filter: AppliedFilter) {
+                setWallModel('appliedFilters', produce((appliedFilters) => {
+                    const pos = appliedFilters.findIndex(({ on }) => on === filter.on)
+                    if (pos === -1) {
+                        appliedFilters.push(filter)
+                    } else {
+                        appliedFilters.splice(pos, 1, filter)
+                    }
+                }))
+            },
+            removeFilter(type: FilterType) {
+                setWallModel('appliedFilters', produce((appliedFilters) => {
+                    const pos = appliedFilters.findIndex(({ on }) => on === type)
+                    if (pos >= 0) {
+                        appliedFilters.splice(pos, 1)
+                    }
+                }
+                ))
             }
-            setWallModel('appliedFilters', produce((appliedFilters) => appliedFilters.push(filter)))
         }
-    }
+    ]
 
     return (
         <WallModelContext.Provider value={value}>
