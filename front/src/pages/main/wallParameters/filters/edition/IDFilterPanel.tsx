@@ -5,7 +5,7 @@ import { FilterPanel } from "./FilterPanel"
 
 export const IdFilterPanel = () => {
 
-    const [{ appliedFilters }, { setFilter }] = useWallModel()
+    const [{ appliedFilters }, _, { setFilter }] = useWallModel()
 
     const filterValue = () => appliedFilters.find(({ on }) => on === 'id') as AppliedFilterOnId | undefined
 
