@@ -34,8 +34,8 @@ case "$COMMAND" in
    "terraform") invoke_terraform $*;;
    "ingest") invoke "python -m cli ingest $*";;
    "resize") invoke "python -m cli resize $*";;
-   "sync_bucket") invoke "python -m cli sync_bucket $*";;
    "build_front") invoke_front "pnpm build";;
+   "sync_bucket") invoke "python -m cli sync_bucket $*";;
    "dev_front") invoke_front "pnpm dev";;
    "preview_front") invoke_front "pnpm preview";;
    "build_server") invoke "python -m cli build_server";;
