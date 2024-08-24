@@ -27,6 +27,9 @@ class ArtworkProperty(StrEnum):
     # stock
     AVAILABLE = auto()
 
+    # webiste technical
+    DEFAULT_SORT = auto()
+
 
 def build_artwork_property_columns(
     column_ids_row: List[str],

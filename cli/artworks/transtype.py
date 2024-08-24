@@ -15,6 +15,7 @@ transtypers = {
     ArtworkProperty.HEIGHT: transtyper_int,
     ArtworkProperty.DEPTH: transtyper_int,
     ArtworkProperty.AVAILABLE: transtyper_bool,
+    ArtworkProperty.DEFAULT_SORT: transtyper_int,
 }
 
 

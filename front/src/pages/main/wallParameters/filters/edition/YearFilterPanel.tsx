@@ -22,8 +22,6 @@ export const YearFilterPanel = () => {
     const setMin = (min: number) => setFilter({ on: 'year', value: { ...yearFilter().value, min } })
     const setMax = (max: number) => setFilter({ on: 'year', value: { ...yearFilter().value, max } })
 
-
-
     return <FilterPanel filterType="year" title="Year">
         Created after <YearSelector value={yearFilter().value.min} onChange={setMin} />
         and before <YearSelector value={yearFilter().value.max} onChange={setMax} />

@@ -15,4 +15,7 @@ export type Artwork = {
 	support?: string
 
 	available?: boolean
+
+	// biome-ignore lint/style/useNamingConvention: <explanation>
+	default_sort?: number
 }

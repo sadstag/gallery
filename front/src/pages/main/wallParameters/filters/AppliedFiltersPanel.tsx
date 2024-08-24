@@ -4,7 +4,7 @@ import { Button } from '../../../../design-system/Button/Button'
 import { FiltersEditionModale } from './edition/Modale'
 
 export const AppliedFiltersPanel = () => {
-    const [showFilterCreationModale, setShowFilterCreationModale] = createSignal(true)
+    const [showFilterCreationModale, setShowFilterCreationModale] = createSignal(false)
 
     const [{ appliedFilters }] = useWallModel()
     return <>

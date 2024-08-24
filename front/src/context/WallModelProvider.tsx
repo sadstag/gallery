@@ -27,7 +27,7 @@ export function WallModelProvider(props: ParentProps) {
             //{ on: 'year', value: { min: 2021, max: 2021 } }
             //{ on: 'textContent', value: { contains: 'BlEu' } }
         ],
-        sort: { on: 'year', direction: 'desc' }
+        sort: { on: 'defaultSort', direction: 'asc' }
     })
 
     const value: WallModelContextValue = [
