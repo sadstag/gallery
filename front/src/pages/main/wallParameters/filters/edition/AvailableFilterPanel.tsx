@@ -7,7 +7,7 @@ import { FilterPanel } from "./FilterPanel"
 
 export const AvailableFilterPanel = () => {
 
-    const [{ appliedFilters }, _, { setFilter, removeFilter }] = useWallModel()
+    const [{ appliedFilters }, _, _2, { setFilter, removeFilter }] = useWallModel()
 
     const isSet = () => appliedFilters.find((filter) => filter.on === 'available') !== undefined
 

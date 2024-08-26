@@ -1,0 +1,61 @@
+:root {
+    --select-border: #777;
+    --select-focus: blue;
+    --select-arrow: var(--select-border);
+}
+
+select {
+    appearance: none;
+    background-color: transparent;
+    border: none;
+    padding: 0.5em 1.5em 0.5em 0.5em;
+    margin: 0;
+    width: 100%;
+    font-family: inherit;
+    font-size: inherit;
+    cursor: inherit;
+    line-height: inherit;
+    outline: none;
+
+    color: white;
+}
+
+.select {
+    width: 100%;
+    /* min-width: 15ch;
+    max-width: 30ch; */
+    border: thin solid var(--button-border);
+    border-radius: 3px;
+
+    padding: 0.25em 0.5em;
+    /* font-size: 1.25em; */
+    cursor: pointer;
+    line-height: 1.1;
+    /* background-color: #fff; */
+    color: white;
+    /* background-image: linear-gradient(to top, #f9f9f9, #fff 33%); */
+
+    display: grid;
+    grid-template-areas: "select";
+    align-items: center;
+
+    &::after {
+        content: "";
+        width: 0.8em;
+        height: 0.5em;
+        background-color: var(--select-arrow);
+        clip-path: polygon(100% 0%, 0 0%, 50% 100%);
+
+        justify-self: end;
+    }
+
+    &:focus-within {
+        border: 2px solid var(--select-focus);
+        border-radius: inherit;
+    }
+  }
+
+select,
+.select:after {
+  grid-area: select;
+}

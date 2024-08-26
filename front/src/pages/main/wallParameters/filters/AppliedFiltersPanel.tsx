@@ -6,11 +6,12 @@ import { FiltersEditionModale } from './edition/Modale'
 export const AppliedFiltersPanel = () => {
     const [showFilterCreationModale, setShowFilterCreationModale] = createSignal(false)
 
-    const [{ appliedFilters }] = useWallModel()
+    const [wallModel] = useWallModel()
+
     return <>
-        <Button onClick={() => setShowFilterCreationModale(true)}>
-            <Show when={appliedFilters.length > 0} fallback="Apply filter">
-                Fitering on {appliedFilters.length} <Show when={appliedFilters.length > 1} fallback="criterion">criteria</Show>
+        <Button onClick={() => setShowFilterCreationModale(true)} highlighted={wallModel.appliedFilters.length > 0}>
+            <Show when={wallModel.appliedFilters.length > 0} fallback="No active filter">
+                {wallModel.appliedFilters.length} <Show when={wallModel.appliedFilters.length > 1} fallback="filter">filters</Show> applied
             </Show>
         </Button>
         <Show when={showFilterCreationModale()}>

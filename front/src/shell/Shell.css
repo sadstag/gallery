@@ -5,9 +5,16 @@
 
   --button-background-color:  hsl(0, 0%, 20%);
   --button-color:  white;
-  --button-border: thin solid hsl(0, 0%, 30%);
+  --button-border: hsl(0, 0%, 30%);
   --button-hover-background-color:  hsl(0, 0%, 30%);
-  --button-hover-border: thin solid hsl(0, 0%, 40%);
+  --button-hover-border: hsl(0, 0%, 40%);
+
+  --button-highlighted-background-color:  hsla(120, 100%, 50%, 0.1);
+  --button-highlighted-color:  hsl(120, 100%, 60%);
+  --button-highlighted-border: hsl(120, 60%, 30%);
+  --button-highlighted-hover-background-color:  hsla(120, 100%, 50%, 0.2);
+  --button-highlighted-hover-color:   hsl(120, 100%, 70%);
+  --button-highlighted-hover-border: hsl(120, 60%, 50%);
 
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
 
@@ -18,6 +25,12 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 
 body {

@@ -16,6 +16,8 @@ export type Artwork = {
 
 	available?: boolean
 
-	// biome-ignore lint/style/useNamingConvention: <explanation>
+	// biome-ignore lint/style/useNamingConvention: umastered python code
 	default_sort?: number
+	// biome-ignore lint/style/useNamingConvention: umastered python code
+	hidden_at_first?: boolean
 }

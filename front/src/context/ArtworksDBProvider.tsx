@@ -54,7 +54,11 @@ export function useArtworks() {
     const resolvedResourceContext = useArtworksDBResource()
     const artworkDB = resolvedResourceContext?.()
     const artworks = artworkDB?.artworks ?? []
-    return indexArtworks(artworks)
+    return artworks
+}
+
+export function useIndexedArtworks() {
+    return indexArtworks(useArtworks())
 }
 
 export function useArtworksMemo(): ArtworksMemo {
@@ -78,6 +82,6 @@ export function useArtworksMemo(): ArtworksMemo {
 }
 
 export function useArtwork(id: string) {
-    const artworks = useArtworks()
+    const artworks = useIndexedArtworks()
     return artworks[id]
 }

@@ -10,11 +10,11 @@ const T = () => true
 const filterFunctions: {
 	[F in FilterType]: (filter: AppliedFilter['value']) => (a: Artwork) => boolean
 } = {
-	id: filter => {
-		if (!('contains' in filter)) {
+	id: filterValue => {
+		if (!('contains' in filterValue)) {
 			return T
 		}
-		const re = new RegExp(escapeRegExp(filter.contains.trim()), 'gi')
+		const re = new RegExp(escapeRegExp(filterValue.contains.trim()), 'gi')
 		return ({ id }) => re.test(id)
 	},
 
@@ -23,21 +23,28 @@ const filterFunctions: {
 		({ available }) =>
 			available ?? false,
 
-	textContent: filter => {
-		if (!('contains' in filter)) {
+	textContent: filterValue => {
+		if (!('contains' in filterValue)) {
 			return T
 		}
-		const re = new RegExp(escapeRegExp(filter.contains.trim()), 'gi')
+		const re = new RegExp(escapeRegExp(filterValue.contains.trim()), 'gi')
 		return ({ title = '', description = '', remarks = '' }) =>
 			re.test(title) || re.test(description) || re.test(remarks)
 	},
 
-	year: filter => {
-		if (!('min' in filter && 'max' in filter)) {
+	year: filterValue => {
+		if (!('min' in filterValue && 'max' in filterValue)) {
 			return T
 		}
-		const { min = Number.NEGATIVE_INFINITY, max = Number.POSITIVE_INFINITY } = filter
+		const { min = Number.NEGATIVE_INFINITY, max = Number.POSITIVE_INFINITY } = filterValue
 		return ({ year }) => (year === undefined ? true : year >= min && year <= max)
+	},
+
+	hideArtworksHiddenAtFirst: filter => {
+		if (!('mustBeTrue' in filter)) {
+			return T
+		}
+		return ({ hidden_at_first = false }) => !hidden_at_first
 	},
 }
 

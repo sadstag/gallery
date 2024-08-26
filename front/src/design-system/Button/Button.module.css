@@ -1,13 +1,24 @@
 .button {
-    background: var(--button-background-color);
+    background-color: var(--button-background-color);
     color: var(--button-color);
-    border: var(--button-border);
+    border: thin solid var(--button-border);
     padding: 0.5em;
     cursor: pointer;
     border-radius: 3px;
 
+    &.highlighted {
+        background-color: var(--button-highlighted-background-color);
+        color: var(--button-highlighted-color);
+        border-color: var(--button-highlighted-border);
+        &:hover {
+            background-color: var(--button-highlighted-hover-background-color);
+            color: var(--button-highlighted-hover-color);
+            border-color: var(--button-highlighted-hover-border);
+        }
+    }
+
     &:hover {
         background-color: var(--button-hover-background-color);
-        border: var(--button-hover-border);
+        border-color: var(--button-hover-border);
     }
 }

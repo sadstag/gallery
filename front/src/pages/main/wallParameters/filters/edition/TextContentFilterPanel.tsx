@@ -5,7 +5,7 @@ import { FilterPanel } from "./FilterPanel"
 
 export const TextContentFilterPanel = () => {
 
-    const [{ appliedFilters }, _, { setFilter, removeFilter }] = useWallModel()
+    const [{ appliedFilters }, _, _2, { setFilter, removeFilter }] = useWallModel()
 
     const filterValue = () => appliedFilters.find(({ on }) => on === 'textContent') as AppliedFilterOnTextContent | undefined
 

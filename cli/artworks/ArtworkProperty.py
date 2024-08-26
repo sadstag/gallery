@@ -28,6 +28,7 @@ class ArtworkProperty(StrEnum):
     AVAILABLE = auto()
 
     # webiste technical
+    HIDDEN_AT_FIRST = auto()
     DEFAULT_SORT = auto()
 
 

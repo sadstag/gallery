@@ -5,7 +5,7 @@ import {
     useContext
 } from 'solid-js'
 import { createStore, produce } from 'solid-js/store'
-import type { AppliedFilter, FilterType, } from '../model/wall/Filter'
+import { type AppliedFilter, type FilterType, filterTypes, } from '../model/wall/Filter'
 import { type Sort, type SortType, sortTypes } from '../model/wall/Sort'
 import type { WallModel } from '../model/wall/WallModel'
 import { useArtworks } from './ArtworksDBProvider'
@@ -13,6 +13,7 @@ import { useArtworks } from './ArtworksDBProvider'
 type WallModelContextValue = [
     wallModel: WallModel,
     availableSorts: SortType[],
+    availableFilters: FilterType[],
     operations: {
         invertSortDirection: () => void
         setSort: (sort: Sort) => void
@@ -25,27 +26,36 @@ const WallModelContext = createContext<WallModelContextValue>()
 
 export function WallModelProvider(props: ParentProps) {
 
-    const artworks = Object.values(useArtworks())
+    const artworks = useArtworks()
+
     const availableSorts = createMemo(() =>
         sortTypes.filter(
             sortType => sortType !== 'defaultSort' || artworks.some(({ default_sort }) => default_sort !== undefined),
         ))
 
+    const availableFilters = createMemo(() =>
+        filterTypes.filter(
+            filterType => filterType !== 'hideArtworksHiddenAtFirst' || artworks.some(({ hidden_at_first }) => hidden_at_first !== undefined)
+        )
+    )
+
     const initialSort: Sort = availableSorts().includes('defaultSort')
         ? { on: 'defaultSort', direction: 'asc' }
         : { on: 'year', direction: 'desc' }
 
+    const initialAppliedFilters: AppliedFilter[] = availableFilters().includes('hideArtworksHiddenAtFirst') ? [
+        { on: 'hideArtworksHiddenAtFirst', value: { mustBeTrue: true } }
+    ] : []
+
     const [wallModel, setWallModel] = createStore<WallModel>({
-        appliedFilters: [
-            //{ on: 'year', value: { min: 2021, max: 2021 } }
-            //{ on: 'textContent', value: { contains: 'BlEu' } }
-        ],
+        appliedFilters: initialAppliedFilters,
         sort: initialSort
     })
 
     const value: WallModelContextValue = [
         wallModel,
         availableSorts(),
+        availableFilters(),
         {
             invertSortDirection() {
                 setWallModel('sort', produce((sort: Sort) => {
@@ -56,20 +66,20 @@ export function WallModelProvider(props: ParentProps) {
                 setWallModel('sort', sort)
             },
             setFilter(filter: AppliedFilter) {
-                setWallModel('appliedFilters', produce((appliedFilters) => {
-                    const pos = appliedFilters.findIndex(({ on }) => on === filter.on)
+                setWallModel(produce((wallModel) => {
+                    const pos = wallModel.appliedFilters.findIndex(({ on }) => on === filter.on)
                     if (pos === -1) {
-                        appliedFilters.push(filter)
+                        wallModel.appliedFilters.push(filter)
                     } else {
-                        appliedFilters.splice(pos, 1, filter)
+                        wallModel.appliedFilters.splice(pos, 1, filter)
                     }
                 }))
             },
             removeFilter(type: FilterType) {
-                setWallModel('appliedFilters', produce((appliedFilters) => {
-                    const pos = appliedFilters.findIndex(({ on }) => on === type)
+                setWallModel(produce((wallModel) => {
+                    const pos = wallModel.appliedFilters.findIndex(({ on }) => on === type)
                     if (pos >= 0) {
-                        appliedFilters.splice(pos, 1)
+                        wallModel.appliedFilters.splice(pos, 1)
                     }
                 }
                 ))

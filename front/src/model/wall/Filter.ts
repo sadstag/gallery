@@ -17,7 +17,7 @@ export type AppliedFilterOnId = {
 	value: FilterOnText
 }
 
-export type AppliedFilterOnAvailable = {
+export type ShowOnlyAvailable = {
 	on: 'available'
 	value: FilterOnBoolean<true>
 }
@@ -33,10 +33,18 @@ export type AppliedFilterOnYear = {
 	value: FilterOnRange
 }
 
+export type HideArtworksHiddenAtFirst = {
+	on: 'hideArtworksHiddenAtFirst'
+	value: FilterOnBoolean<true>
+}
+
 export type AppliedFilter =
 	| AppliedFilterOnId
-	| AppliedFilterOnAvailable
+	| ShowOnlyAvailable
 	| AppliedFilterOnTextContent
 	| AppliedFilterOnYear
+	| HideArtworksHiddenAtFirst
 
 export type FilterType = AppliedFilter['on']
+
+export const filterTypes: FilterType[] = ['available', 'year', 'textContent', 'hideArtworksHiddenAtFirst', 'id']
