@@ -1,4 +1,8 @@
 .button {
+    display: flex;
+    gap: 0.5em;
+    align-items: center;
+    
     background-color: var(--button-background-color);
     color: var(--button-color);
     border: thin solid var(--button-border);

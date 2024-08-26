@@ -1,7 +1,9 @@
 
 import { useWallModel } from '../../../context/WallModelProvider'
+import { Button } from '../../../design-system/Button/Button'
+import { SortIcon } from '../../../design-system/Icon/SortIcon'
 import { Select } from '../../../design-system/Select/Select'
-import { type SortType, preferedDirectionForSortType } from '../../../model/wall/Sort'
+import { type SortType, preferedDirectionForSortType, sortTypeLabels } from '../../../model/wall/Sort'
 import styles from '../Wall.module.css'
 
 export const SortPanel = () => {
@@ -19,11 +21,13 @@ export const SortPanel = () => {
             }
             options={
                 wallModel.availableSorts.map(
-                    sortType => ({ value: sortType, label: sortType })
+                    sortType => ({ value: sortType, label: sortTypeLabels[sortType] })
                 )
             }
         />
-
-        (<button type="button" onClick={invertSortDirection}>{wallModel.sort.direction}</button>)
+        <Button onClick={invertSortDirection}>
+            <SortIcon classList={{ [styles['sort-icon']]: true, [styles.descending]: wallModel.sort.direction === 'desc' }} />
+            {wallModel.sort.direction === 'asc' ? 'ascending' : 'descending'}
+        </Button>
     </div>
 }

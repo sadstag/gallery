@@ -2,6 +2,12 @@ import { produce } from 'solid-js/store'
 
 export const sortTypes = ['defaultSort', 'year', 'area'] as const
 
+export const sortTypeLabels: { [T in SortType]: string } = {
+	defaultSort: 'author sort',
+	year: 'year',
+	area: 'area',
+}
+
 export const preferedDirectionForSortType: { [T in SortType]: SortDirection } = {
 	defaultSort: 'asc',
 	year: 'desc',
