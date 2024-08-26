@@ -11,6 +11,13 @@ type FilterOnRange = {
 	max: number
 }
 
+export function ensureMinMaxOrdered(range: FilterOnRange): FilterOnRange {
+	if (range.min <= range.max) {
+		return range
+	}
+	return { min: range.max, max: range.min }
+}
+
 // filtering just by artwork reference
 export type AppliedFilterOnId = {
 	on: 'id'

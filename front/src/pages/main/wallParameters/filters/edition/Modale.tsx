@@ -29,7 +29,7 @@ export const FiltersEditionModale = ({ onClose }: Props) => {
     return <Portal>
         <div class={styles.modale}>
             <div class={styles.wrapper}>
-                <h2>Filters: {wallModel.appliedFilters.length} active{wallModel.appliedFilters.length > 1 ? 's' : ''} : {wallModel.filteredArtworks.length}/{wallModel.artworks.length} artworks displayed</h2>
+                <h2>Filters: {wallModel.appliedFilters.length} applied, {wallModel.filteredArtworks.length}/{wallModel.artworks.length} artworks displayed</h2>
                 <div class={styles.panels}>
                     <Index each={wallModel.availableFilters}>
                         {(filterType) => <Dynamic component={filterPanels[filterType()]} />}

@@ -2,7 +2,7 @@
 import { useArtworksMemo } from "../../../../../context/ArtworksDBProvider"
 import { useWallModel } from "../../../../../context/WallModelProvider"
 import { type Option, Select } from "../../../../../design-system/Select/Select"
-import type { AppliedFilterOnYear } from "../../../../../model/wall/Filter"
+import { type AppliedFilterOnYear, ensureMinMaxOrdered } from "../../../../../model/wall/Filter"
 import { FilterPanel } from "./FilterPanel"
 
 
@@ -19,8 +19,8 @@ export const YearFilterPanel = () => {
         }
     }
 
-    const setMin = (min: number) => setFilter({ on: 'year', value: { ...yearFilter().value, min } })
-    const setMax = (max: number) => setFilter({ on: 'year', value: { ...yearFilter().value, max } })
+    const setMin = (min: number) => setFilter({ on: 'year', value: ensureMinMaxOrdered({ ...yearFilter().value, min }) })
+    const setMax = (max: number) => setFilter({ on: 'year', value: ensureMinMaxOrdered({ ...yearFilter().value, max }) })
 
     return <FilterPanel filterType="year" title="Year">
         Created after <YearSelector value={yearFilter().value.min} onChange={setMin} />

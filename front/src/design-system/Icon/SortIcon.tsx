@@ -11,7 +11,6 @@ export function SortIcon(props: Props) {
             viewBox="0 0 6 6"
             fill="white"
             classList={props.classList}
-            onClick={props.onClick}
         >
             <title>Menu icon</title>
             <rect id="r" x="0" y="0" rx="0.2" ry="0.2" width="2" height="1" />
