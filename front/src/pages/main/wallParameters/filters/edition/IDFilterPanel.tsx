@@ -5,9 +5,9 @@ import { FilterPanel } from "./FilterPanel"
 
 export const IdFilterPanel = () => {
 
-    const [{ appliedFilters }, _, _2, { setFilter }] = useWallModel()
+    const { wallModel, operations: { setFilter } } = useWallModel()
 
-    const filterValue = () => appliedFilters.find(({ on }) => on === 'id') as AppliedFilterOnId | undefined
+    const filterValue = () => wallModel.appliedFilters.find(({ on }) => on === 'id') as AppliedFilterOnId | undefined
 
     return <FilterPanel title="Reference" filterType="id">
         contains <input type="text"

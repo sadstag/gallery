@@ -8,9 +8,9 @@ import { FilterPanel } from "./FilterPanel"
 
 export const YearFilterPanel = () => {
 
-    const [{ appliedFilters }, _, _2, { setFilter }] = useWallModel()
+    const { wallModel, operations: { setFilter } } = useWallModel()
 
-    const yearFilter: () => AppliedFilterOnYear = () => appliedFilters.find((filter) => filter.on === 'year')
+    const yearFilter: () => AppliedFilterOnYear = () => wallModel.appliedFilters.find((filter) => filter.on === 'year')
         ?? {
         on: 'year',
         value: {

@@ -9,8 +9,8 @@ type Props = ParentProps<{
 }>
 
 export const FilterPanel = ({ filterType, title, children }: Props) => {
-    const [{ appliedFilters }, _, _2, { removeFilter }] = useWallModel()
-    const isSet = () => appliedFilters.find(({ on }) => on === filterType) !== undefined
+    const { wallModel, operations: { removeFilter } } = useWallModel()
+    const isSet = () => wallModel.appliedFilters.find(({ on }) => on === filterType) !== undefined
 
     const classes = () => {
         const cls = [styles.panel]

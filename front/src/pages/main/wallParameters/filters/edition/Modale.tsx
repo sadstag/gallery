@@ -24,13 +24,13 @@ const filterPanels: { [T in FilterType]: Component } = {
 
 export const FiltersEditionModale = ({ onClose }: Props) => {
 
-    const [_, _2, availableFilters] = useWallModel()
+    const { wallModel } = useWallModel()
 
     return <Portal>
         <div class={styles.modale}>
-            <h2>Filters</h2>
+            <h2>Filters: {wallModel.appliedFilters.length} actives : {wallModel.filteredArtworks.length}/{wallModel.artworks.length} artworks displayed</h2>
             <div class={styles.panels}>
-                <Index each={availableFilters}>
+                <Index each={wallModel.availableFilters}>
                     {(filterType) => <Dynamic component={filterPanels[filterType()]} />}
                 </Index>
             </div>

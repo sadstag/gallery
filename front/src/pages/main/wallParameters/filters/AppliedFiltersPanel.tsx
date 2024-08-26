@@ -6,7 +6,7 @@ import { FiltersEditionModale } from './edition/Modale'
 export const AppliedFiltersPanel = () => {
     const [showFilterCreationModale, setShowFilterCreationModale] = createSignal(false)
 
-    const [wallModel] = useWallModel()
+    const { wallModel } = useWallModel()
 
     return <>
         <Button onClick={() => setShowFilterCreationModale(true)} highlighted={wallModel.appliedFilters.length > 0}>
