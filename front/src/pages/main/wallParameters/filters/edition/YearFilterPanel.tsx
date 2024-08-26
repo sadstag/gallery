@@ -1,7 +1,7 @@
 
-import { Index, } from "solid-js"
 import { useArtworksMemo } from "../../../../../context/ArtworksDBProvider"
 import { useWallModel } from "../../../../../context/WallModelProvider"
+import { type Option, Select } from "../../../../../design-system/Select/Select"
 import type { AppliedFilterOnYear } from "../../../../../model/wall/Filter"
 import { FilterPanel } from "./FilterPanel"
 
@@ -35,7 +35,7 @@ type YearSelectorProps = {
 const YearSelector = (props: YearSelectorProps) => {
     const artworksMemo = useArtworksMemo()
 
-    const years = () => {
+    const yearsOptions = (): Option[] => {
         function* f() {
             yield Number.MIN_SAFE_INTEGER
             let y = artworksMemo.year.min;
@@ -45,20 +45,21 @@ const YearSelector = (props: YearSelectorProps) => {
             }
             yield Number.MAX_SAFE_INTEGER
         }
-        return Array.from(f())
+        return Array.from(f()).map(year => ({ value: year.toString(), label: yearDisplay(year) }))
     }
-
 
     const yearDisplay = (year: number) => {
         switch (year) {
             case Number.MIN_SAFE_INTEGER: return "Distant past";
             case Number.MAX_SAFE_INTEGER: return "Distant future";
             default:
-                return year
+                return year.toString()
         }
     }
 
-    return <select value={props.value} onChange={(e) => props.onChange(Number.parseInt(e.target.value, 10))}>
-        <Index each={years()}>{(year) => <option value={year()}>{yearDisplay(year())}</option>}</Index>
-    </select>
+    return <Select
+        value={props.value.toString()}
+        onChange={(value) => props.onChange(Number.parseInt(value, 10))}
+        options={yearsOptions()}
+    />
 }

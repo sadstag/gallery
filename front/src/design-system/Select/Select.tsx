@@ -2,7 +2,7 @@ import { For, } from 'solid-js'
 
 import styles from './Select.module.css'
 
-type Option = {
+export type Option = {
     value: string
     label: string
 }

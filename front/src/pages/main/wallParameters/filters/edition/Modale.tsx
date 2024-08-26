@@ -28,13 +28,15 @@ export const FiltersEditionModale = ({ onClose }: Props) => {
 
     return <Portal>
         <div class={styles.modale}>
-            <h2>Filters: {wallModel.appliedFilters.length} actives : {wallModel.filteredArtworks.length}/{wallModel.artworks.length} artworks displayed</h2>
-            <div class={styles.panels}>
-                <Index each={wallModel.availableFilters}>
-                    {(filterType) => <Dynamic component={filterPanels[filterType()]} />}
-                </Index>
+            <div class={styles.wrapper}>
+                <h2>Filters: {wallModel.appliedFilters.length} active{wallModel.appliedFilters.length > 1 ? 's' : ''} : {wallModel.filteredArtworks.length}/{wallModel.artworks.length} artworks displayed</h2>
+                <div class={styles.panels}>
+                    <Index each={wallModel.availableFilters}>
+                        {(filterType) => <Dynamic component={filterPanels[filterType()]} />}
+                    </Index>
+                </div>
+                <Button className={styles.close} onClick={onClose}>close</Button>
             </div>
-            <Button className={styles.close} onClick={onClose}>close</Button>
         </div>
     </Portal>
 }
