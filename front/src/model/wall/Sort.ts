@@ -1,12 +1,11 @@
 import { produce } from 'solid-js/store'
 
-export const sortTypes = ['defaultSort', 'year', 'area', 'id'] as const
+export const sortTypes = ['defaultSort', 'year', 'area'] as const
 
 export const preferedDirectionForSortType: { [T in SortType]: SortDirection } = {
 	defaultSort: 'asc',
 	year: 'desc',
 	area: 'desc',
-	id: 'asc',
 }
 
 export type SortType = (typeof sortTypes)[number]
