@@ -6,12 +6,14 @@ import {
 } from 'solid-js'
 import { createStore, produce } from 'solid-js/store'
 import type { Artwork } from '../model/Artwork'
+import { isBooleanStringTrue } from '../model/Settings'
 import { type AppliedFilter, type FilterType, filterTypes, } from '../model/wall/Filter'
 import { type Sort, type SortType, sortTypes } from '../model/wall/Sort'
 import type { WallModel } from '../model/wall/WallModel'
 import { applyFilters } from '../model/wall/filterFunctions'
 import { applySort } from '../model/wall/sortFunctions'
 import { useArtworks } from './ArtworksDBProvider'
+import { useSetting } from './SettingsProvider'
 
 type WallModelContextValue = {
     wallModel: WallModel,
@@ -49,13 +51,23 @@ export function WallModelProvider(props: ParentProps) {
 
     const artworks = useArtworks()
 
+    const filterOnAvailableByDefault = useSetting<'filterOnAvailableByDefault'>('filterOnAvailableByDefault')
+
+    console.log({ filterOnAvailableByDefault })
+
     const initialSort: Sort = computeAvailableSorts(artworks).includes('defaultSort')
         ? { on: 'defaultSort', direction: 'asc' }
         : { on: 'year', direction: 'desc' }
 
-    const initialAppliedFilters: AppliedFilter[] = computeAvailableFilters(artworks).includes('hideArtworksHiddenAtFirst') ? [
-        { on: 'hideArtworksHiddenAtFirst', value: { mustBeTrue: true } }
-    ] : []
+    const initialAppliedFilters: AppliedFilter[] = []
+    const availableFilters = computeAvailableFilters(artworks)
+    if (availableFilters.includes('hideArtworksHiddenAtFirst')) {
+        initialAppliedFilters.push({ on: 'hideArtworksHiddenAtFirst', value: { mustBeTrue: true } })
+
+    }
+    if (availableFilters.includes('available') && isBooleanStringTrue(filterOnAvailableByDefault)) {
+        initialAppliedFilters.push({ on: 'available', value: { mustBeTrue: true } })
+    }
 
     const [wallModel, setWallModel] = createStore<WallModel>({
         appliedFilters: initialAppliedFilters,

@@ -42,6 +42,6 @@ export function useSettings() {
     return defaultSettings
 }
 
-export function useSetting(key: keyof Settings): string {
+export function useSetting<K extends keyof Settings>(key: K): Settings[K] {
     return useSettings()[key]
 }
