@@ -2,6 +2,9 @@ import type { Component } from "solid-js"
 import { Dynamic, Index, Portal } from "solid-js/web"
 import { useWallModel } from "../../../../../context/WallModelProvider"
 import { Button } from "../../../../../design-system/Button/Button"
+// @ts-ignore clickOutside is used
+// biome-ignore lint/correctness/noUnusedImports: clickOutside is used
+import clickOutside from '../../../../../directives/click-outside'
 import type { FilterType, } from "../../../../../model/wall/Filter"
 import { AvailableFilterPanel } from "./AvailableFilterPanel"
 import { HiddenAtFirstFilterPanel } from "./HiddenAtFirstFilterPanel"
@@ -28,7 +31,7 @@ export const FiltersEditionModale = ({ onClose }: Props) => {
 
     return <Portal>
         <div class={styles.modale}>
-            <div class={styles.wrapper}>
+            <div class={styles.wrapper} use:clickOutside={onClose}>
                 <h2>Filters: {wallModel.appliedFilters.length} applied, {wallModel.filteredArtworks.length}/{wallModel.artworks.length} artworks displayed</h2>
                 <div class={styles.panels}>
                     <Index each={wallModel.availableFilters}>
