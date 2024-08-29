@@ -26,11 +26,24 @@ export function ArtworkBloc(props: Props) {
 	})
 
 	const animation = getAnimator(animationId)
+	const handleUserFeltAsleep = () => {
+		animation?.start()
+	}
+	const handleUserAwoke = () => {
+		animation?.stop()
+		animation?.reset()
+	}
 	onMount(() => {
 		animation?.setup(setDirectStyle)
-		animation?.start()
+		window.addEventListener('user_felt_asleep', handleUserFeltAsleep)
+		window.addEventListener('user_awoke', handleUserAwoke)
 	})
-	onCleanup(() => animation?.stop())
+	onCleanup(() => {
+		window.removeEventListener('user_felt_asleep', handleUserFeltAsleep)
+		window.removeEventListener('user_awoke', handleUserAwoke)
+
+		animation?.stop()
+	})
 
 	return (
 		<a href={`/artwork/${props.artwork.id}`}>

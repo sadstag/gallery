@@ -53,8 +53,6 @@ export function WallModelProvider(props: ParentProps) {
 
     const filterOnAvailableByDefault = useSetting<'filterOnAvailableByDefault'>('filterOnAvailableByDefault')
 
-    console.log({ filterOnAvailableByDefault })
-
     const initialSort: Sort = computeAvailableSorts(artworks).includes('defaultSort')
         ? { on: 'defaultSort', direction: 'asc' }
         : { on: 'year', direction: 'desc' }
