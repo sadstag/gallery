@@ -1,5 +1,5 @@
-type Content = {
-    title: string;
-    subtitle: string;
-    presentation: string;
+export type Content = {
+	title: string
+	subtitle: string
+	presentation: string
 }

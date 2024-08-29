@@ -1,4 +1,9 @@
-from cli.const import artworks_db_filename, artwork_images_db_filename, content_filename
+from cli.const import (
+    artworks_db_filename,
+    artwork_images_db_filename,
+    content_filename,
+    settings_filename,
+)
 from cli.exceptions import ProcessingException
 from cli.log import log
 from cli.tools.file import ctxOpen
@@ -23,6 +28,7 @@ def buildDockerfile(filename: str):
                         f"COPY {site_id}/dist/{artworks_db_filename} /gallery/{site_id}/\n",
                         f"COPY {site_id}/dist/{artwork_images_db_filename} /gallery/{site_id}/\n",
                         f"COPY {site_id}/dist/{content_filename} /gallery/{site_id}/\n",
+                        f"COPY {site_id}/dist/{settings_filename} /gallery/{site_id}/\n",
                         f"COPY {site_id}/dist/assets /gallery/{site_id}/assets/\n",
                     ]
                 )

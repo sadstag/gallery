@@ -1,16 +1,18 @@
 import {
+    type ParentProps,
+    type Resource,
     createContext,
     createResource,
-    ParentProps,
-    Resource,
     useContext
 } from 'solid-js'
+
+import type { Content } from '../model/Content'
 
 const ContentContext = createContext<Resource<Content>>()
 
 export function ContentProvider(props: ParentProps) {
     const [content] = createResource<Content>(async function f() {
-        const response = await fetch(`/content.json`)
+        const response = await fetch('/content.json')
         if (!response.ok) {
             throw Error('ERR')
         }

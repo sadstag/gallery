@@ -25,6 +25,7 @@ terraform_variables_filename = "terraform.tfvars.json"
 globalconfig_filename = "global_config.json"
 siteconfig_filename = "config.json"
 artworks_db_filename = "artworks.json"
+settings_filename = "settings.json"
 artwork_images_db_filename = "artwork_images.json"
 content_filename = "content.json"
 
@@ -103,6 +104,10 @@ def get_artworks_db_filepath(site_id: str):
 
 def get_artwork_images_db_filepath(site_id: str):
     return f"{get_site_public_folderpath(site_id)}/{artwork_images_db_filename}"
+
+
+def get_settings_filepath(site_id: str):
+    return f"{get_site_public_folderpath(site_id)}/{settings_filename}"
 
 
 def get_content_filepath(site_id: str):

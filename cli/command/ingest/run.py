@@ -7,7 +7,7 @@ from os.path import dirname
 # nneded to write the content section of site config file into stabdalone json file in public dir
 import json_fix  # type: ignore # noqa: F401.
 
-from cli.command.ingest.output import writeArtorksDB
+from cli.command.ingest.output import writeArtworksDB, writeSettingsFile
 from cli.command.ingest.sheet import extractSheetData
 from cli.command.site_id import get_target_site_id
 from cli.const import get_content_filepath
@@ -31,4 +31,5 @@ def run(args: Namespace):
             raise ProcessingException(f"Could not write {path} : {e}")
 
     sheetData = extractSheetData(site_config.tech)
-    writeArtorksDB(site_config, sheetData)
+    writeArtworksDB(site_config, sheetData)
+    writeSettingsFile(site_config, sheetData)
