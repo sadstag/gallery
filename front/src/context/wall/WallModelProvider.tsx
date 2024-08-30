@@ -27,7 +27,7 @@ type WallModelContextValue = {
 const WallModelContext = createContext<WallModelContextValue>()
 
 const filterArtworks = (artworks: Artwork[], filters: AppliedFilter[], sort: Sort): Artwork[] => {
-    const filtered = applyFilters(filters, artworks)
+    const filtered = applyFilters(filters, [...artworks])
     applySort(sort, filtered)
     return filtered
 }
