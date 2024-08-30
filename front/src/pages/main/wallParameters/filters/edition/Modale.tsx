@@ -31,7 +31,9 @@ export const FiltersEditionModale = ({ onClose }: Props) => {
 
     return <Portal>
         <div class={styles.modale}>
-            <div class={styles.wrapper} use:clickOutside={onClose}>
+            <div class={styles.wrapper}
+                // @ts-ignore
+                use:clickOutside={onClose}>
                 <h2>Filters: {wallModel.appliedFilters.length} applied, {wallModel.filteredArtworks.length}/{wallModel.artworks.length} artworks displayed</h2>
                 <div class={styles.panels}>
                     <Index each={wallModel.availableFilters}>

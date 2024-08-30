@@ -28,6 +28,7 @@ export function Menu() {
                 <Portal>
                     <div
                         class={styles.menu}
+                        // @ts-ignore
                         use:clickOutside={() => setShown(false)}
                     >
                         <a href="/" onClick={onSelectItem}>
