@@ -1,9 +1,10 @@
 // based on  https://www.solidjs.com/tutorial/bindings_directives
 
-import { Accessor, onCleanup } from "solid-js";
+import { type Accessor, onCleanup } from "solid-js";
 
 declare module "solid-js" {
-    namespace JSX {
+    // biome-ignore lint/style/noNamespace: <explanation>
+    namespace jsx {
         interface DirectiveFunctions {
             clickOutside: typeof clickOutside;
         }
@@ -11,7 +12,7 @@ declare module "solid-js" {
 }
 
 
-export default function clickOutside(el: HTMLElement, onClickOutside: Accessor<() => void>) {
+export function clickOutside(el: HTMLElement, onClickOutside: Accessor<() => void>) {
     const onClick = (e: MouseEvent) => {
         if (el.contains(e.target as Node)) {
             return;

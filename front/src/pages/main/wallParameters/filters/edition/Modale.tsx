@@ -1,10 +1,10 @@
 import type { Component } from "solid-js"
 import { Dynamic, Index, Portal } from "solid-js/web"
-import { useWallModel } from "../../../../../context/WallModelProvider"
+import { useWallModel } from "../../../../../context/wall/WallModelProvider"
 import { Button } from "../../../../../design-system/Button/Button"
 // @ts-ignore clickOutside is used
 // biome-ignore lint/correctness/noUnusedImports: clickOutside is used
-import clickOutside from '../../../../../directives/click-outside'
+import { clickOutside } from '../../../../../directives/click-outside'
 import type { FilterType, } from "../../../../../model/wall/Filter"
 import { AvailableFilterPanel } from "./AvailableFilterPanel"
 import { HiddenAtFirstFilterPanel } from "./HiddenAtFirstFilterPanel"

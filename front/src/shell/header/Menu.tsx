@@ -3,7 +3,7 @@ import { Portal } from 'solid-js/web'
 import { MenuIcon } from '../../design-system/Icon/MenuIcon'
 // @ts-ignore clickOutside is used
 // biome-ignore lint/correctness/noUnusedImports: clickOutside is used
-import clickOutside from '../../directives/click-outside'
+import { clickOutside } from '../../directives/click-outside'
 import styles from './Menu.module.css'
 
 export function Menu() {

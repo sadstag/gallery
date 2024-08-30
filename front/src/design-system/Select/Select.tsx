@@ -16,8 +16,11 @@ type Props = {
 // continue on with https://moderncss.dev/custom-select-styles-with-pure-css/#multiple-select
 // if multi selection is needed
 
-export const Select = (props: Props) => <div class={styles.select}>
-    <select value={props.value} onChange={e => props.onChange(e.target.value)}>
-        <For each={props.options}>{({ value, label }) => <option value={value}>{label}</option>}</For>
-    </select>
-</div>
+
+export const Select = (props: Props) => {
+    return <div class={styles.select}>
+        <select value={props.value} onChange={e => props.onChange(e.target.value)}>
+            <For each={props.options}>{({ value, label }) => <option value={value}>{label}</option>}</For>
+        </select>
+    </div>
+}

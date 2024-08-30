@@ -1,5 +1,5 @@
 import { Show, createSignal } from 'solid-js'
-import { useWallModel } from '../../../../context/WallModelProvider'
+import { useWallModel } from '../../../../context/wall/WallModelProvider'
 import { Button } from '../../../../design-system/Button/Button'
 import { FiltersEditionModale } from './edition/Modale'
 

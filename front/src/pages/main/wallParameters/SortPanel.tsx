@@ -1,5 +1,5 @@
 
-import { useWallModel } from '../../../context/WallModelProvider'
+import { useWallModel } from '../../../context/wall/WallModelProvider'
 import { Button } from '../../../design-system/Button/Button'
 import { SortIcon } from '../../../design-system/Icon/SortIcon'
 import { Select } from '../../../design-system/Select/Select'

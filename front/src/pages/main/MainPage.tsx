@@ -2,11 +2,11 @@ import { Match, Switch } from 'solid-js'
 import { useArtworkImagesDBResource } from '../../context/ArtworkImagesDBProvider'
 import { useArtworksDBResource } from '../../context/ArtworksDBProvider'
 import { useContent } from '../../context/ContentProvider'
-import { WallModelProvider } from '../../context/WallModelProvider'
+import { WallModelProvider } from '../../context/wall/WallModelProvider'
 import { Wall } from './Wall'
 
-const Loader = () => <div>LOADER</div>
-const LoadingFailed = () => <div>FAILED :/</div>
+const Loader = () => <div>Loading artworks ...</div>
+const LoadingFailed = () => <div>Sorry, artworks loading failed :/ please try again later.</div>
 
 export const MainPage = () => {
     const content = useContent()

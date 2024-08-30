@@ -1,5 +1,5 @@
 
-import { useWallModel } from "../../../../../context/WallModelProvider"
+import { useWallModel } from "../../../../../context/wall/WallModelProvider"
 import { ToggleSwitch } from "../../../../../design-system/ToggleSwitch/ToggleSwitch"
 import { FilterPanel } from "./FilterPanel"
 

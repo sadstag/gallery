@@ -1,7 +1,7 @@
 import { For, createMemo, onCleanup, } from "solid-js";
 import { useArtworks, } from "../../context/ArtworksDBProvider";
 import { useSetting } from "../../context/SettingsProvider";
-import { useWallModel } from "../../context/WallModelProvider";
+import { useWallModel } from "../../context/wall/WallModelProvider";
 import { } from "../../model/wall/Sort";
 import { ArtworkBloc } from "./ArtworkBloc";
 import styles from "./Wall.module.css";

@@ -5,15 +5,14 @@ import {
     useContext
 } from 'solid-js'
 import { createStore, produce } from 'solid-js/store'
-import type { Artwork } from '../model/Artwork'
-import { isBooleanStringTrue } from '../model/Settings'
-import { type AppliedFilter, type FilterType, filterTypes, } from '../model/wall/Filter'
-import { type Sort, type SortType, sortTypes } from '../model/wall/Sort'
-import type { WallModel } from '../model/wall/WallModel'
-import { applyFilters } from '../model/wall/filterFunctions'
-import { applySort } from '../model/wall/sortFunctions'
-import { useArtworks } from './ArtworksDBProvider'
-import { useSetting } from './SettingsProvider'
+import type { Artwork } from '../../model/Artwork'
+import type { AppliedFilter, FilterType, } from '../../model/wall/Filter'
+import type { Sort, } from '../../model/wall/Sort'
+import type { WallModel } from '../../model/wall/WallModel'
+import { applyFilters } from '../../model/wall/filterFunctions'
+import { applySort } from '../../model/wall/sortFunctions'
+import { useArtworks } from '../ArtworksDBProvider'
+import { computeAvailableFilters, computeAvailableSorts, loadFilters } from './FiltersAndSortStateManagement'
 
 type WallModelContextValue = {
     wallModel: WallModel,
@@ -27,18 +26,9 @@ type WallModelContextValue = {
 
 const WallModelContext = createContext<WallModelContextValue>()
 
-const computeAvailableSorts = (artworks: Artwork[]): SortType[] => sortTypes.filter(
-    sortType => sortType !== 'defaultSort' || artworks.some(({ default_sort }) => default_sort !== undefined)
-)
-
-const computeAvailableFilters = (artworks: Artwork[]): FilterType[] => filterTypes.filter(
-    filterType => filterType !== 'hideArtworksHiddenAtFirst' || artworks.some(({ hidden_at_first }) => hidden_at_first !== undefined)
-)
-
 const filterArtworks = (artworks: Artwork[], filters: AppliedFilter[], sort: Sort): Artwork[] => {
     const filtered = applyFilters(filters, artworks)
     applySort(sort, filtered)
-    console.log('compute', { artworks, filtered })
     return filtered
 }
 
@@ -51,29 +41,21 @@ export function WallModelProvider(props: ParentProps) {
 
     const artworks = useArtworks()
 
-    const filterOnAvailableByDefault = useSetting<'filterOnAvailableByDefault'>('filterOnAvailableByDefault')
-
-    const initialSort: Sort = computeAvailableSorts(artworks).includes('defaultSort')
-        ? { on: 'defaultSort', direction: 'asc' }
-        : { on: 'year', direction: 'desc' }
-
-    const initialAppliedFilters: AppliedFilter[] = []
-    const availableFilters = computeAvailableFilters(artworks)
-    if (availableFilters.includes('hideArtworksHiddenAtFirst')) {
-        initialAppliedFilters.push({ on: 'hideArtworksHiddenAtFirst', value: { mustBeTrue: true } })
-
-    }
-    if (availableFilters.includes('available') && isBooleanStringTrue(filterOnAvailableByDefault)) {
-        initialAppliedFilters.push({ on: 'available', value: { mustBeTrue: true } })
-    }
+    const {
+        availableFilters,
+        appliedFilters,
+        availableSorts,
+        appliedSort,
+        persistFiltersAndSort
+    } = loadFilters()
 
     const [wallModel, setWallModel] = createStore<WallModel>({
-        appliedFilters: initialAppliedFilters,
-        sort: initialSort,
-        availableSorts: computeAvailableSorts(artworks),
-        availableFilters: computeAvailableFilters(artworks),
+        appliedFilters,
+        sort: appliedSort,
+        availableSorts: availableSorts,
+        availableFilters,
         artworks,
-        filteredArtworks: filterArtworks(artworks, initialAppliedFilters, initialSort)
+        filteredArtworks: filterArtworks(artworks, appliedFilters, appliedSort)
     })
 
     createEffect(() => {
@@ -87,6 +69,7 @@ export function WallModelProvider(props: ParentProps) {
                 }
             )
         )
+        persistFiltersAndSort(wallModel.appliedFilters, wallModel.sort)
     })
 
     const value: WallModelContextValue = {
