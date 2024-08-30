@@ -12,7 +12,7 @@ import type { WallModel } from '../../model/wall/WallModel'
 import { applyFilters } from '../../model/wall/filterFunctions'
 import { applySort } from '../../model/wall/sortFunctions'
 import { useArtworks } from '../ArtworksDBProvider'
-import { computeAvailableFilters, computeAvailableSorts, loadFilters } from './FiltersAndSortStateManagement'
+import { retrieveWallParameters } from './wallParametersIO'
 
 type WallModelContextValue = {
     wallModel: WallModel,
@@ -47,7 +47,7 @@ export function WallModelProvider(props: ParentProps) {
         availableSorts,
         appliedSort,
         persistFiltersAndSort
-    } = loadFilters()
+    } = retrieveWallParameters()
 
     const [wallModel, setWallModel] = createStore<WallModel>({
         appliedFilters,
@@ -59,16 +59,6 @@ export function WallModelProvider(props: ParentProps) {
     })
 
     createEffect(() => {
-        setWallModel(
-            produce(
-                (wallModel) => {
-                    wallModel.artworks = artworks
-                    wallModel.availableSorts = computeAvailableSorts(artworks)
-                    wallModel.availableFilters = computeAvailableFilters(artworks)
-                    updateProxiedFilteredArtworks(wallModel, artworks)
-                }
-            )
-        )
         persistFiltersAndSort(wallModel.appliedFilters, wallModel.sort)
     })
 

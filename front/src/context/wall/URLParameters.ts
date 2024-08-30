@@ -2,37 +2,33 @@ import { useSearchParams } from '@solidjs/router'
 import type { AppliedFilter } from '../../model/wall/Filter'
 import type { Sort } from '../../model/wall/Sort'
 
+const wallParametersParam = '_'
+
+type WallParameters = { filters: AppliedFilter[]; sort: Sort }
+
 export const persistFiltersAndSort = (filters: AppliedFilter[], sort: Sort) => {
 	const [searchParams, setSearchParams] = useSearchParams()
-
-	const newSearchParams = { ...searchParams }
-
-	newSearchParams.filters = window.btoa(JSON.stringify(filters))
-	newSearchParams.sort = window.btoa(JSON.stringify(sort))
-
-	setSearchParams(newSearchParams, { replace: true })
+	setSearchParams(
+		{
+			...searchParams,
+			[wallParametersParam]: window.btoa(JSON.stringify({ filters, sort } as WallParameters)),
+		},
+		{ replace: true },
+	)
 }
 
-export const retrieveFiltersAndSort = (): [filters: AppliedFilter[], sort: Sort | undefined] => {
+export const retrieveFiltersAndSort = (): WallParameters | undefined => {
 	const [searchParams] = useSearchParams()
 
-	let filters: AppliedFilter[] = []
-	let sort: Sort | undefined
+	let wallParameters: WallParameters | undefined
 
-	if (searchParams.filters) {
+	if (searchParams[wallParametersParam]) {
 		try {
-			filters = JSON.parse(window.atob(searchParams.filters))
+			wallParameters = JSON.parse(window.atob(searchParams[wallParametersParam]))
 		} catch (_) {
-			filters = []
-		}
-	}
-	if (searchParams.sort) {
-		try {
-			sort = JSON.parse(window.atob(searchParams.sort))
-		} catch (_) {
-			sort = undefined
+			wallParameters = undefined
 		}
 	}
 
-	return [filters, sort]
+	return wallParameters
 }

@@ -1,3 +1,4 @@
+import { batch, createSignal } from 'solid-js'
 import type { Artwork } from '../../model/Artwork'
 import { isBooleanStringTrue } from '../../model/Settings'
 import { type AppliedFilter, type FilterType, filterTypes } from '../../model/wall/Filter'
@@ -5,10 +6,13 @@ import { type Sort, type SortType, sortTypes } from '../../model/wall/Sort'
 import { useArtworks } from '../ArtworksDBProvider'
 import { useSetting } from '../SettingsProvider'
 import {
-	retrieveFiltersAndSort as getFromLocalstorage,
-	persistFiltersAndSort as storeInLocalstorage,
-} from './LocalStorage'
-import { retrieveFiltersAndSort as getURLParameters, persistFiltersAndSort as setURLParameters } from './URLParameters'
+	persistFiltersAndSort as persistWallParametersInURL,
+	retrieveFiltersAndSort as retrieveWallParametersFromURL,
+} from './URLParameters'
+import {
+	persistFiltersAndSort as persistWallParametersInLocalstorage,
+	retrieveFiltersAndSort as retrieveWallParametersFromLocalstorage,
+} from './localStorage'
 
 export const computeAvailableSorts = (artworks: Artwork[]): SortType[] =>
 	sortTypes.filter(
@@ -37,15 +41,11 @@ const computeInitialFilters = (availableFilters: FilterType[]) => {
 	return filters
 }
 
+// when no sort found in URL/storage
 const computeInitialSort = (availableSorts: SortType[]): Sort => {
 	return availableSorts.includes('defaultSort')
 		? { on: 'defaultSort', direction: 'asc' }
 		: { on: 'year', direction: 'desc' }
-}
-
-export const persistFiltersAndSort = (filters: AppliedFilter[], sort: Sort) => {
-	setURLParameters(filters, sort)
-	storeInLocalstorage(filters, sort)
 }
 
 type LoadedFiltersAndSort = {
@@ -53,38 +53,46 @@ type LoadedFiltersAndSort = {
 	availableSorts: SortType[]
 	appliedFilters: AppliedFilter[]
 	appliedSort: Sort
-	persistFiltersAndSort: typeof persistFiltersAndSort
+	persistFiltersAndSort: typeof persistWallParameters
 }
-export const loadFilters = (): LoadedFiltersAndSort => {
+export const retrieveWallParameters = (): LoadedFiltersAndSort => {
 	const artworks = useArtworks()
 
 	const availableFilters = computeAvailableFilters(artworks)
 	const availableSorts = computeAvailableSorts(artworks)
 
-	let appliedFilters: AppliedFilter[]
-	let appliedSort: Sort
+	const [appliedFilters, setAppliedFilters] = createSignal<AppliedFilter[]>([])
+	const [appliedSort, setAppliedSort] = createSignal<Sort>({ on: 'defaultSort', direction: 'desc' })
 
-	// TODO search in URL then localstorage
-	const [filtersFromURL, sortFromURL] = getURLParameters()
+	const apply = (filters: AppliedFilter[], sort: Sort) => {
+		batch(() => {
+			setAppliedFilters(filters)
+			setAppliedSort(sort)
+		})
+	}
+
+	const { filters: filtersFromURL, sort: sortFromURL } = retrieveWallParametersFromURL() || {}
 	if (filtersFromURL && sortFromURL) {
-		appliedFilters = filtersFromURL
-		appliedSort = sortFromURL
+		apply(filtersFromURL, sortFromURL)
 	} else {
-		const [filtersFromLocalstorage, sortFromLocalstorage] = getFromLocalstorage()
+		const [filtersFromLocalstorage, sortFromLocalstorage] = retrieveWallParametersFromLocalstorage()
 		if (filtersFromLocalstorage.length && sortFromLocalstorage) {
-			appliedFilters = filtersFromLocalstorage
-			appliedSort = sortFromLocalstorage
+			apply(filtersFromLocalstorage, sortFromLocalstorage)
 		} else {
-			appliedFilters = computeInitialFilters(availableFilters)
-			appliedSort = computeInitialSort(availableSorts)
+			apply(computeInitialFilters(availableFilters), computeInitialSort(availableSorts))
 		}
 	}
 
 	return {
 		availableFilters,
-		appliedFilters,
 		availableSorts,
-		appliedSort,
-		persistFiltersAndSort,
+		appliedFilters: appliedFilters(),
+		appliedSort: appliedSort(),
+		persistFiltersAndSort: persistWallParameters,
 	}
+}
+
+export const persistWallParameters = (filters: AppliedFilter[], sort: Sort) => {
+	persistWallParametersInURL(filters, sort)
+	persistWallParametersInLocalstorage(filters, sort)
 }
