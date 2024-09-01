@@ -1,6 +1,6 @@
 import { useNavigate, useParams } from '@solidjs/router'
 
-import { Show, createEffect, createSignal, onCleanup, } from 'solid-js'
+import { Show, createEffect, createMemo, createSignal, onCleanup, } from 'solid-js'
 import { useArtworkImagesDBResource } from '../../context/ArtworkImagesDBProvider'
 import {
     useArtwork,
@@ -23,7 +23,7 @@ export const ArtworkPage = () => {
         artworkImagesDB?.()?.getImageURL(params.id, 'small')
     )
 
-    const artwork = () => useArtwork(params.id)
+    const artwork = createMemo(() => useArtwork(params.id))
 
     createEffect(() => {
         let size: ArtworkImageSize = 'small'
@@ -89,7 +89,7 @@ export const ArtworkPage = () => {
                     <Show when={description()}>
                         <p>{description()}</p>
                     </Show>
-                    <ArtworkInfo artwork={artwork()} />
+                    <ArtworkInfo artwork={artwork} />
                 </div>
             </Show>
         </article>
