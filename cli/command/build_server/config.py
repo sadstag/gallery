@@ -43,6 +43,17 @@ def buildSWSConfig(filename: str, *, dev: bool):
         },
     }
 
+    #
+    # rewrites
+    # every route managed by the front app must be rewriten to avoid 404
+    rewrites: list[dict[str, str]] = []
+    for source_glob in ("/artwork/**", "/presentation"):
+        rewrites.append({"source": source_glob, "destination": "/"})
+    config["advanced"]["rewrites"] = rewrites
+
+    #
+    # virtual hosts
+    #
     virtual_hosts: list[dict[str, str]] = []
 
     for site_id in site_ids:
