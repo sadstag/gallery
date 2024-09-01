@@ -1,16 +1,18 @@
-import { useParams } from '@solidjs/router'
+import { useNavigate, useParams } from '@solidjs/router'
 
-import { Show, createSignal, onMount } from 'solid-js'
+import { Show, createEffect, createSignal, onCleanup, } from 'solid-js'
 import { useArtworkImagesDBResource } from '../../context/ArtworkImagesDBProvider'
 import {
     useArtwork,
 } from '../../context/ArtworksDBProvider'
+import { useWallModel } from '../../context/wall/WallModelProvider'
 import type { ArtworkImageSize } from '../../model/ArtworkSize'
+import type { ArtworkId } from '../../model/Base'
 import { ArtworkInfo } from './ArtworkInfo'
 import styles from './ArtworkPage.module.css'
 
 export const ArtworkPage = () => {
-    const { id } = useParams()
+    const params = useParams()
 
     const artworkImagesDB = useArtworkImagesDBResource()
 
@@ -18,12 +20,12 @@ export const ArtworkPage = () => {
     let imgRef: HTMLImageElement | undefined = undefined
 
     const [imgURL, setImgURL] = createSignal<string | undefined>(
-        artworkImagesDB?.()?.getImageURL(id, 'small')
+        artworkImagesDB?.()?.getImageURL(params.id, 'small')
     )
 
-    const artwork = () => useArtwork(id)
+    const artwork = () => useArtwork(params.id)
 
-    onMount(() => {
+    createEffect(() => {
         let size: ArtworkImageSize = 'small'
         if (imgRef) {
             // @ts-ignore
@@ -31,11 +33,49 @@ export const ArtworkPage = () => {
                 ? 'large'
                 : 'medium'
         }
-        setImgURL(artworkImagesDB?.()?.getImageURL(id, size))
+        setImgURL(artworkImagesDB?.()?.getImageURL(params.id, size))
     })
+
 
     const title = () => artwork()?.title ?? 'untitled'
     const description = () => artwork()?.description
+
+    // Naivgation through artworks using wall model
+    const { wallModel } = useWallModel()
+
+    const navigate = useNavigate()
+
+    const visitArtwork = (destId: ArtworkId) => {
+        navigate(`/artwork/${destId}`)
+    }
+
+    const getArtworkId = (delta: -1 | 1) => {
+        // find previous artwork
+        const index = wallModel.filteredArtworks.findIndex(({ id: _id }) => _id === params.id)
+        if (index === -1) {
+            // not supposed to happen, but not a reason to crash
+            return wallModel.filteredArtworks[0].id
+        }
+        return wallModel.filteredArtworks[
+            // adding wallModel.filteredArtworks.length to avoid adressing index -1
+            (index + delta + wallModel.filteredArtworks.length) % wallModel.filteredArtworks.length
+        ].id
+
+    }
+
+    const handleKeyUp = (e: KeyboardEvent) => {
+        if (e.key === "ArrowLeft") {
+            visitArtwork(getArtworkId(-1))
+        } else if (e.key === 'ArrowRight') {
+            visitArtwork(getArtworkId(1))
+        }
+    }
+    window.addEventListener('keyup', handleKeyUp)
+
+    onCleanup(() => {
+        window.removeEventListener('keyup', handleKeyUp)
+    })
+
 
     return (
         <article class={styles.page}>

@@ -4,7 +4,7 @@ import { render } from "solid-js/web";
 
 import { MainPage } from "./pages/main/MainPage";
 const PresentationPage = lazy(() => import("./pages/PresentationPage"));
-const ArtworkPage = lazy(() => import("./pages/artwork"));
+const ArtworkPageWillWallModel = lazy(() => import("./pages/artwork"));
 
 import { lazy } from "solid-js";
 import { NotFound } from "./pages/NotFound";
@@ -20,7 +20,7 @@ if (root) {
 			<Router root={Shell}>
 				<Route path="/" component={MainPage} />
 				<Route path="/presentation" component={PresentationPage} />
-				<Route path="/artwork/:id" component={ArtworkPage} />
+				<Route path="/artwork/:id" component={ArtworkPageWillWallModel} />
 				<Route path="*404" component={NotFound} />
 			</Router>
 		),

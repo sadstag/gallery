@@ -1,3 +1,3 @@
-import { ArtworkPage } from './ArtworkPage'
+import { ArtworkPageWillWallModel } from './ArtworksPageWithWallModel'
 
-export default ArtworkPage
+export default ArtworkPageWillWallModel

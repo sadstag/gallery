@@ -12,7 +12,6 @@ type Props = {
 
 export function ArtworkBloc(props: Props) {
 
-
 	const artworkImagesDB = useArtworkImagesDBResource();
 
 	const { width = 1, height = 1 } = useArtworkImage(props.artwork.id, 'small') || {}
