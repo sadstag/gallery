@@ -46,7 +46,7 @@ export const ArtworkPage = () => {
     const navigate = useNavigate()
 
     const visitArtwork = (destId: ArtworkId) => {
-        navigate(`/artwork/${destId}`)
+        navigate(`/artwork/${destId}`, { replace: true })
     }
 
     const getArtworkId = (delta: -1 | 1) => {
@@ -64,11 +64,13 @@ export const ArtworkPage = () => {
     }
 
     const handleKeyUp = (e: KeyboardEvent) => {
-        if (e.key === "ArrowLeft") {
-            visitArtwork(getArtworkId(-1))
-        } else if (e.key === 'ArrowRight') {
-            visitArtwork(getArtworkId(1))
+        switch (e.key) {
+            case 'ArrowLeft': visitArtwork(getArtworkId(-1)); break
+            case 'ArrowRight': visitArtwork(getArtworkId(1)); break
+            case 'ArrowUp': // no break
+            case 'ArrowDown': navigate('/'); break
         }
+
     }
     window.addEventListener('keyup', handleKeyUp)
 

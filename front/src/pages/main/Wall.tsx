@@ -4,11 +4,10 @@ import { useSetting } from "../../context/SettingsProvider";
 import { useWallModel } from "../../context/wall/WallModelProvider";
 import { } from "../../model/wall/Sort";
 import { ArtworkBloc } from "./ArtworkBloc";
+import { ScrollPositionRetainer } from "./ScrollPositionRetainer";
 import styles from "./Wall.module.css";
 import { SortPanel } from "./wallParameters/SortPanel";
 import { AppliedFiltersPanel } from "./wallParameters/filters/AppliedFiltersPanel";
-
-window.history.scrollRestoration = "manual";
 
 export function Wall() {
 	const artworks = useArtworks()
@@ -47,7 +46,7 @@ export function Wall() {
 	setTimer() // so that just loading the wall will get the animation to start after idle period
 
 	return (
-		<>
+		<ScrollPositionRetainer>
 			<div class={styles['wall-header']}>
 				<div>Displaying {wallModel.filteredArtworks.length}/{artworks.length} artworks</div>
 				<SortPanel />
@@ -58,6 +57,6 @@ export function Wall() {
 					{artwork => <ArtworkBloc artwork={artwork} />}
 				</For>
 			</div>
-		</>
+		</ScrollPositionRetainer>
 	);
 }
