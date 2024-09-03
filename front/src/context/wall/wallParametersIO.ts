@@ -19,12 +19,16 @@ export const computeAvailableSorts = (artworks: Artwork[]): SortType[] =>
 		sortType => sortType !== 'defaultSort' || artworks.some(({ default_sort }) => default_sort !== undefined),
 	)
 
+const definedOnceOrMore = (property: keyof Artwork, artworks: Artwork[]): boolean =>
+	artworks.some(artwork => property in artwork && artwork[property] !== undefined)
+
+const filterIsAvailableWhen: { [F in FilterType]?: (artworks: Artwork[]) => boolean } = {
+	hideArtworksHiddenAtFirst: artworks => definedOnceOrMore('hidden_at_first', artworks),
+	category: artworks => definedOnceOrMore('category', artworks),
+}
+
 export const computeAvailableFilters = (artworks: Artwork[]): FilterType[] =>
-	filterTypes.filter(
-		filterType =>
-			filterType !== 'hideArtworksHiddenAtFirst' ||
-			artworks.some(({ hidden_at_first }) => hidden_at_first !== undefined),
-	)
+	filterTypes.filter(filterType => (filterIsAvailableWhen[filterType] ?? (() => true))(artworks))
 
 // when no filter found in URL/storage
 const computeInitialFilters = (availableFilters: FilterType[]) => {
