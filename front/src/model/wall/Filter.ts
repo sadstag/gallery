@@ -11,6 +11,10 @@ type FilterOnRange = {
 	max: number
 }
 
+type FilterOnExactText = {
+	equals: string
+}
+
 export function ensureMinMaxOrdered(range: FilterOnRange): FilterOnRange {
 	if (range.min <= range.max) {
 		return range
@@ -45,13 +49,26 @@ export type HideArtworksHiddenAtFirst = {
 	value: FilterOnBoolean<true>
 }
 
+export type AppliedFilterOnCategory = {
+	on: 'category'
+	value: FilterOnExactText
+}
+
 export type AppliedFilter =
 	| AppliedFilterOnId
 	| ShowOnlyAvailable
 	| AppliedFilterOnTextContent
 	| AppliedFilterOnYear
 	| HideArtworksHiddenAtFirst
+	| AppliedFilterOnCategory
 
 export type FilterType = AppliedFilter['on']
 
-export const filterTypes: FilterType[] = ['available', 'year', 'textContent', 'hideArtworksHiddenAtFirst', 'id']
+export const filterTypes: FilterType[] = [
+	'available',
+	'year',
+	'textContent',
+	'hideArtworksHiddenAtFirst',
+	'id',
+	'category',
+]

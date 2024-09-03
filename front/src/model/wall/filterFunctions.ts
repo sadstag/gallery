@@ -46,6 +46,13 @@ const filterFunctions: {
 		}
 		return ({ hidden_at_first = false }) => !hidden_at_first
 	},
+
+	category: filter => {
+		if (!('equals' in filter)) {
+			return T
+		}
+		return ({ category }) => category === filter.equals
+	},
 }
 
 export function applyFilters(filters: AppliedFilter[], artworks: Artwork[]): Artwork[] {

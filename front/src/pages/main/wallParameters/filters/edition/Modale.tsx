@@ -7,6 +7,7 @@ import { Button } from "../../../../../design-system/Button/Button"
 import { clickOutside } from '../../../../../directives/click-outside'
 import type { FilterType, } from "../../../../../model/wall/Filter"
 import { AvailableFilterPanel } from "./AvailableFilterPanel"
+import { CategoryFilterPanel } from "./CategoryFilterPanel"
 import { HiddenAtFirstFilterPanel } from "./HiddenAtFirstFilterPanel"
 import { IdFilterPanel } from "./IDFilterPanel"
 import { TextContentFilterPanel } from "./TextContentFilterPanel"
@@ -22,7 +23,8 @@ const filterPanels: { [T in FilterType]: Component } = {
     'year': YearFilterPanel,
     'textContent': TextContentFilterPanel,
     'hideArtworksHiddenAtFirst': HiddenAtFirstFilterPanel,
-    'id': IdFilterPanel
+    'id': IdFilterPanel,
+    'category': CategoryFilterPanel
 }
 
 export const FiltersEditionModale = ({ onClose }: Props) => {

@@ -18,7 +18,8 @@ type ArtworksDB = {
 // synthetic data concerning all artworks :
 // min/max year, categories ...
 type ArtworksMemo = {
-    year: { min: number, max: number }
+    year: { min: number, max: number },
+    categories: string[]
 }
 
 type IndexedArtworks = {
@@ -76,9 +77,18 @@ export function useArtworksMemo(): ArtworksMemo {
             }
         }
     }
-    // TODO categories
 
-    return { year: yearMemo }
+    const categories = [
+        ...new Set(
+            artworks
+                .map(({ category }) => category)
+                .filter(c => c !== undefined)
+        )
+    ]
+
+    categories.sort()
+
+    return { year: yearMemo, categories }
 }
 
 export function useArtwork(id: string): Artwork {
