@@ -81,7 +81,7 @@ export function useArtworksMemo(): ArtworksMemo {
     return { year: yearMemo }
 }
 
-export function useArtwork(id: string) {
+export function useArtwork(id: string): Artwork {
     const artworks = useIndexedArtworks()
     return artworks[id]
 }

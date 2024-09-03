@@ -1,19 +1,21 @@
+@import url("./reset.css");
+
 :root {
   --header-background-color: hsl(0, 0%, 15%);
   --body-background-color: hsl(0, 0%, 10%);
   --footer-background-color: var(--header-background-color);
 
-  --button-background-color:  hsl(0, 0%, 20%);
-  --button-color:  white;
+  --button-background-color: hsl(0, 0%, 20%);
+  --button-color: white;
   --button-border: hsl(0, 0%, 30%);
-  --button-hover-background-color:  hsl(0, 0%, 30%);
+  --button-hover-background-color: hsl(0, 0%, 30%);
   --button-hover-border: hsl(0, 0%, 40%);
 
-  --button-highlighted-background-color:  hsla(120, 100%, 50%, 0.1);
-  --button-highlighted-color:  hsl(120, 100%, 60%);
+  --button-highlighted-background-color: hsla(120, 100%, 50%, 0.1);
+  --button-highlighted-color: hsl(120, 100%, 60%);
   --button-highlighted-border: hsl(120, 60%, 30%);
-  --button-highlighted-hover-background-color:  hsla(120, 100%, 50%, 0.2);
-  --button-highlighted-hover-color:   hsl(120, 100%, 70%);
+  --button-highlighted-hover-background-color: hsla(120, 100%, 50%, 0.2);
+  --button-highlighted-hover-color: hsl(120, 100%, 70%);
   --button-highlighted-hover-border: hsl(120, 60%, 50%);
 
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
@@ -27,15 +29,9 @@
 
 }
 
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
-
 body {
   background: var(--body-background-color);
-  color :white;
+  color: white;
   margin: 0;
   user-select: none;
 }
@@ -70,5 +66,21 @@ body {
 
   button {
     background-color: #f9f9f9;
+  }
+}
+
+article,
+aside,
+nav,
+section {
+  h1 {
+    font-size: 2em;
+    margin: 0.2em 0;
+  }
+
+  h2 {
+    font-size: 1.5em;
+    color: #BBB;
+    margin: 0.2em 1em;
   }
 }

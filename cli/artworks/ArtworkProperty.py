@@ -13,9 +13,11 @@ class ArtworkProperty(StrEnum):
 
     # descriptive
     TITLE = auto()
+    SUBTITLE = auto()
     DESCRIPTION = auto()
     REMARKS = auto()
     YEAR = auto()
+    CATEGORY = auto()
 
     # technical
     SUPPORT = auto()

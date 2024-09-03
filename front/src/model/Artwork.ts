@@ -4,9 +4,11 @@ export type Artwork = {
 	id: ArtworkId
 
 	title?: string
+	subtitle?: string
 	year?: number
 	remarks?: string
 	description?: string
+	category?: string
 
 	width?: number
 	height?: number

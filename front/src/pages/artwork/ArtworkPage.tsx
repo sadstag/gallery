@@ -36,10 +36,6 @@ export const ArtworkPage = () => {
         setImgURL(artworkImagesDB?.()?.getImageURL(params.id, size))
     })
 
-
-    const title = () => artwork()?.title ?? 'untitled'
-    const description = () => artwork()?.description
-
     // Naivgation through artworks using wall model
     const { wallModel } = useWallModel()
 
@@ -78,6 +74,9 @@ export const ArtworkPage = () => {
         window.removeEventListener('keyup', handleKeyUp)
     })
 
+    const title = () => artwork()?.title ?? 'untitled'
+    const subtitle = () => artwork()?.subtitle
+    const description = () => artwork()?.description
 
     return (
         <article class={styles.page}>
@@ -88,6 +87,9 @@ export const ArtworkPage = () => {
             <Show when={artwork()}>
                 <div class={styles['info-panel']}>
                     <h1>{title()}</h1>
+                    <Show when={subtitle()}>
+                        <h2>{subtitle()}</h2>
+                    </Show>
                     <Show when={description()}>
                         <p>{description()}</p>
                     </Show>
