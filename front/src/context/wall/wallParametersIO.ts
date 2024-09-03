@@ -65,9 +65,19 @@ export const retrieveWallParameters = (): LoadedFiltersAndSort => {
 	const [appliedSort, setAppliedSort] = createSignal<Sort>({ on: 'defaultSort', direction: 'desc' })
 
 	const apply = (filters: AppliedFilter[], sort: Sort) => {
+		let sortToApply = sort
+		let filtersToApply = filters
+		if (!availableSorts.includes(sort.on)) {
+			// can happen on localhost while dev on several sites
+			// or whenever available sort move after a site update
+			sortToApply = computeInitialSort(availableSorts)
+		}
+		if (filters.some(filter => !availableFilters.includes(filter.on))) {
+			filtersToApply = computeInitialFilters(availableFilters)
+		}
 		batch(() => {
-			setAppliedFilters(filters)
-			setAppliedSort(sort)
+			setAppliedFilters(filtersToApply)
+			setAppliedSort(sortToApply)
 		})
 	}
 
