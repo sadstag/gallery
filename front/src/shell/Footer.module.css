@@ -4,4 +4,11 @@
     flex-shrink: 0;
     height: 30px;
     padding: 8px;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: end;
+
+    color: #666;
 }

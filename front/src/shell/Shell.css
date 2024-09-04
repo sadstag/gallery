@@ -18,6 +18,8 @@
   --button-highlighted-hover-color: hsl(120, 100%, 70%);
   --button-highlighted-hover-border: hsl(120, 60%, 50%);
 
+  --link-color: hsl(120, 100%, 60%);
+
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
 
   /* color-scheme: light dark; */
