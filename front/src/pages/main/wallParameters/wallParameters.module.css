@@ -1,0 +1,21 @@
+.sortPanel {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1ch;
+    text-wrap: nowrap;
+}
+
+.sort-icon {
+    width: 14px;
+    height: 14px;
+    &.descending {
+        transform: scaleY(-1);
+    }
+}
+
+.filter-icon {
+    width: 18px;
+    height: 18px;
+}

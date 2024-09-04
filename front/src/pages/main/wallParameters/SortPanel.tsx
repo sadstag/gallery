@@ -4,7 +4,7 @@ import { Button } from '../../../design-system/Button/Button'
 import { SortIcon } from '../../../design-system/Icon/SortIcon'
 import { Select } from '../../../design-system/Select/Select'
 import { type SortType, preferedDirectionForSortType, sortTypeLabels } from '../../../model/wall/Sort'
-import styles from '../Wall.module.css'
+import styles from './wallParameters.module.css'
 
 export const SortPanel = () => {
     const { wallModel, operations: { invertSortDirection, setSort } } = useWallModel()

@@ -37,22 +37,4 @@
     justify-content: space-evenly;
     align-items: center;
     margin: 12px 0;
-
-    >.sortPanel {
-        display: flex;
-        flex-flow: row nowrap;
-        justify-content: space-between;
-        align-items: center;
-        gap: 1ch;
-        text-wrap: nowrap;
-
-        .sort-icon {
-            width: 14px;
-            height: 14px;
-            &.descending {
-                transform: scaleY(-1);
-            }
-        }
-    
-    }
 }
