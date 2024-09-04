@@ -63,6 +63,7 @@ export const ArtworkPage = () => {
         switch (e.key) {
             case 'ArrowLeft': visitArtwork(getArtworkId(-1)); break
             case 'ArrowRight': visitArtwork(getArtworkId(1)); break
+            case 'Escape': // no break
             case 'ArrowUp': // no break
             case 'ArrowDown': navigate('/'); break
         }
