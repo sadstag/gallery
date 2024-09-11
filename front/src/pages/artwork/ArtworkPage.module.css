@@ -12,6 +12,15 @@
     >.info-panel {
         padding: 0 2em;
 
+        .presentation {
+            margin: 2em 0;
+            p {
+                &:not(:first-child) {
+                    margin-top: 1em;
+                }
+            }
+        }
+
         >.info-blocs-container {
             display: flex;
             flex-flow: row wrap;

@@ -63,7 +63,7 @@ def get_site_input_images_folderpath(site_id: str):
     return f"{get_site_input_folderpath(site_id)}/images"
 
 
-accepted_source_asset_extension = ["jpg", "webp"]
+accepted_source_asset_extension = ["jpg", "webp", "png"]
 
 
 # path to the artwork image source file

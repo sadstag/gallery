@@ -1,15 +1,17 @@
 import { useNavigate, useParams } from '@solidjs/router'
-
 import { Show, createEffect, createMemo, createSignal, onCleanup, } from 'solid-js'
+import { SolidMarkdown } from "solid-markdown";
 import { useArtworkImagesDBResource } from '../../context/ArtworkImagesDBProvider'
 import {
     useArtwork,
 } from '../../context/ArtworksDBProvider'
 import { useWallModel } from '../../context/wall/WallModelProvider'
+import { Link } from '../../design-system/Link/Link';
 import type { ArtworkImageSize } from '../../model/ArtworkSize'
 import type { ArtworkId } from '../../model/Base'
 import { ArtworkInfo } from './ArtworkInfo'
 import styles from './ArtworkPage.module.css'
+
 
 export const ArtworkPage = () => {
     const params = useParams()
@@ -77,7 +79,8 @@ export const ArtworkPage = () => {
 
     const title = () => artwork()?.title ?? 'untitled'
     const subtitle = () => artwork()?.subtitle
-    const description = () => artwork()?.description
+    const description = () => artwork()?.description ?? ""
+
 
     return (
         <article class={styles.page}>
@@ -92,7 +95,13 @@ export const ArtworkPage = () => {
                         <h2>{subtitle()}</h2>
                     </Show>
                     <Show when={description()}>
-                        <p>{description()}</p>
+                        <SolidMarkdown
+                            class={styles.presentation}
+                            components={{
+                                a: (props) => <Link discrete={true} href={props.href}>{props.children}</Link>
+                            }}>
+                            {description()}
+                        </SolidMarkdown>
                     </Show>
                     <ArtworkInfo artwork={artwork} />
                 </div>

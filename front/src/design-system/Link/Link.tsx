@@ -2,7 +2,7 @@ import type { ParentProps } from "solid-js"
 import styles from './Link.module.css'
 
 type Props = ParentProps<{
-    href: string
+    href: string | undefined
     discrete?: boolean
 }>
 
