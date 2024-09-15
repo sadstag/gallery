@@ -10,17 +10,20 @@ export function Wall() {
 
 	const { wallModel } = useWallModel()
 
-	return (
+	return (<div class={styles.container}>
+		<div class={styles.header}>
+			<AppliedFiltersPanel />
+			<SortPanel />
+		</div>
 		<WallViewport>
-			<div class={styles.header}>
-				<AppliedFiltersPanel />
-				<SortPanel />
-			</div>
 			<div class={styles.wall}>
 				<For each={wallModel.filteredArtworks}>
 					{artwork => <ArtworkBloc artwork={artwork} />}
 				</For>
 			</div >
 		</WallViewport>
+		<div class={styles.footer} />
+
+	</div>
 	);
 }
