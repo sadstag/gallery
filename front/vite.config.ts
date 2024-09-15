@@ -34,10 +34,12 @@ export default defineConfig({
 		outDir: `../sites/${siteId}/dist`,
 		emptyOutDir: true,
 		rollupOptions: {
-			external: ['solid-js'],
+			external: ['solid-js', '@solidjs/router', 'solid-markdown'],
 			output: {
 				paths: {
 					'solid-js': 'https://esm.sh/solid-js@1.8.17',
+					'@solidjs/router': 'https://esm.sh/@solidjs/router@0.13.3',
+					'solid-markdown': 'https://esm.sh/solid-markdown@2.0.13',
 				},
 			},
 		},

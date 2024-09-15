@@ -30,7 +30,7 @@ def buildSWSConfig(filename: str, *, dev: bool):
             # "https-redirect-from-port": 80,
             # "https-redirect-from-hosts": "localhost",
             "directory-listing": False,
-            "threads-multiplier": 1,
+            "threads-multiplier": 2,
             "grace-period": 0,
             "log-remote-address": False,
             "redirect-trailing-slash": True,
