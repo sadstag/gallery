@@ -10,7 +10,7 @@ export const SortPanel = () => {
     const { wallModel, operations: { invertSortDirection, setSort } } = useWallModel()
 
     return <div class={styles.sortPanel}>
-        sorted by <Select
+        <Select
             value={wallModel.sort.on}
             onChange={
                 (value) => {
@@ -27,7 +27,6 @@ export const SortPanel = () => {
         />
         <Button onClick={invertSortDirection}>
             <SortIcon classList={{ [styles['sort-icon']]: true, [styles.descending]: wallModel.sort.direction === 'desc' }} />
-            {wallModel.sort.direction === 'asc' ? 'ascending' : 'descending'}
         </Button>
     </div>
 }

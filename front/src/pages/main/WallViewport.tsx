@@ -1,11 +1,11 @@
 import { type ParentProps, createEffect, createMemo, onCleanup } from 'solid-js';
 import { useSetting } from '../../context/SettingsProvider';
 import { debounce } from '../../util/debounce';
-import styles from './ScrollPositionRetainer.module.css'
+import styles from './Wall.module.css'
 
 window.history.scrollRestoration = "manual";
 
-export const UserActivityObserver = (props: ParentProps) => {
+export const WallViewport = (props: ParentProps) => {
     let ref: HTMLDivElement;
 
     let timer: number | undefined
@@ -57,7 +57,7 @@ export const UserActivityObserver = (props: ParentProps) => {
     setTimer() // so that just loading the wall will get the animation to start after idle period
 
     // @ts-ignore
-    return <div ref={ref} class={styles.scrollPositionRetainer}>
+    return <div ref={ref} class={styles.wallViewport}>
         {props.children}
     </div>
 

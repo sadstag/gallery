@@ -3,6 +3,7 @@
 :root {
   --header-background-color: hsl(0, 0%, 15%);
   --body-background-color: hsl(0, 0%, 10%);
+  --body-header-background-color: hsl(0, 0%, 20%);
   --footer-background-color: var(--header-background-color);
 
   --button-background-color: hsl(0, 0%, 20%);

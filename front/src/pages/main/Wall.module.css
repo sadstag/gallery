@@ -1,40 +1,55 @@
-.wall {
-    display: flex;
-    flex-flow: row wrap;
-    justify-content: space-evenly;
-    gap: 16px 4px;
 
-    /* image dimensions. ratio is dynamic, from images database */
-    .artwork {
-        height: 40vw;
-    }
-
-    @media (min-width: 800px) {
-        justify-content: space-between;
-        .artwork {
-            height: 20vmin;
-        }
-    }
-
-    >a {
-        display: block;
-        color: inherit;
-
-        &:hover {
-            color: inherit;
-        }
-
-        &:visited {
-            color: inherit;
-        }
-    }
-
-}
 
 .header {
     display: flex;
-    flex-flow: row wrap;
-    justify-content: space-evenly;
+    flex-flow: row nowrap;
+    justify-content: flex-end;
+    gap: 16px;
     align-items: center;
-    margin: 12px 0;
+    padding: 8px 12px;
+    margin-bottom: 12px;
+    background: var(--body-header-background-color);
+    border-top: thin solid hsl(0 0% 100% / 15%);
+    border-bottom: thin solid hsl(0 0% 100% / 15%);
+}
+
+.wallViewport {
+    overflow-y: scroll;
+    scrollbar-color: rgba(255,255,255, 50%) transparent;
+    height: 100%;
+
+    .wall {
+        display: flex;
+        flex-flow: row wrap;
+        justify-content: space-evenly;
+        gap: 16px 4px;
+    
+        padding: 0 12px;
+
+        /* image dimensions. ratio is dynamic, from images database */
+        .artwork {
+            height: 40vw;
+        }
+    
+        @media (min-width: 800px) {
+            justify-content: space-between;
+            .artwork {
+                height: 20vmin;
+            }
+        }
+    
+        >a {
+            display: block;
+            color: inherit;
+    
+            &:hover {
+                color: inherit;
+            }
+    
+            &:visited {
+                color: inherit;
+            }
+        }
+    
+    }
 }

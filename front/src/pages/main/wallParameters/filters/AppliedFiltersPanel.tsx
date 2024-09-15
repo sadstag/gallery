@@ -13,9 +13,6 @@ export const AppliedFiltersPanel = () => {
     return <>
         <Button onClick={() => setShowFilterCreationModale(true)} highlighted={wallModel.appliedFilters.length > 0}>
             <FilterIcon classList={{ [styles['filter-icon']]: true }} />
-            <Show when={wallModel.appliedFilters.length > 0} fallback="No active filter">
-                {wallModel.appliedFilters.length} <Show when={wallModel.appliedFilters.length > 1} fallback="filter">filters</Show> applied
-            </Show>
         </Button>
         <Show when={showFilterCreationModale()}>
             <FiltersEditionModale onClose={() => setShowFilterCreationModale(false)} />
