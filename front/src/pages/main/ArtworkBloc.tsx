@@ -26,6 +26,7 @@ export function ArtworkBloc(props: Props) {
 	return (
 		<a href={`/artwork/${props.artwork.id}`}>
 			<img
+				loading="lazy"
 				class={styles.artwork}
 				src={artworkImagesDB?.()?.getImageURL(props.artwork.id, "small")}
 				alt={props.artwork.title}
