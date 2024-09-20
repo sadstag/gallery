@@ -60,8 +60,8 @@ export const ArtworkPage = () => {
         ].id
 
     }
-
-    const handleKeyUp = (e: KeyboardEvent) => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+        // keydown allow event repetition fired at high rate, so that we can rapidly browse the collection
         switch (e.key) {
             case 'ArrowLeft': visitArtwork(getArtworkId(-1)); break
             case 'ArrowRight': visitArtwork(getArtworkId(1)); break
@@ -71,10 +71,11 @@ export const ArtworkPage = () => {
         }
 
     }
-    window.addEventListener('keyup', handleKeyUp)
+
+    window.addEventListener('keydown', handleKeyDown)
 
     onCleanup(() => {
-        window.removeEventListener('keyup', handleKeyUp)
+        window.removeEventListener('keydown', handleKeyDown)
     })
 
     const title = () => artwork()?.title ?? 'untitled'
