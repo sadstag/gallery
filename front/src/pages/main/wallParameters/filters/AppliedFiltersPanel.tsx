@@ -1,7 +1,7 @@
+import { Button } from '@ds/Button/Button'
+import { FilterIcon } from '@ds/Icon/FilterIcon'
 import { Show, createSignal } from 'solid-js'
 import { useWallModel } from '../../../../context/wall/WallModelProvider'
-import { Button } from '../../../../design-system/Button/Button'
-import { FilterIcon } from '../../../../design-system/Icon/FilterIcon'
 import styles from '../wallParameters.module.css'
 import { FiltersEditionModale } from './edition/Modale'
 

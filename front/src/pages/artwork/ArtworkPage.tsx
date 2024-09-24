@@ -1,3 +1,4 @@
+import { Link } from '@ds/Link/Link';
 import { useNavigate, useParams } from '@solidjs/router'
 import { Show, createEffect, createMemo, createSignal, onCleanup, } from 'solid-js'
 import { SolidMarkdown } from "solid-markdown";
@@ -6,7 +7,6 @@ import {
     useArtwork,
 } from '../../context/ArtworksDBProvider'
 import { useWallModel } from '../../context/wall/WallModelProvider'
-import { Link } from '../../design-system/Link/Link';
 import type { ArtworkImageSize } from '../../model/ArtworkSize'
 import type { ArtworkId } from '../../model/Base'
 import { ArtworkInfo } from './ArtworkInfo'
@@ -86,7 +86,7 @@ export const ArtworkPage = () => {
     return (
         <article class={styles.page}>
             <div class={styles.image} ref={imgRef} style={{
-                'background-image': `url(${imgURL() || 'TODO url "??'})`,
+                'background-image': `url(${imgURL() || 'TODO url ??'})`,
             }}>
             </div>
             <Show when={artwork()}>
@@ -95,6 +95,7 @@ export const ArtworkPage = () => {
                     <Show when={subtitle()}>
                         <h2>{subtitle()}</h2>
                     </Show>
+                    <p>Reference: {artwork()?.id}</p>
                     <Show when={description()}>
                         <SolidMarkdown
                             class={styles.presentation}

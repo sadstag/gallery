@@ -1,6 +1,6 @@
+import { MenuIcon } from '@ds/Icon/MenuIcon'
 import { Show, createSignal } from 'solid-js'
 import { Portal } from 'solid-js/web'
-import { MenuIcon } from '../../design-system/Icon/MenuIcon'
 // @ts-ignore clickOutside is used
 // biome-ignore lint/correctness/noUnusedImports: clickOutside is used
 import { clickOutside } from '../../directives/click-outside'

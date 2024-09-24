@@ -11,6 +11,11 @@ if (!siteId) {
 
 // biome-ignore lint/style/noDefaultExport: <explanation>
 export default defineConfig({
+	resolve: {
+		alias: {
+			'@ds': `${__dirname}/src/design-system`,
+		},
+	},
 	plugins: [
 		devtools({
 			autoname: true,

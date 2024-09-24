@@ -1,7 +1,7 @@
 
+import { type Option, Select } from "@ds/Select/Select"
 import { useArtworksMemo } from "../../../../../context/ArtworksDBProvider"
 import { useWallModel } from "../../../../../context/wall/WallModelProvider"
-import { type Option, Select } from "../../../../../design-system/Select/Select"
 import { type AppliedFilterOnYear, ensureMinMaxOrdered } from "../../../../../model/wall/Filter"
 import { FilterPanel } from "./FilterPanel"
 

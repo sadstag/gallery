@@ -1,8 +1,8 @@
 
+import { Button } from '@ds/Button/Button'
+import { SortIcon } from '@ds/Icon/SortIcon'
+import { Select } from '@ds/Select/Select'
 import { useWallModel } from '../../../context/wall/WallModelProvider'
-import { Button } from '../../../design-system/Button/Button'
-import { SortIcon } from '../../../design-system/Icon/SortIcon'
-import { Select } from '../../../design-system/Select/Select'
 import { type SortType, preferedDirectionForSortType, sortTypeLabels } from '../../../model/wall/Sort'
 import styles from './wallParameters.module.css'
 

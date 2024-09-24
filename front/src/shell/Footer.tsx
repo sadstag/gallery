@@ -1,4 +1,4 @@
-import { Link } from '../design-system/Link/Link'
+import { Link } from '@ds/Link/Link'
 import styles from './Footer.module.css'
 
 export function Footer() {
