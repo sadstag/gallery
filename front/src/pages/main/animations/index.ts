@@ -1,5 +1,5 @@
 import type { AnimationId } from '@model/Settings'
-import type { Animator, AnimatorBuilder } from './Animation'
+import type { Animator, AnimatorBuilder } from './Animator'
 import { Gigue } from './Gigue'
 
 const animators: { [Id in AnimationId]: AnimatorBuilder | undefined } = {

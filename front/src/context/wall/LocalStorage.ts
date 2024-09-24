@@ -1,4 +1,4 @@
-import type { AppliedFilter } from '@model/wall/Filter'
+import type { AppliedFilter } from '@model/wall/AppliedFilter'
 import type { Sort } from '@model/wall/Sort'
 
 export const persistFiltersAndSort = (filters: AppliedFilter[], sort: Sort) => {

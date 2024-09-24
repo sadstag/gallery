@@ -1,18 +1,18 @@
 import type { Artwork } from '@model/Artwork'
 import { isBooleanStringTrue } from '@model/Settings'
-import { type AppliedFilter, type FilterType, filterTypes } from '@model/wall/Filter'
+import { type AppliedFilter, type FilterType, filterTypes } from '@model/wall/AppliedFilter'
 import { type Sort, type SortType, sortTypes } from '@model/wall/Sort'
 import { batch, createSignal } from 'solid-js'
 import { useArtworks } from '../ArtworksDBProvider'
 import { useSetting } from '../SettingsProvider'
 import {
-	persistFiltersAndSort as persistWallParametersInURL,
-	retrieveFiltersAndSort as retrieveWallParametersFromURL,
-} from './URLParameters'
-import {
 	persistFiltersAndSort as persistWallParametersInLocalstorage,
 	retrieveFiltersAndSort as retrieveWallParametersFromLocalstorage,
 } from './localStorage'
+import {
+	persistFiltersAndSort as persistWallParametersInURL,
+	retrieveFiltersAndSort as retrieveWallParametersFromURL,
+} from './wallParameters'
 
 export const computeAvailableSorts = (artworks: Artwork[]): SortType[] =>
 	sortTypes.filter(

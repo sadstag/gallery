@@ -1,5 +1,5 @@
 import { useWallModel } from '@context/wall/WallModelProvider'
-import type { FilterType } from '@model/wall/Filter'
+import type { FilterType } from '@model/wall/AppliedFilter'
 import { type ParentProps, Show } from 'solid-js'
 import styles from './modale.module.css'
 

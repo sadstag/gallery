@@ -1,7 +1,7 @@
 import { useSetting } from '@context/SettingsProvider'
 import { type JSX, type Setter, onCleanup, onMount } from 'solid-js'
 import { getAnimator } from '.'
-import type { AnimationId } from './Animation'
+import type { AnimationId } from './Animator'
 
 export const useAnimation = (setDirectStyle: Setter<JSX.CSSProperties>) => {
 	const animationId = useSetting('artworksWallAnimation') as AnimationId

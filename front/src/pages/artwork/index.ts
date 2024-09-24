@@ -1,3 +1,4 @@
-import { ArtworkPageWillWallModel } from './ArtworksPageWithWallModel'
+import { ArtworkPageWithWallModel } from './ArtworkPageWithWallModel'
 
-export default ArtworkPageWillWallModel
+// biome-ignore lint/style/noDefaultExport: needed by lazy importer
+export default ArtworkPageWithWallModel

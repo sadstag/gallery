@@ -3,7 +3,7 @@ import { Button } from '@ds/Button/Button'
 import { FilterIcon } from '@ds/Icon/FilterIcon'
 import { Show, createSignal } from 'solid-js'
 import styles from '../wallParameters.module.css'
-import { FiltersEditionModale } from './edition/Modale'
+import { FiltersEditionModale } from './edition/FiltersEditionModale'
 
 export const AppliedFiltersPanel = () => {
 	const [showFilterCreationModale, setShowFilterCreationModale] = createSignal(false)

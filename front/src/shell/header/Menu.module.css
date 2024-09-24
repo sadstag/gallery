@@ -1,19 +1,24 @@
-.menu-icon {
-    flex-grow: 0;
-    width: 32px;
-    height: 32px;
-
-    visibility: visible;
-    cursor: pointer;
-
-    &.menu-is-shown {
-        cursor: none;
-        visibility: hidden;
-    }
+.menu-button {
+    background:  transparent;
 
     transition: transform 0.2s ease-in-out;
     &:hover {
-        transform: scale(1.1);
+        transform: scale(1.05);
+    }
+
+    .menu-icon {
+        flex-grow: 0;
+        width: 32px;
+        height: 32px;
+
+        visibility: visible;
+        cursor: pointer;
+
+
+        &.menu-is-shown {
+            cursor: none;
+            visibility: hidden;
+        }
     }
 }
 
@@ -43,7 +48,7 @@
         padding: 0.4em;
 
         &:hover {
-            background-color: hsl(0 0% 20%);;
+            background-color: hsl(0 0% 20%);
             color: white;
         }
 
@@ -51,6 +56,4 @@
             width: 100%;
         }
     }
-
-
 }

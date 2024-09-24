@@ -1,5 +1,5 @@
 import type { Artwork } from '../Artwork'
-import type { AppliedFilter, FilterType } from './Filter'
+import type { AppliedFilter, FilterType } from './AppliedFilter'
 
 function escapeRegExp(text: string) {
 	return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&')

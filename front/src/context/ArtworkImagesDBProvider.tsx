@@ -1,5 +1,5 @@
 import type { ArtworkImage } from '@model/ArtworkImage'
-import type { ArtworkImageSize } from '@model/ArtworkSize'
+import type { ArtworkImageSize } from '@model/ArtworkImageSize'
 import { type ParentProps, type Resource, createContext, createResource, useContext } from 'solid-js'
 
 type ArtworkImages = {

@@ -1,4 +1,4 @@
-import type { ArtworkId } from './Base'
+import type { ArtworkId } from './base'
 
 export type Artwork = {
 	id: ArtworkId

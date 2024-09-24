@@ -1,5 +1,5 @@
 import { useWallModel } from '@context/wall/WallModelProvider'
-import type { AppliedFilterOnTextContent } from '@model/wall/Filter'
+import type { AppliedFilterOnTextContent } from '@model/wall/AppliedFilter'
 import { debounce } from '../../../../../util/debounce'
 import { FilterPanel } from './FilterPanel'
 

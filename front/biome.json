@@ -14,7 +14,8 @@
 				"useNamingConvention": {
 					"level": "error",
 					"options": {
-						"strictCase": false
+						"strictCase": false,
+						"requireAscii": true
 					}
 				}
 			},

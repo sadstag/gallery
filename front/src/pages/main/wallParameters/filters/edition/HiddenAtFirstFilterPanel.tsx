@@ -1,24 +1,27 @@
-
-import { useWallModel } from "@context/wall/WallModelProvider"
-import { ToggleSwitch } from "@ds/ToggleSwitch/ToggleSwitch"
-import { FilterPanel } from "./FilterPanel"
-
+import { useWallModel } from '@context/wall/WallModelProvider'
+import { ToggleSwitch } from '@ds/ToggleSwitch/ToggleSwitch'
+import { FilterPanel } from './FilterPanel'
 
 export const HiddenAtFirstFilterPanel = () => {
+	const {
+		wallModel,
+		operations: { setFilter, removeFilter },
+	} = useWallModel()
 
-    const { wallModel, operations: { setFilter, removeFilter } } = useWallModel()
+	const isSet = () => wallModel.appliedFilters.find(filter => filter.on === 'hideArtworksHiddenAtFirst') !== undefined
 
-    const isSet = () => wallModel.appliedFilters.find((filter) => filter.on === 'hideArtworksHiddenAtFirst') !== undefined
+	const handleChange = (value: boolean) => {
+		if (value) {
+			setFilter({ on: 'hideArtworksHiddenAtFirst', value: { mustBeTrue: true } })
+		} else {
+			removeFilter('hideArtworksHiddenAtFirst')
+		}
+	}
 
-    const handleChange = (value: boolean) => {
-        if (value) {
-            setFilter({ on: 'hideArtworksHiddenAtFirst', value: { mustBeTrue: true } })
-        } else {
-            removeFilter('hideArtworksHiddenAtFirst')
-        }
-    }
-
-    return <FilterPanel filterType="hideArtworksHiddenAtFirst" title="Artworks hidden by default">
-        <ToggleSwitch value={isSet()} onChange={handleChange} />keep them hidden
-    </FilterPanel>
+	return (
+		<FilterPanel filterType="hideArtworksHiddenAtFirst" title="Artworks hidden by default">
+			<ToggleSwitch value={isSet()} onChange={handleChange} />
+			keep them hidden
+		</FilterPanel>
+	)
 }

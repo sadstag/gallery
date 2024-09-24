@@ -1,5 +1,5 @@
 import type { JSX, Setter } from 'solid-js'
-import type { Animator } from './Animation'
+import type { Animator } from './Animator'
 
 const constantStyle: JSX.CSSProperties = {
 	'box-shadow': '6px 4px 8px 10px var(--body-background-color)',

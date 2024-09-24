@@ -1,5 +1,5 @@
 import type { Artwork } from '@model/Artwork'
-import type { AppliedFilter, FilterType } from '@model/wall/Filter'
+import type { AppliedFilter, FilterType } from '@model/wall/AppliedFilter'
 import type { Sort } from '@model/wall/Sort'
 import type { WallModel } from '@model/wall/WallModel'
 import { applyFilters } from '@model/wall/filterFunctions'
@@ -7,7 +7,7 @@ import { applySort } from '@model/wall/sortFunctions'
 import { type ParentProps, createContext, createEffect, useContext } from 'solid-js'
 import { createStore, produce } from 'solid-js/store'
 import { useArtworks } from '../ArtworksDBProvider'
-import { retrieveWallParameters } from './wallParametersIO'
+import { retrieveWallParameters } from './wallParametersIo'
 
 type WallModelContextValue = {
 	wallModel: WallModel

@@ -1,18 +1,18 @@
 /* @refresh reload */
-import { Route, Router } from "@solidjs/router";
-import { render } from "solid-js/web";
+import { Route, Router } from '@solidjs/router'
+import { render } from 'solid-js/web'
 
-import { MainPage } from "./pages/main/MainPage";
-const PresentationPage = lazy(() => import("./pages/PresentationPage"));
-const ArtworkPageWillWallModel = lazy(() => import("./pages/artwork"));
+import { MainPage } from './pages/main/MainPage'
+const PresentationPage = lazy(() => import('./pages/PresentationPage'))
+const ArtworkPageWillWallModel = lazy(() => import('./pages/artwork'))
 
-import { lazy } from "solid-js";
-import { NotFound } from "./pages/NotFound";
-import { Shell } from "./shell/Shell";
+import { lazy } from 'solid-js'
+import { NotFound } from './pages/NotFound'
+import { Shell } from './shell/Shell'
 
 import 'solid-devtools'
 
-const root = document.getElementById("root");
+const root = document.getElementById('root')
 
 if (root) {
 	render(
@@ -26,8 +26,6 @@ if (root) {
 		),
 		root,
 	)
-
 } else {
 	render(() => <p>No root element defined !</p>, document.body)
 }
-

@@ -1,7 +1,7 @@
 import { useArtworksMemo } from '@context/ArtworksDBProvider'
 import { useWallModel } from '@context/wall/WallModelProvider'
 import { type Option, Select } from '@ds/Select/Select'
-import { type AppliedFilterOnYear, ensureMinMaxOrdered } from '@model/wall/Filter'
+import { type AppliedFilterOnYear, ensureMinMaxOrdered } from '@model/wall/AppliedFilter'
 import { FilterPanel } from './FilterPanel'
 
 export const YearFilterPanel = () => {
