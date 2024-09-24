@@ -14,6 +14,8 @@ export default defineConfig({
 	resolve: {
 		alias: {
 			'@ds': `${__dirname}/src/design-system`,
+			'@context': `${__dirname}/src/context`,
+			'@model': `${__dirname}/src/model`,
 		},
 	},
 	plugins: [

@@ -1,6 +1,6 @@
+import type { AppliedFilter } from '@model/wall/Filter'
+import type { Sort } from '@model/wall/Sort'
 import { useSearchParams } from '@solidjs/router'
-import type { AppliedFilter } from '../../model/wall/Filter'
-import type { Sort } from '../../model/wall/Sort'
 
 const wallParametersParam = '_'
 

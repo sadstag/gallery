@@ -1,4 +1,4 @@
-import type { AnimationId } from '../../../model/Settings'
+import type { AnimationId } from '@model/Settings'
 import type { Animator, AnimatorBuilder } from './Animation'
 import { Gigue } from './Gigue'
 

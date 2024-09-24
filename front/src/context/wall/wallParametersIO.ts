@@ -1,8 +1,8 @@
+import type { Artwork } from '@model/Artwork'
+import { isBooleanStringTrue } from '@model/Settings'
+import { type AppliedFilter, type FilterType, filterTypes } from '@model/wall/Filter'
+import { type Sort, type SortType, sortTypes } from '@model/wall/Sort'
 import { batch, createSignal } from 'solid-js'
-import type { Artwork } from '../../model/Artwork'
-import { isBooleanStringTrue } from '../../model/Settings'
-import { type AppliedFilter, type FilterType, filterTypes } from '../../model/wall/Filter'
-import { type Sort, type SortType, sortTypes } from '../../model/wall/Sort'
 import { useArtworks } from '../ArtworksDBProvider'
 import { useSetting } from '../SettingsProvider'
 import {

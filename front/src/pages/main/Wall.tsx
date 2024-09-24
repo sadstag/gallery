@@ -1,5 +1,5 @@
+import { useWallModel } from "@context/wall/WallModelProvider";
 import { For } from "solid-js";
-import { useWallModel } from "../../context/wall/WallModelProvider";
 import { ArtworkBloc } from "./ArtworkBloc";
 import styles from "./Wall.module.css";
 import { WallViewport } from "./WallViewport";

@@ -1,6 +1,6 @@
+import { useSetting } from '@context/SettingsProvider'
 import { type JSX, type Setter, onCleanup, onMount } from 'solid-js'
 import { getAnimator } from '.'
-import { useSetting } from '../../../context/SettingsProvider'
 import type { AnimationId } from './Animation'
 
 export const useAnimation = (setDirectStyle: Setter<JSX.CSSProperties>) => {

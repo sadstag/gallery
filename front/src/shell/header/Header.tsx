@@ -1,5 +1,5 @@
+import { useContent } from "@context/ContentProvider"
 import { A } from "@solidjs/router"
-import { useContent } from "../../context/ContentProvider"
 import styles from './Header.module.css'
 import { Menu } from "./Menu"
 

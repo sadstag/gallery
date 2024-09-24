@@ -23,7 +23,9 @@
 
     /* Aliases */
     "paths": {
-      "@ds/*": ["./src/design-system/*"]
+      "@ds/*": ["./src/design-system/*"],
+      "@context/*": ["./src/context/*"],
+      "@model/*": ["./src/model/*"]
     }
   },
   "include": ["src"],

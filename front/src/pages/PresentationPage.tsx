@@ -1,5 +1,5 @@
+import { useContent } from "@context/ContentProvider"
 import { For } from "solid-js"
-import { useContent } from "../context/ContentProvider"
 
 function PresentationPage() {
 

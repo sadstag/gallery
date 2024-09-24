@@ -1,5 +1,5 @@
-import type { AppliedFilter } from '../../model/wall/Filter'
-import type { Sort } from '../../model/wall/Sort'
+import type { AppliedFilter } from '@model/wall/Filter'
+import type { Sort } from '@model/wall/Sort'
 
 export const persistFiltersAndSort = (filters: AppliedFilter[], sort: Sort) => {
 	window.localStorage.setItem('filters', JSON.stringify(filters))
