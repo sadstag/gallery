@@ -10,6 +10,26 @@ import { useArtwork } from '../../context/ArtworksDBProvider'
 import { ArtworkInfo } from './ArtworkInfo'
 import styles from './ArtworkPage.module.css'
 
+const ANGLE_TOP = -90
+const ANGLE_RIGHT = 0
+const ANGLE_LEFT = 180
+
+type Direction = 'top' | 'left' | 'right' | 'none'
+
+function getSwipeDirection(deltaX: number, deltaY: number, toleranceAngle = 30): Direction {
+	const angle = (Math.atan2(deltaY, deltaX) * 180) / Math.PI // between -180 and 180
+	if (Math.abs(angle - ANGLE_TOP) <= toleranceAngle) {
+		return 'top'
+	}
+	if (Math.abs(angle - ANGLE_RIGHT) <= toleranceAngle) {
+		return 'right'
+	}
+	if (Math.abs(angle - ANGLE_LEFT) <= toleranceAngle || Math.abs(360 + angle - ANGLE_LEFT) <= toleranceAngle) {
+		return 'left'
+	}
+	return 'none'
+}
+
 export const ArtworkPage = () => {
 	const params = useParams()
 
@@ -40,6 +60,12 @@ export const ArtworkPage = () => {
 		navigate(`/artwork/${destId}`, { replace: true })
 	}
 
+	const visitPreviousArtwork = () => visitArtwork(getArtworkId(-1))
+
+	const visitNextArtwork = () => visitArtwork(getArtworkId(1))
+
+	const backToWall = () => navigate('/', { replace: true })
+
 	const getArtworkId = (delta: -1 | 1) => {
 		// find previous artwork
 		const index = wallModel.filteredArtworks.findIndex(({ id: _id }) => _id === params.id)
@@ -56,23 +82,57 @@ export const ArtworkPage = () => {
 		// keydown allow event repetition fired at high rate, so that we can rapidly browse the collection
 		switch (e.key) {
 			case 'ArrowLeft':
-				visitArtwork(getArtworkId(-1))
+				visitPreviousArtwork()
 				break
 			case 'ArrowRight':
-				visitArtwork(getArtworkId(1))
+				visitNextArtwork()
 				break
 			case 'Escape': // no break
 			case 'ArrowUp': // no break
 			case 'ArrowDown':
-				navigate('/')
+				backToWall()
 				break
 		}
 	}
 
+	let touchStartX: number
+	let touchStartY: number
+
+	const handleTouchStart = ({ touches: [{ clientX, clientY }] }: TouchEvent) => {
+		touchStartX = clientX
+		touchStartY = clientY
+	}
+
+	const handleTouchEnd = (e: TouchEvent) => {
+		const {
+			changedTouches: [{ clientX, clientY }],
+		} = e
+		const deltaX = clientX - touchStartX
+		const deltaY = clientY - touchStartY
+		switch (getSwipeDirection(deltaX, deltaY)) {
+			case 'top': {
+				backToWall()
+				return
+			}
+			case 'left': {
+				visitPreviousArtwork()
+				return
+			}
+			case 'right': {
+				visitNextArtwork()
+				return
+			}
+		}
+	}
+
 	window.addEventListener('keydown', handleKeyDown)
+	window.addEventListener('touchstart', handleTouchStart)
+	window.addEventListener('touchend', handleTouchEnd)
 
 	onCleanup(() => {
 		window.removeEventListener('keydown', handleKeyDown)
+		window.removeEventListener('touchstart', handleTouchStart)
+		window.removeEventListener('touchend', handleTouchEnd)
 	})
 
 	const title = () => artwork()?.title ?? 'untitled'
