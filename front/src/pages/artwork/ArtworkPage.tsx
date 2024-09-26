@@ -115,11 +115,11 @@ export const ArtworkPage = () => {
 				return
 			}
 			case 'left': {
-				visitPreviousArtwork()
+				visitNextArtwork()
 				return
 			}
 			case 'right': {
-				visitNextArtwork()
+				visitPreviousArtwork()
 				return
 			}
 		}
