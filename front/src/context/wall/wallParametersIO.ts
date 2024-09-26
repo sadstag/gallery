@@ -8,7 +8,7 @@ import { useSetting } from '../SettingsProvider'
 import {
 	persistFiltersAndSort as persistWallParametersInLocalstorage,
 	retrieveFiltersAndSort as retrieveWallParametersFromLocalstorage,
-} from './localStorage'
+} from './LocalStorage'
 import {
 	persistFiltersAndSort as persistWallParametersInURL,
 	retrieveFiltersAndSort as retrieveWallParametersFromURL,
