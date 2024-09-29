@@ -1,6 +1,28 @@
-.page {
-    display: flex;
+
+.triptych {
+    position: relative;
+    top: 0;
+    left: 0%;
     height: 100%;
+    width: 100%;
+}
+
+.artworkPresentation {
+    position: absolute;
+    top:0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+
+
+    &.previous {
+        left: -100%;
+    }
+    &.next {
+        left: 100%;
+    }
+
+    display: flex;
 
     >.image {
         flex-grow: 1;
@@ -10,6 +32,7 @@
     } 
 
     >.info-panel {
+        overflow-y: scroll;
         padding: 0 2em;
 
         .presentation {
